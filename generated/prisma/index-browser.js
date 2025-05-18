@@ -142,6 +142,16 @@ exports.Prisma.MarketScalarFieldEnum = {
   creatorId: 'creatorId'
 };
 
+exports.Prisma.VoteScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  voteType: 'voteType',
+  userId: 'userId',
+  marketId: 'marketId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -162,9 +172,15 @@ exports.Role = exports.$Enums.Role = {
   VOTERS: 'VOTERS'
 };
 
+exports.VoteType = exports.$Enums.VoteType = {
+  YES: 'YES',
+  NO: 'NO'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
-  Market: 'Market'
+  Market: 'Market',
+  Vote: 'Vote'
 };
 
 /**

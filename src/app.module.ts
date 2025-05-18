@@ -5,12 +5,14 @@ import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './auth/auth.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { FilesModule } from './files/file.module';
+import { MarketModule } from './market/market.module';
 
 @Module({
   imports: [
     AuthModule,
     SupabaseModule,
-    FilesModule
+    FilesModule,
+    MarketModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
