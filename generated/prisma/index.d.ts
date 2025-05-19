@@ -2374,6 +2374,7 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
+    tags: number
     creatorId: number
     _all: number
   }
@@ -2419,6 +2420,7 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
+    tags?: true
     creatorId?: true
     _all?: true
   }
@@ -2517,6 +2519,7 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
+    tags: string[]
     creatorId: number
     _count: MarketCountAggregateOutputType | null
     _avg: MarketAvgAggregateOutputType | null
@@ -2547,6 +2550,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tags?: boolean
     creatorId?: boolean
     votes?: boolean | Market$votesArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
@@ -2561,6 +2565,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tags?: boolean
     creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
@@ -2573,6 +2578,7 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tags?: boolean
     creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
@@ -2585,10 +2591,11 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tags?: boolean
     creatorId?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "creatorId", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "tags" | "creatorId", ExtArgs["result"]["market"]>
   export type MarketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     votes?: boolean | Market$votesArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
@@ -2615,6 +2622,7 @@ export namespace Prisma {
       image: string | null
       createdAt: Date
       updatedAt: Date
+      tags: string[]
       creatorId: number
     }, ExtArgs["result"]["market"]>
     composites: {}
@@ -3048,6 +3056,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Market", 'String'>
     readonly createdAt: FieldRef<"Market", 'DateTime'>
     readonly updatedAt: FieldRef<"Market", 'DateTime'>
+    readonly tags: FieldRef<"Market", 'String[]'>
     readonly creatorId: FieldRef<"Market", 'Int'>
   }
     
@@ -4661,6 +4670,7 @@ export namespace Prisma {
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    tags: 'tags',
     creatorId: 'creatorId'
   };
 
@@ -4882,6 +4892,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Market"> | string | null
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
+    tags?: StringNullableListFilter<"Market">
     creatorId?: IntFilter<"Market"> | number
     votes?: VoteListRelationFilter
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -4895,6 +4906,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tags?: SortOrder
     creatorId?: SortOrder
     votes?: VoteOrderByRelationAggregateInput
     creator?: UserOrderByWithRelationInput
@@ -4911,6 +4923,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Market"> | string | null
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
+    tags?: StringNullableListFilter<"Market">
     creatorId?: IntFilter<"Market"> | number
     votes?: VoteListRelationFilter
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -4924,6 +4937,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tags?: SortOrder
     creatorId?: SortOrder
     _count?: MarketCountOrderByAggregateInput
     _avg?: MarketAvgOrderByAggregateInput
@@ -4943,6 +4957,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Market"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Market"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Market"> | Date | string
+    tags?: StringNullableListFilter<"Market">
     creatorId?: IntWithAggregatesFilter<"Market"> | number
   }
 
@@ -5105,6 +5120,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     votes?: VoteCreateNestedManyWithoutMarketInput
     creator: UserCreateNestedOneWithoutMarketsInput
   }
@@ -5117,6 +5133,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     creatorId: number
     votes?: VoteUncheckedCreateNestedManyWithoutMarketInput
   }
@@ -5128,6 +5145,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     votes?: VoteUpdateManyWithoutMarketNestedInput
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
   }
@@ -5140,6 +5158,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     creatorId?: IntFieldUpdateOperationsInput | number
     votes?: VoteUncheckedUpdateManyWithoutMarketNestedInput
   }
@@ -5152,6 +5171,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     creatorId: number
   }
 
@@ -5162,6 +5182,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
   }
 
   export type MarketUncheckedUpdateManyInput = {
@@ -5172,6 +5193,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     creatorId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5441,6 +5463,14 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -5454,6 +5484,7 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tags?: SortOrder
     creatorId?: SortOrder
   }
 
@@ -5690,6 +5721,10 @@ export namespace Prisma {
     deleteMany?: MarketScalarWhereInput | MarketScalarWhereInput[]
   }
 
+  export type MarketCreatetagsInput = {
+    set: string[]
+  }
+
   export type VoteCreateNestedManyWithoutMarketInput = {
     create?: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput> | VoteCreateWithoutMarketInput[] | VoteUncheckedCreateWithoutMarketInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
@@ -5708,6 +5743,11 @@ export namespace Prisma {
     connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
     createMany?: VoteCreateManyMarketInputEnvelope
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  }
+
+  export type MarketUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type VoteUpdateManyWithoutMarketNestedInput = {
@@ -6006,6 +6046,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     votes?: VoteCreateNestedManyWithoutMarketInput
   }
 
@@ -6017,6 +6058,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     votes?: VoteUncheckedCreateNestedManyWithoutMarketInput
   }
 
@@ -6086,6 +6128,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"Market"> | string | null
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
+    tags?: StringNullableListFilter<"Market">
     creatorId?: IntFilter<"Market"> | number
   }
 
@@ -6229,6 +6272,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     creator: UserCreateNestedOneWithoutMarketsInput
   }
 
@@ -6240,6 +6284,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
     creatorId: number
   }
 
@@ -6300,6 +6345,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
   }
 
@@ -6311,6 +6357,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     creatorId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6331,6 +6378,7 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
   }
 
   export type VoteUpdateWithoutUserInput = {
@@ -6366,6 +6414,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     votes?: VoteUpdateManyWithoutMarketNestedInput
   }
 
@@ -6377,6 +6426,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
     votes?: VoteUncheckedUpdateManyWithoutMarketNestedInput
   }
 
@@ -6388,6 +6438,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
   }
 
   export type VoteCreateManyMarketInput = {

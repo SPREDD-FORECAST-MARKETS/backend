@@ -5,8 +5,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CurrentUser } from 'src/decorators';
 import { MarketService } from './market.service';
 import { CreateMarketDto } from './dto/create-market.dto';
+import { GetMarketDto } from './dto/get-market.dto';
 
-@Controller('agent')
+@Controller('market')
 export class MarketController {
 
     constructor(private marketService: MarketService, private prismaService: PrismaService) {}
@@ -25,6 +26,11 @@ export class MarketController {
             user.id as number
         )
 
+    }
+
+    @Get("markets")
+    async getMarkets(@Query() getMarketDto: GetMarketDto) {
+        return this.marketService.getMarkets(getMarketDto);
     }
 
     

@@ -37,7 +37,7 @@ export class UserController {
         return this.userService.findUsers(filterDto);
     }
 
-    @Post("me")
+    @Get("me")
     @UseGuards(PrivyAuthGuard)
     @ApiBearerAuth()
     @ApiSecurity('bearer')

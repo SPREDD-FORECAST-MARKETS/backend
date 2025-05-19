@@ -14,51 +14,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model User {
-  id              Int               @id @default(autoincrement())
-  username        String            @unique
-  about           String            @db.Text
-  wallet_address  String            @unique
-  role            Role              @default(USER)
-  profile_pic     String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  about          String   @db.Text
+  wallet_address String   @unique
+  role           Role     @default(USER)
+  profile_pic    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  votes           Vote[]
-  
-  markets          Market[]
+  votes Vote[]
+
+  markets Market[]
 }
 
 model Market {
-  id              Int               @id @default(autoincrement())
-  description     String            @db.Text
-  question            String
-  expiry_date         DateTime
-  image           String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id          Int      @id @default(autoincrement())
+  description String   @db.Text
+  question    String
+  expiry_date DateTime
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tags        String[]
 
-  votes           Vote[]
+  votes Vote[]
 
-  creator           User              @relation(fields: [creatorId], references: [id])
-  creatorId         Int
+  creator   User @relation(fields: [creatorId], references: [id])
+  creatorId Int
 }
 
 model Vote {
-  id              Int               @id @default(autoincrement())
-  amount          Float
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  
-  voteType        VoteType
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user             User              @relation(fields: [userId], references: [id])
-  userId           Int
+  voteType VoteType
 
-  market           Market            @relation(fields: [marketId], references: [id])
-  marketId         Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  market   Market @relation(fields: [marketId], references: [id])
+  marketId Int
 }
 
 enum VoteType {
@@ -71,4 +70,3 @@ enum Role {
   USER
   VOTERS
 }
-

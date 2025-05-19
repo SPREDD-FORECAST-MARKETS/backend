@@ -139,6 +139,7 @@ exports.Prisma.MarketScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  tags: 'tags',
   creatorId: 'creatorId'
 };
 

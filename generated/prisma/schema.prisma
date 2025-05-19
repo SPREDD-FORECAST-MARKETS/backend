@@ -37,6 +37,7 @@ model Market {
   image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  tags        String[]
 
   votes Vote[]
 
