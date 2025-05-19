@@ -61,6 +61,15 @@ export class MarketService {
         take: size,
         orderBy: {
           [orderBy]: sortBy,
+        },
+        include: {
+          creator: {
+            select: {
+              id: true,
+              username: true,
+              wallet_address: true
+            }
+          }
         }
       }),
       this.prismaService.market.count({ where })

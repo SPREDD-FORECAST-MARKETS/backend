@@ -22,3 +22,20 @@ export class UserFilterDto {
   @Type(() => Number)
   marketId?: number;
 }
+
+
+export class GetMyCreatedMarketsDto {
+
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  @ApiProperty({ example: 1 })
+  page: number;
+
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  @ApiProperty({ example: 10 })
+  size: number;
+  
+}

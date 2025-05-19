@@ -9,7 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { User } from 'generated/prisma';
 import { UserDto } from './dto/user.dto';
-import { UserFilterDto } from './dto/get-user.dto';
+import { GetMyCreatedMarketsDto, UserFilterDto } from './dto/get-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -26,10 +26,10 @@ export class UserController {
         return this.userService.updateUser(cleanedDto, user.id);
     }
 
-    @Get("filter") 
+    @Get("filter")
     @ApiOperation({ summary: 'Get users filtered by ID, wallet address, or market ID' })
-    @ApiResponse({ 
-        status: HttpStatus.OK, 
+    @ApiResponse({
+        status: HttpStatus.OK,
         description: 'Users retrieved successfully',
         type: [UserDto]
     })
@@ -43,6 +43,14 @@ export class UserController {
     @ApiSecurity('bearer')
     async getMe(@CurrentUser() user: User) {
         return this.userService.getMe(user.id);
+    }
+
+    @Get("markets-created")
+    @UseGuards(PrivyAuthGuard)
+    @ApiBearerAuth()
+    @ApiSecurity('bearer')
+    async getMyCreatedMarkets(@Query() filterDto: GetMyCreatedMarketsDto, @CurrentUser() user: User) {
+        return this.userService.getMyCreatedMarkets(filterDto, user.id);
     }
 
 
