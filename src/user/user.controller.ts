@@ -7,6 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CurrentUser } from 'src/decorators';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { User } from 'generated/prisma';
 
 @Controller('user')
 export class UserController {
@@ -17,12 +18,10 @@ export class UserController {
     @UseGuards(PrivyAuthGuard)
     @ApiBearerAuth()
     @ApiSecurity('bearer')
-    async createToken(@Body() updateUserDto: UpdateUserDto, @CurrentUser() user) {
+    async createToken(@Body() updateUserDto: UpdateUserDto, @CurrentUser() user: User) {
 
         const cleanedDto = Object.fromEntries(Object.entries(updateUserDto).filter(([_, value]) => value !== undefined && value !== ''));
-        const userId = user.userId as number;
-
-        return this.userService.updateUser(cleanedDto, userId);
+        return this.userService.updateUser(cleanedDto, user.id);
     }
 
 
