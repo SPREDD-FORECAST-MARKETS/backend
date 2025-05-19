@@ -37,5 +37,13 @@ export class UserController {
         return this.userService.findUsers(filterDto);
     }
 
+    @Post("me")
+    @UseGuards(PrivyAuthGuard)
+    @ApiBearerAuth()
+    @ApiSecurity('bearer')
+    async getMe(@CurrentUser() user: User) {
+        return this.userService.getMe(user.id);
+    }
+
 
 }

@@ -25,19 +25,6 @@ export class UserService {
         return data;
     }
 
-
-    async getUserByWalletAddress(
-        wallet_address: string,
-    ) {
-        const data = await this.prismaService.user.findFirst({
-            where: {
-                wallet_address: wallet_address
-            }
-        })
-
-        return data;
-    }
-
     async getMe(
         userId: number,
     ) {

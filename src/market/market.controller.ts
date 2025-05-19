@@ -22,7 +22,7 @@ export class MarketController {
             createMarketDto.question,
             createMarketDto.expiry_date,
             createMarketDto.image,
-            user.userId as number
+            user.id as number
         )
 
     }
