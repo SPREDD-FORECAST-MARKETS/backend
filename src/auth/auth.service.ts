@@ -5,6 +5,7 @@ import { User } from 'generated/prisma';
 import { User as PrivyUser } from '@privy-io/server-auth';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { v4 as uuid4 } from 'uuid';
+import { generator } from 'src/utils/username-gen';
 
 @Injectable()
 export class AuthService {    
@@ -18,11 +19,13 @@ export class AuthService {
                 wallet_address: userData.wallet?.address
             }
         })
-
+        
         if (!user) {
+            
+            const username = generator.generateWithNumber();
             user = await this.prismaService.user.create({
                 data: {
-                    username: `Forecaster-${uuid4().toString()}` as string,
+                    username: username,
                     wallet_address: userData.wallet?.address! as string,
                     about: "Hey, i'm a forecaster!",
                 }
