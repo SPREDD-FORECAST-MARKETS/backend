@@ -12,6 +12,7 @@ export class MarketService {
 
   async createMarket(
     description: string,
+    resolution_criteria: string,
     question: string,
     expiry_date: Date,
     image: string | undefined,
@@ -20,6 +21,7 @@ export class MarketService {
     const data = await this.prismaService.market.create({
       data: {
         description,
+        resolution_criteria,
         question,
         expiry_date,
         image,

@@ -16,6 +16,13 @@ export class CreateMarketDto {
   })
   description: string;
 
+  @IsString()
+  @ApiProperty({
+    description: 'On what parameters the market will be resolved',
+    example: 'https://coinmarketcap.com lising the token by end of 2025',
+  })
+  resolution_criteria: string;
+
   @IsDateString()
   @ApiProperty({
     description: 'Expiry date of the market in ISO format',

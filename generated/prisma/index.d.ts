@@ -2347,6 +2347,7 @@ export namespace Prisma {
   export type MarketMinAggregateOutputType = {
     id: number | null
     description: string | null
+    resolution_criteria: string | null
     question: string | null
     expiry_date: Date | null
     image: string | null
@@ -2358,6 +2359,7 @@ export namespace Prisma {
   export type MarketMaxAggregateOutputType = {
     id: number | null
     description: string | null
+    resolution_criteria: string | null
     question: string | null
     expiry_date: Date | null
     image: string | null
@@ -2369,6 +2371,7 @@ export namespace Prisma {
   export type MarketCountAggregateOutputType = {
     id: number
     description: number
+    resolution_criteria: number
     question: number
     expiry_date: number
     image: number
@@ -2393,6 +2396,7 @@ export namespace Prisma {
   export type MarketMinAggregateInputType = {
     id?: true
     description?: true
+    resolution_criteria?: true
     question?: true
     expiry_date?: true
     image?: true
@@ -2404,6 +2408,7 @@ export namespace Prisma {
   export type MarketMaxAggregateInputType = {
     id?: true
     description?: true
+    resolution_criteria?: true
     question?: true
     expiry_date?: true
     image?: true
@@ -2415,6 +2420,7 @@ export namespace Prisma {
   export type MarketCountAggregateInputType = {
     id?: true
     description?: true
+    resolution_criteria?: true
     question?: true
     expiry_date?: true
     image?: true
@@ -2514,6 +2520,7 @@ export namespace Prisma {
   export type MarketGroupByOutputType = {
     id: number
     description: string
+    resolution_criteria: string
     question: string
     expiry_date: Date
     image: string | null
@@ -2545,6 +2552,7 @@ export namespace Prisma {
   export type MarketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     description?: boolean
+    resolution_criteria?: boolean
     question?: boolean
     expiry_date?: boolean
     image?: boolean
@@ -2560,6 +2568,7 @@ export namespace Prisma {
   export type MarketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     description?: boolean
+    resolution_criteria?: boolean
     question?: boolean
     expiry_date?: boolean
     image?: boolean
@@ -2573,6 +2582,7 @@ export namespace Prisma {
   export type MarketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     description?: boolean
+    resolution_criteria?: boolean
     question?: boolean
     expiry_date?: boolean
     image?: boolean
@@ -2586,6 +2596,7 @@ export namespace Prisma {
   export type MarketSelectScalar = {
     id?: boolean
     description?: boolean
+    resolution_criteria?: boolean
     question?: boolean
     expiry_date?: boolean
     image?: boolean
@@ -2595,7 +2606,7 @@ export namespace Prisma {
     creatorId?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "tags" | "creatorId", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "resolution_criteria" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "tags" | "creatorId", ExtArgs["result"]["market"]>
   export type MarketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     votes?: boolean | Market$votesArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
@@ -2617,6 +2628,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       description: string
+      resolution_criteria: string
       question: string
       expiry_date: Date
       image: string | null
@@ -3051,6 +3063,7 @@ export namespace Prisma {
   interface MarketFieldRefs {
     readonly id: FieldRef<"Market", 'Int'>
     readonly description: FieldRef<"Market", 'String'>
+    readonly resolution_criteria: FieldRef<"Market", 'String'>
     readonly question: FieldRef<"Market", 'String'>
     readonly expiry_date: FieldRef<"Market", 'DateTime'>
     readonly image: FieldRef<"Market", 'String'>
@@ -4665,6 +4678,7 @@ export namespace Prisma {
   export const MarketScalarFieldEnum: {
     id: 'id',
     description: 'description',
+    resolution_criteria: 'resolution_criteria',
     question: 'question',
     expiry_date: 'expiry_date',
     image: 'image',
@@ -4887,6 +4901,7 @@ export namespace Prisma {
     NOT?: MarketWhereInput | MarketWhereInput[]
     id?: IntFilter<"Market"> | number
     description?: StringFilter<"Market"> | string
+    resolution_criteria?: StringFilter<"Market"> | string
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
@@ -4901,6 +4916,7 @@ export namespace Prisma {
   export type MarketOrderByWithRelationInput = {
     id?: SortOrder
     description?: SortOrder
+    resolution_criteria?: SortOrder
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
@@ -4918,6 +4934,7 @@ export namespace Prisma {
     OR?: MarketWhereInput[]
     NOT?: MarketWhereInput | MarketWhereInput[]
     description?: StringFilter<"Market"> | string
+    resolution_criteria?: StringFilter<"Market"> | string
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
@@ -4932,6 +4949,7 @@ export namespace Prisma {
   export type MarketOrderByWithAggregationInput = {
     id?: SortOrder
     description?: SortOrder
+    resolution_criteria?: SortOrder
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
@@ -4952,6 +4970,7 @@ export namespace Prisma {
     NOT?: MarketScalarWhereWithAggregatesInput | MarketScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Market"> | number
     description?: StringWithAggregatesFilter<"Market"> | string
+    resolution_criteria?: StringWithAggregatesFilter<"Market"> | string
     question?: StringWithAggregatesFilter<"Market"> | string
     expiry_date?: DateTimeWithAggregatesFilter<"Market"> | Date | string
     image?: StringNullableWithAggregatesFilter<"Market"> | string | null
@@ -5114,7 +5133,8 @@ export namespace Prisma {
   }
 
   export type MarketCreateInput = {
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -5127,7 +5147,8 @@ export namespace Prisma {
 
   export type MarketUncheckedCreateInput = {
     id?: number
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -5140,6 +5161,7 @@ export namespace Prisma {
 
   export type MarketUpdateInput = {
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5153,6 +5175,7 @@ export namespace Prisma {
   export type MarketUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5165,7 +5188,8 @@ export namespace Prisma {
 
   export type MarketCreateManyInput = {
     id?: number
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -5177,6 +5201,7 @@ export namespace Prisma {
 
   export type MarketUpdateManyMutationInput = {
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5188,6 +5213,7 @@ export namespace Prisma {
   export type MarketUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5479,6 +5505,7 @@ export namespace Prisma {
   export type MarketCountOrderByAggregateInput = {
     id?: SortOrder
     description?: SortOrder
+    resolution_criteria?: SortOrder
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
@@ -5496,6 +5523,7 @@ export namespace Prisma {
   export type MarketMaxOrderByAggregateInput = {
     id?: SortOrder
     description?: SortOrder
+    resolution_criteria?: SortOrder
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
@@ -5507,6 +5535,7 @@ export namespace Prisma {
   export type MarketMinOrderByAggregateInput = {
     id?: SortOrder
     description?: SortOrder
+    resolution_criteria?: SortOrder
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
@@ -6040,7 +6069,8 @@ export namespace Prisma {
   }
 
   export type MarketCreateWithoutCreatorInput = {
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -6052,7 +6082,8 @@ export namespace Prisma {
 
   export type MarketUncheckedCreateWithoutCreatorInput = {
     id?: number
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -6123,6 +6154,7 @@ export namespace Prisma {
     NOT?: MarketScalarWhereInput | MarketScalarWhereInput[]
     id?: IntFilter<"Market"> | number
     description?: StringFilter<"Market"> | string
+    resolution_criteria?: StringFilter<"Market"> | string
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
@@ -6266,7 +6298,8 @@ export namespace Prisma {
   }
 
   export type MarketCreateWithoutVotesInput = {
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -6278,7 +6311,8 @@ export namespace Prisma {
 
   export type MarketUncheckedCreateWithoutVotesInput = {
     id?: number
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -6340,6 +6374,7 @@ export namespace Prisma {
 
   export type MarketUpdateWithoutVotesInput = {
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6352,6 +6387,7 @@ export namespace Prisma {
   export type MarketUncheckedUpdateWithoutVotesInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6372,7 +6408,8 @@ export namespace Prisma {
 
   export type MarketCreateManyCreatorInput = {
     id?: number
-    description: string
+    description?: string
+    resolution_criteria?: string
     question: string
     expiry_date: Date | string
     image?: string | null
@@ -6409,6 +6446,7 @@ export namespace Prisma {
 
   export type MarketUpdateWithoutCreatorInput = {
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6421,6 +6459,7 @@ export namespace Prisma {
   export type MarketUncheckedUpdateWithoutCreatorInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6433,6 +6472,7 @@ export namespace Prisma {
   export type MarketUncheckedUpdateManyWithoutCreatorInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null

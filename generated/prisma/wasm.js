@@ -134,6 +134,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.MarketScalarFieldEnum = {
   id: 'id',
   description: 'description',
+  resolution_criteria: 'resolution_criteria',
   question: 'question',
   expiry_date: 'expiry_date',
   image: 'image',

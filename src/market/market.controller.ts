@@ -20,6 +20,7 @@ export class MarketController {
 
         return this.marketService.createMarket(
             createMarketDto.description,
+            createMarketDto.resolution_criteria,
             createMarketDto.question,
             createMarketDto.expiry_date,
             createMarketDto.image,
