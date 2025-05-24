@@ -29,8 +29,8 @@ export class MarketController {
 
     }
 
-    @Get("markets")
-    async getMarkets(@Query() getMarketDto: GetMarketDto) {
+    @Post("markets")
+    async getMarkets(@Body() getMarketDto: GetMarketDto) {
         return this.marketService.getMarkets(getMarketDto);
     }
 
