@@ -10,7 +10,7 @@ import { GetMarketDto } from './dto/get-market.dto';
 @Controller('market')
 export class MarketController {
 
-    constructor(private marketService: MarketService, private prismaService: PrismaService) {}
+    constructor(private marketService: MarketService, private prismaService: PrismaService) { }
 
     @Post("create-market")
     @UseGuards(PrivyAuthGuard)
@@ -34,5 +34,11 @@ export class MarketController {
         return this.marketService.getMarkets(getMarketDto);
     }
 
-    
+
+    @Get(":id")
+    async getMarket(@Param('id') id: number) {
+        return this.marketService.getMarket(id)
+    }
+
+
 }

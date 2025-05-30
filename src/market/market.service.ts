@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { SupabaseService } from "src/supabase/supabase.service";
 import { GetMarketDto } from "./dto/get-market.dto";
@@ -92,7 +92,7 @@ export class MarketService {
               id: true,
               outcome_title: true
             }
-          } 
+          }
         }
       }),
       this.prismaService.market.count({ where })
@@ -109,6 +109,38 @@ export class MarketService {
       },
       data
     };
+  }
+
+
+  async getMarket(marketId: number) {
+
+    const market = await this.prismaService.market.findFirst({
+      where: {
+        id: marketId
+      },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            username: true,
+            wallet_address: true
+          }
+        },
+        outcome: {
+          select: {
+            id: true,
+            outcome_title: true
+          }
+        }
+      }
+    })
+
+    if (!market) {
+      throw new NotFoundException("Market doest not exists!");
+    }
+
+    return market;
+
   }
 
 }
