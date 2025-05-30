@@ -24,10 +24,20 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Market = $Result.DefaultSelection<Prisma.$MarketPayload>
 /**
- * Model Vote
+ * Model Outcome
  * 
  */
-export type Vote = $Result.DefaultSelection<Prisma.$VotePayload>
+export type Outcome = $Result.DefaultSelection<Prisma.$OutcomePayload>
+/**
+ * Model TokenAllocation
+ * 
+ */
+export type TokenAllocation = $Result.DefaultSelection<Prisma.$TokenAllocationPayload>
+/**
+ * Model Trade
+ * 
+ */
+export type Trade = $Result.DefaultSelection<Prisma.$TradePayload>
 
 /**
  * Enums
@@ -49,6 +59,41 @@ export const Role: {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const TokenType: {
+  ACCESS: 'ACCESS',
+  REFRESH: 'REFRESH',
+  RESET_PASSWORD: 'RESET_PASSWORD',
+  VERIFY_EMAIL: 'VERIFY_EMAIL'
+};
+
+export type TokenType = (typeof TokenType)[keyof typeof TokenType]
+
+
+export const EventStatus: {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CLOSED: 'CLOSED'
+};
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
+
+
+export const EventOption: {
+  OPTION_A: 'OPTION_A',
+  OPTION_B: 'OPTION_B'
+};
+
+export type EventOption = (typeof EventOption)[keyof typeof EventOption]
+
+
+export const OrderType: {
+  BUY: 'BUY',
+  SELL: 'SELL'
+};
+
+export type OrderType = (typeof OrderType)[keyof typeof OrderType]
+
 }
 
 export type VoteType = $Enums.VoteType
@@ -58,6 +103,22 @@ export const VoteType: typeof $Enums.VoteType
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type TokenType = $Enums.TokenType
+
+export const TokenType: typeof $Enums.TokenType
+
+export type EventStatus = $Enums.EventStatus
+
+export const EventStatus: typeof $Enums.EventStatus
+
+export type EventOption = $Enums.EventOption
+
+export const EventOption: typeof $Enums.EventOption
+
+export type OrderType = $Enums.OrderType
+
+export const OrderType: typeof $Enums.OrderType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -205,14 +266,34 @@ export class PrismaClient<
   get market(): Prisma.MarketDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.vote`: Exposes CRUD operations for the **Vote** model.
+   * `prisma.outcome`: Exposes CRUD operations for the **Outcome** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Votes
-    * const votes = await prisma.vote.findMany()
+    * // Fetch zero or more Outcomes
+    * const outcomes = await prisma.outcome.findMany()
     * ```
     */
-  get vote(): Prisma.VoteDelegate<ExtArgs, ClientOptions>;
+  get outcome(): Prisma.OutcomeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tokenAllocation`: Exposes CRUD operations for the **TokenAllocation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TokenAllocations
+    * const tokenAllocations = await prisma.tokenAllocation.findMany()
+    * ```
+    */
+  get tokenAllocation(): Prisma.TokenAllocationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.trade`: Exposes CRUD operations for the **Trade** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Trades
+    * const trades = await prisma.trade.findMany()
+    * ```
+    */
+  get trade(): Prisma.TradeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -655,7 +736,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Market: 'Market',
-    Vote: 'Vote'
+    Outcome: 'Outcome',
+    TokenAllocation: 'TokenAllocation',
+    Trade: 'Trade'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -674,7 +757,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "market" | "vote"
+      modelProps: "user" | "market" | "outcome" | "tokenAllocation" | "trade"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -826,77 +909,225 @@ export namespace Prisma {
           }
         }
       }
-      Vote: {
-        payload: Prisma.$VotePayload<ExtArgs>
-        fields: Prisma.VoteFieldRefs
+      Outcome: {
+        payload: Prisma.$OutcomePayload<ExtArgs>
+        fields: Prisma.OutcomeFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.VoteFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload> | null
+            args: Prisma.OutcomeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.VoteFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           findFirst: {
-            args: Prisma.VoteFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload> | null
+            args: Prisma.OutcomeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.VoteFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           findMany: {
-            args: Prisma.VoteFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>[]
+            args: Prisma.OutcomeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>[]
           }
           create: {
-            args: Prisma.VoteCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           createMany: {
-            args: Prisma.VoteCreateManyArgs<ExtArgs>
+            args: Prisma.OutcomeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.VoteCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>[]
+            args: Prisma.OutcomeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>[]
           }
           delete: {
-            args: Prisma.VoteDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           update: {
-            args: Prisma.VoteUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           deleteMany: {
-            args: Prisma.VoteDeleteManyArgs<ExtArgs>
+            args: Prisma.OutcomeDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.VoteUpdateManyArgs<ExtArgs>
+            args: Prisma.OutcomeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.VoteUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>[]
+            args: Prisma.OutcomeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>[]
           }
           upsert: {
-            args: Prisma.VoteUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VotePayload>
+            args: Prisma.OutcomeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OutcomePayload>
           }
           aggregate: {
-            args: Prisma.VoteAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateVote>
+            args: Prisma.OutcomeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOutcome>
           }
           groupBy: {
-            args: Prisma.VoteGroupByArgs<ExtArgs>
-            result: $Utils.Optional<VoteGroupByOutputType>[]
+            args: Prisma.OutcomeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OutcomeGroupByOutputType>[]
           }
           count: {
-            args: Prisma.VoteCountArgs<ExtArgs>
-            result: $Utils.Optional<VoteCountAggregateOutputType> | number
+            args: Prisma.OutcomeCountArgs<ExtArgs>
+            result: $Utils.Optional<OutcomeCountAggregateOutputType> | number
+          }
+        }
+      }
+      TokenAllocation: {
+        payload: Prisma.$TokenAllocationPayload<ExtArgs>
+        fields: Prisma.TokenAllocationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TokenAllocationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TokenAllocationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          findFirst: {
+            args: Prisma.TokenAllocationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TokenAllocationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          findMany: {
+            args: Prisma.TokenAllocationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>[]
+          }
+          create: {
+            args: Prisma.TokenAllocationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          createMany: {
+            args: Prisma.TokenAllocationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TokenAllocationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>[]
+          }
+          delete: {
+            args: Prisma.TokenAllocationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          update: {
+            args: Prisma.TokenAllocationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          deleteMany: {
+            args: Prisma.TokenAllocationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TokenAllocationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TokenAllocationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>[]
+          }
+          upsert: {
+            args: Prisma.TokenAllocationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TokenAllocationPayload>
+          }
+          aggregate: {
+            args: Prisma.TokenAllocationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTokenAllocation>
+          }
+          groupBy: {
+            args: Prisma.TokenAllocationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TokenAllocationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TokenAllocationCountArgs<ExtArgs>
+            result: $Utils.Optional<TokenAllocationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Trade: {
+        payload: Prisma.$TradePayload<ExtArgs>
+        fields: Prisma.TradeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TradeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TradeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          findFirst: {
+            args: Prisma.TradeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TradeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          findMany: {
+            args: Prisma.TradeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>[]
+          }
+          create: {
+            args: Prisma.TradeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          createMany: {
+            args: Prisma.TradeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TradeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>[]
+          }
+          delete: {
+            args: Prisma.TradeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          update: {
+            args: Prisma.TradeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          deleteMany: {
+            args: Prisma.TradeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TradeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TradeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>[]
+          }
+          upsert: {
+            args: Prisma.TradeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TradePayload>
+          }
+          aggregate: {
+            args: Prisma.TradeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrade>
+          }
+          groupBy: {
+            args: Prisma.TradeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TradeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TradeCountArgs<ExtArgs>
+            result: $Utils.Optional<TradeCountAggregateOutputType> | number
           }
         }
       }
@@ -986,7 +1217,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     market?: MarketOmit
-    vote?: VoteOmit
+    outcome?: OutcomeOmit
+    tokenAllocation?: TokenAllocationOmit
+    trade?: TradeOmit
   }
 
   /* Types for Logging */
@@ -1081,13 +1314,15 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    votes: number
     markets: number
+    trades: number
+    token_allocated: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    votes?: boolean | UserCountOutputTypeCountVotesArgs
     markets?: boolean | UserCountOutputTypeCountMarketsArgs
+    trades?: boolean | UserCountOutputTypeCountTradesArgs
+    token_allocated?: boolean | UserCountOutputTypeCountToken_allocatedArgs
   }
 
   // Custom InputTypes
@@ -1104,15 +1339,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VoteWhereInput
+  export type UserCountOutputTypeCountMarketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountMarketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MarketWhereInput
+  export type UserCountOutputTypeCountTradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TradeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountToken_allocatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TokenAllocationWhereInput
   }
 
 
@@ -1121,11 +1363,13 @@ export namespace Prisma {
    */
 
   export type MarketCountOutputType = {
-    votes: number
+    trades: number
+    outcome: number
   }
 
   export type MarketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    votes?: boolean | MarketCountOutputTypeCountVotesArgs
+    trades?: boolean | MarketCountOutputTypeCountTradesArgs
+    outcome?: boolean | MarketCountOutputTypeCountOutcomeArgs
   }
 
   // Custom InputTypes
@@ -1142,8 +1386,55 @@ export namespace Prisma {
   /**
    * MarketCountOutputType without action
    */
-  export type MarketCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VoteWhereInput
+  export type MarketCountOutputTypeCountTradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TradeWhereInput
+  }
+
+  /**
+   * MarketCountOutputType without action
+   */
+  export type MarketCountOutputTypeCountOutcomeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutcomeWhereInput
+  }
+
+
+  /**
+   * Count Type OutcomeCountOutputType
+   */
+
+  export type OutcomeCountOutputType = {
+    tokenAllocations: number
+    trades: number
+  }
+
+  export type OutcomeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tokenAllocations?: boolean | OutcomeCountOutputTypeCountTokenAllocationsArgs
+    trades?: boolean | OutcomeCountOutputTypeCountTradesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OutcomeCountOutputType without action
+   */
+  export type OutcomeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OutcomeCountOutputType
+     */
+    select?: OutcomeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OutcomeCountOutputType without action
+   */
+  export type OutcomeCountOutputTypeCountTokenAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TokenAllocationWhereInput
+  }
+
+  /**
+   * OutcomeCountOutputType without action
+   */
+  export type OutcomeCountOutputTypeCountTradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TradeWhereInput
   }
 
 
@@ -1373,8 +1664,9 @@ export namespace Prisma {
     profile_pic?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    votes?: boolean | User$votesArgs<ExtArgs>
     markets?: boolean | User$marketsArgs<ExtArgs>
+    trades?: boolean | User$tradesArgs<ExtArgs>
+    token_allocated?: boolean | User$token_allocatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1413,8 +1705,9 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "about" | "wallet_address" | "role" | "profile_pic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    votes?: boolean | User$votesArgs<ExtArgs>
     markets?: boolean | User$marketsArgs<ExtArgs>
+    trades?: boolean | User$tradesArgs<ExtArgs>
+    token_allocated?: boolean | User$token_allocatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1423,8 +1716,9 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      votes: Prisma.$VotePayload<ExtArgs>[]
       markets: Prisma.$MarketPayload<ExtArgs>[]
+      trades: Prisma.$TradePayload<ExtArgs>[]
+      token_allocated: Prisma.$TokenAllocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1829,8 +2123,9 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    votes<T extends User$votesArgs<ExtArgs> = {}>(args?: Subset<T, User$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     markets<T extends User$marketsArgs<ExtArgs> = {}>(args?: Subset<T, User$marketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trades<T extends User$tradesArgs<ExtArgs> = {}>(args?: Subset<T, User$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    token_allocated<T extends User$token_allocatedArgs<ExtArgs> = {}>(args?: Subset<T, User$token_allocatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2256,30 +2551,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.votes
-   */
-  export type User$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vote
-     */
-    select?: VoteSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vote
-     */
-    omit?: VoteOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VoteInclude<ExtArgs> | null
-    where?: VoteWhereInput
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
-    cursor?: VoteWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
-  }
-
-  /**
    * User.markets
    */
   export type User$marketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2301,6 +2572,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MarketScalarFieldEnum | MarketScalarFieldEnum[]
+  }
+
+  /**
+   * User.trades
+   */
+  export type User$tradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    where?: TradeWhereInput
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    cursor?: TradeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * User.token_allocated
+   */
+  export type User$token_allocatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    where?: TokenAllocationWhereInput
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    cursor?: TokenAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
   }
 
   /**
@@ -2336,11 +2655,13 @@ export namespace Prisma {
 
   export type MarketAvgAggregateOutputType = {
     id: number | null
+    outcomeWon: number | null
     creatorId: number | null
   }
 
   export type MarketSumAggregateOutputType = {
     id: number | null
+    outcomeWon: number | null
     creatorId: number | null
   }
 
@@ -2351,9 +2672,11 @@ export namespace Prisma {
     question: string | null
     expiry_date: Date | null
     image: string | null
+    status: $Enums.EventStatus | null
+    outcomeWon: number | null
+    creatorId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    creatorId: number | null
   }
 
   export type MarketMaxAggregateOutputType = {
@@ -2363,9 +2686,11 @@ export namespace Prisma {
     question: string | null
     expiry_date: Date | null
     image: string | null
+    status: $Enums.EventStatus | null
+    outcomeWon: number | null
+    creatorId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    creatorId: number | null
   }
 
   export type MarketCountAggregateOutputType = {
@@ -2375,21 +2700,25 @@ export namespace Prisma {
     question: number
     expiry_date: number
     image: number
+    tags: number
+    status: number
+    outcomeWon: number
+    creatorId: number
     createdAt: number
     updatedAt: number
-    tags: number
-    creatorId: number
     _all: number
   }
 
 
   export type MarketAvgAggregateInputType = {
     id?: true
+    outcomeWon?: true
     creatorId?: true
   }
 
   export type MarketSumAggregateInputType = {
     id?: true
+    outcomeWon?: true
     creatorId?: true
   }
 
@@ -2400,9 +2729,11 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    status?: true
+    outcomeWon?: true
+    creatorId?: true
     createdAt?: true
     updatedAt?: true
-    creatorId?: true
   }
 
   export type MarketMaxAggregateInputType = {
@@ -2412,9 +2743,11 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    status?: true
+    outcomeWon?: true
+    creatorId?: true
     createdAt?: true
     updatedAt?: true
-    creatorId?: true
   }
 
   export type MarketCountAggregateInputType = {
@@ -2424,10 +2757,12 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    tags?: true
+    status?: true
+    outcomeWon?: true
+    creatorId?: true
     createdAt?: true
     updatedAt?: true
-    tags?: true
-    creatorId?: true
     _all?: true
   }
 
@@ -2524,10 +2859,12 @@ export namespace Prisma {
     question: string
     expiry_date: Date
     image: string | null
+    tags: string[]
+    status: $Enums.EventStatus
+    outcomeWon: number | null
+    creatorId: number
     createdAt: Date
     updatedAt: Date
-    tags: string[]
-    creatorId: number
     _count: MarketCountAggregateOutputType | null
     _avg: MarketAvgAggregateOutputType | null
     _sum: MarketSumAggregateOutputType | null
@@ -2556,12 +2893,15 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    tags?: boolean
+    status?: boolean
+    outcomeWon?: boolean
+    creatorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    tags?: boolean
-    creatorId?: boolean
-    votes?: boolean | Market$votesArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    trades?: boolean | Market$tradesArgs<ExtArgs>
+    outcome?: boolean | Market$outcomeArgs<ExtArgs>
     _count?: boolean | MarketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
 
@@ -2572,10 +2912,12 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    tags?: boolean
+    status?: boolean
+    outcomeWon?: boolean
+    creatorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    tags?: boolean
-    creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
 
@@ -2586,10 +2928,12 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    tags?: boolean
+    status?: boolean
+    outcomeWon?: boolean
+    creatorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    tags?: boolean
-    creatorId?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
 
@@ -2600,16 +2944,19 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    tags?: boolean
+    status?: boolean
+    outcomeWon?: boolean
+    creatorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    tags?: boolean
-    creatorId?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "resolution_criteria" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "tags" | "creatorId", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "resolution_criteria" | "question" | "expiry_date" | "image" | "tags" | "status" | "outcomeWon" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["market"]>
   export type MarketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    votes?: boolean | Market$votesArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    trades?: boolean | Market$tradesArgs<ExtArgs>
+    outcome?: boolean | Market$outcomeArgs<ExtArgs>
     _count?: boolean | MarketCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MarketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2622,8 +2969,9 @@ export namespace Prisma {
   export type $MarketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Market"
     objects: {
-      votes: Prisma.$VotePayload<ExtArgs>[]
       creator: Prisma.$UserPayload<ExtArgs>
+      trades: Prisma.$TradePayload<ExtArgs>[]
+      outcome: Prisma.$OutcomePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2632,10 +2980,12 @@ export namespace Prisma {
       question: string
       expiry_date: Date
       image: string | null
+      tags: string[]
+      status: $Enums.EventStatus
+      outcomeWon: number | null
+      creatorId: number
       createdAt: Date
       updatedAt: Date
-      tags: string[]
-      creatorId: number
     }, ExtArgs["result"]["market"]>
     composites: {}
   }
@@ -3030,8 +3380,9 @@ export namespace Prisma {
    */
   export interface Prisma__MarketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    votes<T extends Market$votesArgs<ExtArgs> = {}>(args?: Subset<T, Market$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    trades<T extends Market$tradesArgs<ExtArgs> = {}>(args?: Subset<T, Market$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    outcome<T extends Market$outcomeArgs<ExtArgs> = {}>(args?: Subset<T, Market$outcomeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3067,10 +3418,12 @@ export namespace Prisma {
     readonly question: FieldRef<"Market", 'String'>
     readonly expiry_date: FieldRef<"Market", 'DateTime'>
     readonly image: FieldRef<"Market", 'String'>
+    readonly tags: FieldRef<"Market", 'String[]'>
+    readonly status: FieldRef<"Market", 'EventStatus'>
+    readonly outcomeWon: FieldRef<"Market", 'Int'>
+    readonly creatorId: FieldRef<"Market", 'Int'>
     readonly createdAt: FieldRef<"Market", 'DateTime'>
     readonly updatedAt: FieldRef<"Market", 'DateTime'>
-    readonly tags: FieldRef<"Market", 'String[]'>
-    readonly creatorId: FieldRef<"Market", 'Int'>
   }
     
 
@@ -3467,27 +3820,51 @@ export namespace Prisma {
   }
 
   /**
-   * Market.votes
+   * Market.trades
    */
-  export type Market$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Market$tradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Trade
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: TradeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Trade
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: TradeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
-    where?: VoteWhereInput
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
-    cursor?: VoteWhereUniqueInput
+    include?: TradeInclude<ExtArgs> | null
+    where?: TradeWhereInput
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    cursor?: TradeWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * Market.outcome
+   */
+  export type Market$outcomeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Outcome
+     */
+    select?: OutcomeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Outcome
+     */
+    omit?: OutcomeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutcomeInclude<ExtArgs> | null
+    where?: OutcomeWhereInput
+    orderBy?: OutcomeOrderByWithRelationInput | OutcomeOrderByWithRelationInput[]
+    cursor?: OutcomeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OutcomeScalarFieldEnum | OutcomeScalarFieldEnum[]
   }
 
   /**
@@ -3510,427 +3887,428 @@ export namespace Prisma {
 
 
   /**
-   * Model Vote
+   * Model Outcome
    */
 
-  export type AggregateVote = {
-    _count: VoteCountAggregateOutputType | null
-    _avg: VoteAvgAggregateOutputType | null
-    _sum: VoteSumAggregateOutputType | null
-    _min: VoteMinAggregateOutputType | null
-    _max: VoteMaxAggregateOutputType | null
+  export type AggregateOutcome = {
+    _count: OutcomeCountAggregateOutputType | null
+    _avg: OutcomeAvgAggregateOutputType | null
+    _sum: OutcomeSumAggregateOutputType | null
+    _min: OutcomeMinAggregateOutputType | null
+    _max: OutcomeMaxAggregateOutputType | null
   }
 
-  export type VoteAvgAggregateOutputType = {
+  export type OutcomeAvgAggregateOutputType = {
     id: number | null
-    amount: number | null
-    userId: number | null
-    marketId: number | null
+    current_supply: Decimal | null
+    total_liquidity: Decimal | null
+    marketID: number | null
   }
 
-  export type VoteSumAggregateOutputType = {
+  export type OutcomeSumAggregateOutputType = {
     id: number | null
-    amount: number | null
-    userId: number | null
-    marketId: number | null
+    current_supply: Decimal | null
+    total_liquidity: Decimal | null
+    marketID: number | null
   }
 
-  export type VoteMinAggregateOutputType = {
+  export type OutcomeMinAggregateOutputType = {
     id: number | null
-    amount: number | null
+    outcome_title: string | null
+    current_supply: Decimal | null
+    total_liquidity: Decimal | null
+    marketID: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    voteType: $Enums.VoteType | null
-    userId: number | null
-    marketId: number | null
   }
 
-  export type VoteMaxAggregateOutputType = {
+  export type OutcomeMaxAggregateOutputType = {
     id: number | null
-    amount: number | null
+    outcome_title: string | null
+    current_supply: Decimal | null
+    total_liquidity: Decimal | null
+    marketID: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    voteType: $Enums.VoteType | null
-    userId: number | null
-    marketId: number | null
   }
 
-  export type VoteCountAggregateOutputType = {
+  export type OutcomeCountAggregateOutputType = {
     id: number
-    amount: number
+    outcome_title: number
+    current_supply: number
+    total_liquidity: number
+    marketID: number
     createdAt: number
     updatedAt: number
-    voteType: number
-    userId: number
-    marketId: number
     _all: number
   }
 
 
-  export type VoteAvgAggregateInputType = {
+  export type OutcomeAvgAggregateInputType = {
     id?: true
-    amount?: true
-    userId?: true
-    marketId?: true
+    current_supply?: true
+    total_liquidity?: true
+    marketID?: true
   }
 
-  export type VoteSumAggregateInputType = {
+  export type OutcomeSumAggregateInputType = {
     id?: true
-    amount?: true
-    userId?: true
-    marketId?: true
+    current_supply?: true
+    total_liquidity?: true
+    marketID?: true
   }
 
-  export type VoteMinAggregateInputType = {
+  export type OutcomeMinAggregateInputType = {
     id?: true
-    amount?: true
+    outcome_title?: true
+    current_supply?: true
+    total_liquidity?: true
+    marketID?: true
     createdAt?: true
     updatedAt?: true
-    voteType?: true
-    userId?: true
-    marketId?: true
   }
 
-  export type VoteMaxAggregateInputType = {
+  export type OutcomeMaxAggregateInputType = {
     id?: true
-    amount?: true
+    outcome_title?: true
+    current_supply?: true
+    total_liquidity?: true
+    marketID?: true
     createdAt?: true
     updatedAt?: true
-    voteType?: true
-    userId?: true
-    marketId?: true
   }
 
-  export type VoteCountAggregateInputType = {
+  export type OutcomeCountAggregateInputType = {
     id?: true
-    amount?: true
+    outcome_title?: true
+    current_supply?: true
+    total_liquidity?: true
+    marketID?: true
     createdAt?: true
     updatedAt?: true
-    voteType?: true
-    userId?: true
-    marketId?: true
     _all?: true
   }
 
-  export type VoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Vote to aggregate.
+     * Filter which Outcome to aggregate.
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Votes to fetch.
+     * Determine the order of Outcomes to fetch.
      */
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
+    orderBy?: OutcomeOrderByWithRelationInput | OutcomeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: VoteWhereUniqueInput
+    cursor?: OutcomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Votes from the position of the cursor.
+     * Take `±n` Outcomes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Votes.
+     * Skip the first `n` Outcomes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Votes
+     * Count returned Outcomes
     **/
-    _count?: true | VoteCountAggregateInputType
+    _count?: true | OutcomeCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: VoteAvgAggregateInputType
+    _avg?: OutcomeAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: VoteSumAggregateInputType
+    _sum?: OutcomeSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: VoteMinAggregateInputType
+    _min?: OutcomeMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: VoteMaxAggregateInputType
+    _max?: OutcomeMaxAggregateInputType
   }
 
-  export type GetVoteAggregateType<T extends VoteAggregateArgs> = {
-        [P in keyof T & keyof AggregateVote]: P extends '_count' | 'count'
+  export type GetOutcomeAggregateType<T extends OutcomeAggregateArgs> = {
+        [P in keyof T & keyof AggregateOutcome]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateVote[P]>
-      : GetScalarType<T[P], AggregateVote[P]>
+        : GetScalarType<T[P], AggregateOutcome[P]>
+      : GetScalarType<T[P], AggregateOutcome[P]>
   }
 
 
 
 
-  export type VoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VoteWhereInput
-    orderBy?: VoteOrderByWithAggregationInput | VoteOrderByWithAggregationInput[]
-    by: VoteScalarFieldEnum[] | VoteScalarFieldEnum
-    having?: VoteScalarWhereWithAggregatesInput
+  export type OutcomeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutcomeWhereInput
+    orderBy?: OutcomeOrderByWithAggregationInput | OutcomeOrderByWithAggregationInput[]
+    by: OutcomeScalarFieldEnum[] | OutcomeScalarFieldEnum
+    having?: OutcomeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: VoteCountAggregateInputType | true
-    _avg?: VoteAvgAggregateInputType
-    _sum?: VoteSumAggregateInputType
-    _min?: VoteMinAggregateInputType
-    _max?: VoteMaxAggregateInputType
+    _count?: OutcomeCountAggregateInputType | true
+    _avg?: OutcomeAvgAggregateInputType
+    _sum?: OutcomeSumAggregateInputType
+    _min?: OutcomeMinAggregateInputType
+    _max?: OutcomeMaxAggregateInputType
   }
 
-  export type VoteGroupByOutputType = {
+  export type OutcomeGroupByOutputType = {
     id: number
-    amount: number
+    outcome_title: string
+    current_supply: Decimal
+    total_liquidity: Decimal
+    marketID: number
     createdAt: Date
     updatedAt: Date
-    voteType: $Enums.VoteType
-    userId: number
-    marketId: number
-    _count: VoteCountAggregateOutputType | null
-    _avg: VoteAvgAggregateOutputType | null
-    _sum: VoteSumAggregateOutputType | null
-    _min: VoteMinAggregateOutputType | null
-    _max: VoteMaxAggregateOutputType | null
+    _count: OutcomeCountAggregateOutputType | null
+    _avg: OutcomeAvgAggregateOutputType | null
+    _sum: OutcomeSumAggregateOutputType | null
+    _min: OutcomeMinAggregateOutputType | null
+    _max: OutcomeMaxAggregateOutputType | null
   }
 
-  type GetVoteGroupByPayload<T extends VoteGroupByArgs> = Prisma.PrismaPromise<
+  type GetOutcomeGroupByPayload<T extends OutcomeGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<VoteGroupByOutputType, T['by']> &
+      PickEnumerable<OutcomeGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof VoteGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof OutcomeGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], VoteGroupByOutputType[P]>
-            : GetScalarType<T[P], VoteGroupByOutputType[P]>
+              : GetScalarType<T[P], OutcomeGroupByOutputType[P]>
+            : GetScalarType<T[P], OutcomeGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type VoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OutcomeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    amount?: boolean
+    outcome_title?: boolean
+    current_supply?: boolean
+    total_liquidity?: boolean
+    marketID?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    voteType?: boolean
-    userId?: boolean
-    marketId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     market?: boolean | MarketDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vote"]>
+    tokenAllocations?: boolean | Outcome$tokenAllocationsArgs<ExtArgs>
+    trades?: boolean | Outcome$tradesArgs<ExtArgs>
+    _count?: boolean | OutcomeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["outcome"]>
 
-  export type VoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OutcomeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    amount?: boolean
+    outcome_title?: boolean
+    current_supply?: boolean
+    total_liquidity?: boolean
+    marketID?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    voteType?: boolean
-    userId?: boolean
-    marketId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     market?: boolean | MarketDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vote"]>
+  }, ExtArgs["result"]["outcome"]>
 
-  export type VoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type OutcomeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    amount?: boolean
+    outcome_title?: boolean
+    current_supply?: boolean
+    total_liquidity?: boolean
+    marketID?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    voteType?: boolean
-    userId?: boolean
-    marketId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     market?: boolean | MarketDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vote"]>
+  }, ExtArgs["result"]["outcome"]>
 
-  export type VoteSelectScalar = {
+  export type OutcomeSelectScalar = {
     id?: boolean
-    amount?: boolean
+    outcome_title?: boolean
+    current_supply?: boolean
+    total_liquidity?: boolean
+    marketID?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    voteType?: boolean
-    userId?: boolean
-    marketId?: boolean
   }
 
-  export type VoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "createdAt" | "updatedAt" | "voteType" | "userId" | "marketId", ExtArgs["result"]["vote"]>
-  export type VoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+  export type OutcomeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "outcome_title" | "current_supply" | "total_liquidity" | "marketID" | "createdAt" | "updatedAt", ExtArgs["result"]["outcome"]>
+  export type OutcomeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+    tokenAllocations?: boolean | Outcome$tokenAllocationsArgs<ExtArgs>
+    trades?: boolean | Outcome$tradesArgs<ExtArgs>
+    _count?: boolean | OutcomeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type OutcomeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     market?: boolean | MarketDefaultArgs<ExtArgs>
   }
-  export type VoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    market?: boolean | MarketDefaultArgs<ExtArgs>
-  }
-  export type VoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+  export type OutcomeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     market?: boolean | MarketDefaultArgs<ExtArgs>
   }
 
-  export type $VotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Vote"
+  export type $OutcomePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Outcome"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       market: Prisma.$MarketPayload<ExtArgs>
+      tokenAllocations: Prisma.$TokenAllocationPayload<ExtArgs>[]
+      trades: Prisma.$TradePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      amount: number
+      outcome_title: string
+      current_supply: Prisma.Decimal
+      total_liquidity: Prisma.Decimal
+      marketID: number
       createdAt: Date
       updatedAt: Date
-      voteType: $Enums.VoteType
-      userId: number
-      marketId: number
-    }, ExtArgs["result"]["vote"]>
+    }, ExtArgs["result"]["outcome"]>
     composites: {}
   }
 
-  type VoteGetPayload<S extends boolean | null | undefined | VoteDefaultArgs> = $Result.GetResult<Prisma.$VotePayload, S>
+  type OutcomeGetPayload<S extends boolean | null | undefined | OutcomeDefaultArgs> = $Result.GetResult<Prisma.$OutcomePayload, S>
 
-  type VoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: VoteCountAggregateInputType | true
+  type OutcomeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OutcomeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OutcomeCountAggregateInputType | true
     }
 
-  export interface VoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vote'], meta: { name: 'Vote' } }
+  export interface OutcomeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Outcome'], meta: { name: 'Outcome' } }
     /**
-     * Find zero or one Vote that matches the filter.
-     * @param {VoteFindUniqueArgs} args - Arguments to find a Vote
+     * Find zero or one Outcome that matches the filter.
+     * @param {OutcomeFindUniqueArgs} args - Arguments to find a Outcome
      * @example
-     * // Get one Vote
-     * const vote = await prisma.vote.findUnique({
+     * // Get one Outcome
+     * const outcome = await prisma.outcome.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends VoteFindUniqueArgs>(args: SelectSubset<T, VoteFindUniqueArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends OutcomeFindUniqueArgs>(args: SelectSubset<T, OutcomeFindUniqueArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Vote that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Outcome that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {VoteFindUniqueOrThrowArgs} args - Arguments to find a Vote
+     * @param {OutcomeFindUniqueOrThrowArgs} args - Arguments to find a Outcome
      * @example
-     * // Get one Vote
-     * const vote = await prisma.vote.findUniqueOrThrow({
+     * // Get one Outcome
+     * const outcome = await prisma.outcome.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends VoteFindUniqueOrThrowArgs>(args: SelectSubset<T, VoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends OutcomeFindUniqueOrThrowArgs>(args: SelectSubset<T, OutcomeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Vote that matches the filter.
+     * Find the first Outcome that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteFindFirstArgs} args - Arguments to find a Vote
+     * @param {OutcomeFindFirstArgs} args - Arguments to find a Outcome
      * @example
-     * // Get one Vote
-     * const vote = await prisma.vote.findFirst({
+     * // Get one Outcome
+     * const outcome = await prisma.outcome.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends VoteFindFirstArgs>(args?: SelectSubset<T, VoteFindFirstArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends OutcomeFindFirstArgs>(args?: SelectSubset<T, OutcomeFindFirstArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Vote that matches the filter or
+     * Find the first Outcome that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteFindFirstOrThrowArgs} args - Arguments to find a Vote
+     * @param {OutcomeFindFirstOrThrowArgs} args - Arguments to find a Outcome
      * @example
-     * // Get one Vote
-     * const vote = await prisma.vote.findFirstOrThrow({
+     * // Get one Outcome
+     * const outcome = await prisma.outcome.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends VoteFindFirstOrThrowArgs>(args?: SelectSubset<T, VoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends OutcomeFindFirstOrThrowArgs>(args?: SelectSubset<T, OutcomeFindFirstOrThrowArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Votes that matches the filter.
+     * Find zero or more Outcomes that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {OutcomeFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Votes
-     * const votes = await prisma.vote.findMany()
+     * // Get all Outcomes
+     * const outcomes = await prisma.outcome.findMany()
      * 
-     * // Get first 10 Votes
-     * const votes = await prisma.vote.findMany({ take: 10 })
+     * // Get first 10 Outcomes
+     * const outcomes = await prisma.outcome.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const voteWithIdOnly = await prisma.vote.findMany({ select: { id: true } })
+     * const outcomeWithIdOnly = await prisma.outcome.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends VoteFindManyArgs>(args?: SelectSubset<T, VoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends OutcomeFindManyArgs>(args?: SelectSubset<T, OutcomeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Vote.
-     * @param {VoteCreateArgs} args - Arguments to create a Vote.
+     * Create a Outcome.
+     * @param {OutcomeCreateArgs} args - Arguments to create a Outcome.
      * @example
-     * // Create one Vote
-     * const Vote = await prisma.vote.create({
+     * // Create one Outcome
+     * const Outcome = await prisma.outcome.create({
      *   data: {
-     *     // ... data to create a Vote
+     *     // ... data to create a Outcome
      *   }
      * })
      * 
      */
-    create<T extends VoteCreateArgs>(args: SelectSubset<T, VoteCreateArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends OutcomeCreateArgs>(args: SelectSubset<T, OutcomeCreateArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Votes.
-     * @param {VoteCreateManyArgs} args - Arguments to create many Votes.
+     * Create many Outcomes.
+     * @param {OutcomeCreateManyArgs} args - Arguments to create many Outcomes.
      * @example
-     * // Create many Votes
-     * const vote = await prisma.vote.createMany({
+     * // Create many Outcomes
+     * const outcome = await prisma.outcome.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends VoteCreateManyArgs>(args?: SelectSubset<T, VoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends OutcomeCreateManyArgs>(args?: SelectSubset<T, OutcomeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Votes and returns the data saved in the database.
-     * @param {VoteCreateManyAndReturnArgs} args - Arguments to create many Votes.
+     * Create many Outcomes and returns the data saved in the database.
+     * @param {OutcomeCreateManyAndReturnArgs} args - Arguments to create many Outcomes.
      * @example
-     * // Create many Votes
-     * const vote = await prisma.vote.createManyAndReturn({
+     * // Create many Outcomes
+     * const outcome = await prisma.outcome.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Votes and only return the `id`
-     * const voteWithIdOnly = await prisma.vote.createManyAndReturn({
+     * // Create many Outcomes and only return the `id`
+     * const outcomeWithIdOnly = await prisma.outcome.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -3940,28 +4318,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends VoteCreateManyAndReturnArgs>(args?: SelectSubset<T, VoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends OutcomeCreateManyAndReturnArgs>(args?: SelectSubset<T, OutcomeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Vote.
-     * @param {VoteDeleteArgs} args - Arguments to delete one Vote.
+     * Delete a Outcome.
+     * @param {OutcomeDeleteArgs} args - Arguments to delete one Outcome.
      * @example
-     * // Delete one Vote
-     * const Vote = await prisma.vote.delete({
+     * // Delete one Outcome
+     * const Outcome = await prisma.outcome.delete({
      *   where: {
-     *     // ... filter to delete one Vote
+     *     // ... filter to delete one Outcome
      *   }
      * })
      * 
      */
-    delete<T extends VoteDeleteArgs>(args: SelectSubset<T, VoteDeleteArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends OutcomeDeleteArgs>(args: SelectSubset<T, OutcomeDeleteArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Vote.
-     * @param {VoteUpdateArgs} args - Arguments to update one Vote.
+     * Update one Outcome.
+     * @param {OutcomeUpdateArgs} args - Arguments to update one Outcome.
      * @example
-     * // Update one Vote
-     * const vote = await prisma.vote.update({
+     * // Update one Outcome
+     * const outcome = await prisma.outcome.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3971,30 +4349,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends VoteUpdateArgs>(args: SelectSubset<T, VoteUpdateArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends OutcomeUpdateArgs>(args: SelectSubset<T, OutcomeUpdateArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Votes.
-     * @param {VoteDeleteManyArgs} args - Arguments to filter Votes to delete.
+     * Delete zero or more Outcomes.
+     * @param {OutcomeDeleteManyArgs} args - Arguments to filter Outcomes to delete.
      * @example
-     * // Delete a few Votes
-     * const { count } = await prisma.vote.deleteMany({
+     * // Delete a few Outcomes
+     * const { count } = await prisma.outcome.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends VoteDeleteManyArgs>(args?: SelectSubset<T, VoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends OutcomeDeleteManyArgs>(args?: SelectSubset<T, OutcomeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Votes.
+     * Update zero or more Outcomes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {OutcomeUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Votes
-     * const vote = await prisma.vote.updateMany({
+     * // Update many Outcomes
+     * const outcome = await prisma.outcome.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4004,14 +4382,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends VoteUpdateManyArgs>(args: SelectSubset<T, VoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends OutcomeUpdateManyArgs>(args: SelectSubset<T, OutcomeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Votes and returns the data updated in the database.
-     * @param {VoteUpdateManyAndReturnArgs} args - Arguments to update many Votes.
+     * Update zero or more Outcomes and returns the data updated in the database.
+     * @param {OutcomeUpdateManyAndReturnArgs} args - Arguments to update many Outcomes.
      * @example
-     * // Update many Votes
-     * const vote = await prisma.vote.updateManyAndReturn({
+     * // Update many Outcomes
+     * const outcome = await prisma.outcome.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4020,8 +4398,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Votes and only return the `id`
-     * const voteWithIdOnly = await prisma.vote.updateManyAndReturn({
+     * // Update zero or more Outcomes and only return the `id`
+     * const outcomeWithIdOnly = await prisma.outcome.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -4034,56 +4412,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends VoteUpdateManyAndReturnArgs>(args: SelectSubset<T, VoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends OutcomeUpdateManyAndReturnArgs>(args: SelectSubset<T, OutcomeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Vote.
-     * @param {VoteUpsertArgs} args - Arguments to update or create a Vote.
+     * Create or update one Outcome.
+     * @param {OutcomeUpsertArgs} args - Arguments to update or create a Outcome.
      * @example
-     * // Update or create a Vote
-     * const vote = await prisma.vote.upsert({
+     * // Update or create a Outcome
+     * const outcome = await prisma.outcome.upsert({
      *   create: {
-     *     // ... data to create a Vote
+     *     // ... data to create a Outcome
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Vote we want to update
+     *     // ... the filter for the Outcome we want to update
      *   }
      * })
      */
-    upsert<T extends VoteUpsertArgs>(args: SelectSubset<T, VoteUpsertArgs<ExtArgs>>): Prisma__VoteClient<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends OutcomeUpsertArgs>(args: SelectSubset<T, OutcomeUpsertArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Votes.
+     * Count the number of Outcomes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteCountArgs} args - Arguments to filter Votes to count.
+     * @param {OutcomeCountArgs} args - Arguments to filter Outcomes to count.
      * @example
-     * // Count the number of Votes
-     * const count = await prisma.vote.count({
+     * // Count the number of Outcomes
+     * const count = await prisma.outcome.count({
      *   where: {
-     *     // ... the filter for the Votes we want to count
+     *     // ... the filter for the Outcomes we want to count
      *   }
      * })
     **/
-    count<T extends VoteCountArgs>(
-      args?: Subset<T, VoteCountArgs>,
+    count<T extends OutcomeCountArgs>(
+      args?: Subset<T, OutcomeCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], VoteCountAggregateOutputType>
+          : GetScalarType<T['select'], OutcomeCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Vote.
+     * Allows you to perform aggregations operations on a Outcome.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {OutcomeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4103,13 +4481,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends VoteAggregateArgs>(args: Subset<T, VoteAggregateArgs>): Prisma.PrismaPromise<GetVoteAggregateType<T>>
+    aggregate<T extends OutcomeAggregateArgs>(args: Subset<T, OutcomeAggregateArgs>): Prisma.PrismaPromise<GetOutcomeAggregateType<T>>
 
     /**
-     * Group by Vote.
+     * Group by Outcome.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VoteGroupByArgs} args - Group by arguments.
+     * @param {OutcomeGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4124,14 +4502,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends VoteGroupByArgs,
+      T extends OutcomeGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VoteGroupByArgs['orderBy'] }
-        : { orderBy?: VoteGroupByArgs['orderBy'] },
+        ? { orderBy: OutcomeGroupByArgs['orderBy'] }
+        : { orderBy?: OutcomeGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4180,23 +4558,24 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, VoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, OutcomeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOutcomeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Vote model
+   * Fields of the Outcome model
    */
-  readonly fields: VoteFieldRefs;
+  readonly fields: OutcomeFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Vote.
+   * The delegate class that acts as a "Promise-like" for Outcome.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__VoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__OutcomeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     market<T extends MarketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MarketDefaultArgs<ExtArgs>>): Prisma__MarketClient<$Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tokenAllocations<T extends Outcome$tokenAllocationsArgs<ExtArgs> = {}>(args?: Subset<T, Outcome$tokenAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trades<T extends Outcome$tradesArgs<ExtArgs> = {}>(args?: Subset<T, Outcome$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4223,427 +4602,2867 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Vote model
+   * Fields of the Outcome model
    */
-  interface VoteFieldRefs {
-    readonly id: FieldRef<"Vote", 'Int'>
-    readonly amount: FieldRef<"Vote", 'Float'>
-    readonly createdAt: FieldRef<"Vote", 'DateTime'>
-    readonly updatedAt: FieldRef<"Vote", 'DateTime'>
-    readonly voteType: FieldRef<"Vote", 'VoteType'>
-    readonly userId: FieldRef<"Vote", 'Int'>
-    readonly marketId: FieldRef<"Vote", 'Int'>
+  interface OutcomeFieldRefs {
+    readonly id: FieldRef<"Outcome", 'Int'>
+    readonly outcome_title: FieldRef<"Outcome", 'String'>
+    readonly current_supply: FieldRef<"Outcome", 'Decimal'>
+    readonly total_liquidity: FieldRef<"Outcome", 'Decimal'>
+    readonly marketID: FieldRef<"Outcome", 'Int'>
+    readonly createdAt: FieldRef<"Outcome", 'DateTime'>
+    readonly updatedAt: FieldRef<"Outcome", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Vote findUnique
+   * Outcome findUnique
    */
-  export type VoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter, which Vote to fetch.
+     * Filter, which Outcome to fetch.
      */
-    where: VoteWhereUniqueInput
+    where: OutcomeWhereUniqueInput
   }
 
   /**
-   * Vote findUniqueOrThrow
+   * Outcome findUniqueOrThrow
    */
-  export type VoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter, which Vote to fetch.
+     * Filter, which Outcome to fetch.
      */
-    where: VoteWhereUniqueInput
+    where: OutcomeWhereUniqueInput
   }
 
   /**
-   * Vote findFirst
+   * Outcome findFirst
    */
-  export type VoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter, which Vote to fetch.
+     * Filter, which Outcome to fetch.
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Votes to fetch.
+     * Determine the order of Outcomes to fetch.
      */
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
+    orderBy?: OutcomeOrderByWithRelationInput | OutcomeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Votes.
+     * Sets the position for searching for Outcomes.
      */
-    cursor?: VoteWhereUniqueInput
+    cursor?: OutcomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Votes from the position of the cursor.
+     * Take `±n` Outcomes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Votes.
+     * Skip the first `n` Outcomes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Votes.
+     * Filter by unique combinations of Outcomes.
      */
-    distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
+    distinct?: OutcomeScalarFieldEnum | OutcomeScalarFieldEnum[]
   }
 
   /**
-   * Vote findFirstOrThrow
+   * Outcome findFirstOrThrow
    */
-  export type VoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter, which Vote to fetch.
+     * Filter, which Outcome to fetch.
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Votes to fetch.
+     * Determine the order of Outcomes to fetch.
      */
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
+    orderBy?: OutcomeOrderByWithRelationInput | OutcomeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Votes.
+     * Sets the position for searching for Outcomes.
      */
-    cursor?: VoteWhereUniqueInput
+    cursor?: OutcomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Votes from the position of the cursor.
+     * Take `±n` Outcomes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Votes.
+     * Skip the first `n` Outcomes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Votes.
+     * Filter by unique combinations of Outcomes.
      */
-    distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
+    distinct?: OutcomeScalarFieldEnum | OutcomeScalarFieldEnum[]
   }
 
   /**
-   * Vote findMany
+   * Outcome findMany
    */
-  export type VoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter, which Votes to fetch.
+     * Filter, which Outcomes to fetch.
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Votes to fetch.
+     * Determine the order of Outcomes to fetch.
      */
-    orderBy?: VoteOrderByWithRelationInput | VoteOrderByWithRelationInput[]
+    orderBy?: OutcomeOrderByWithRelationInput | OutcomeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Votes.
+     * Sets the position for listing Outcomes.
      */
-    cursor?: VoteWhereUniqueInput
+    cursor?: OutcomeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Votes from the position of the cursor.
+     * Take `±n` Outcomes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Votes.
+     * Skip the first `n` Outcomes.
      */
     skip?: number
-    distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
+    distinct?: OutcomeScalarFieldEnum | OutcomeScalarFieldEnum[]
   }
 
   /**
-   * Vote create
+   * Outcome create
    */
-  export type VoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * The data needed to create a Vote.
+     * The data needed to create a Outcome.
      */
-    data: XOR<VoteCreateInput, VoteUncheckedCreateInput>
+    data: XOR<OutcomeCreateInput, OutcomeUncheckedCreateInput>
   }
 
   /**
-   * Vote createMany
+   * Outcome createMany
    */
-  export type VoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Votes.
+     * The data used to create many Outcomes.
      */
-    data: VoteCreateManyInput | VoteCreateManyInput[]
+    data: OutcomeCreateManyInput | OutcomeCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Vote createManyAndReturn
+   * Outcome createManyAndReturn
    */
-  export type VoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelectCreateManyAndReturn<ExtArgs> | null
+    select?: OutcomeSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
-     * The data used to create many Votes.
+     * The data used to create many Outcomes.
      */
-    data: VoteCreateManyInput | VoteCreateManyInput[]
+    data: OutcomeCreateManyInput | OutcomeCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: OutcomeIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Vote update
+   * Outcome update
    */
-  export type VoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * The data needed to update a Vote.
+     * The data needed to update a Outcome.
      */
-    data: XOR<VoteUpdateInput, VoteUncheckedUpdateInput>
+    data: XOR<OutcomeUpdateInput, OutcomeUncheckedUpdateInput>
     /**
-     * Choose, which Vote to update.
+     * Choose, which Outcome to update.
      */
-    where: VoteWhereUniqueInput
+    where: OutcomeWhereUniqueInput
   }
 
   /**
-   * Vote updateMany
+   * Outcome updateMany
    */
-  export type VoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Votes.
+     * The data used to update Outcomes.
      */
-    data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyInput>
+    data: XOR<OutcomeUpdateManyMutationInput, OutcomeUncheckedUpdateManyInput>
     /**
-     * Filter which Votes to update
+     * Filter which Outcomes to update
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
-     * Limit how many Votes to update.
+     * Limit how many Outcomes to update.
      */
     limit?: number
   }
 
   /**
-   * Vote updateManyAndReturn
+   * Outcome updateManyAndReturn
    */
-  export type VoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: OutcomeSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
-     * The data used to update Votes.
+     * The data used to update Outcomes.
      */
-    data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyInput>
+    data: XOR<OutcomeUpdateManyMutationInput, OutcomeUncheckedUpdateManyInput>
     /**
-     * Filter which Votes to update
+     * Filter which Outcomes to update
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
-     * Limit how many Votes to update.
+     * Limit how many Outcomes to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: OutcomeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Vote upsert
+   * Outcome upsert
    */
-  export type VoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * The filter to search for the Vote to update in case it exists.
+     * The filter to search for the Outcome to update in case it exists.
      */
-    where: VoteWhereUniqueInput
+    where: OutcomeWhereUniqueInput
     /**
-     * In case the Vote found by the `where` argument doesn't exist, create a new Vote with this data.
+     * In case the Outcome found by the `where` argument doesn't exist, create a new Outcome with this data.
      */
-    create: XOR<VoteCreateInput, VoteUncheckedCreateInput>
+    create: XOR<OutcomeCreateInput, OutcomeUncheckedCreateInput>
     /**
-     * In case the Vote was found with the provided `where` argument, update it with this data.
+     * In case the Outcome was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<VoteUpdateInput, VoteUncheckedUpdateInput>
+    update: XOR<OutcomeUpdateInput, OutcomeUncheckedUpdateInput>
   }
 
   /**
-   * Vote delete
+   * Outcome delete
    */
-  export type VoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the Outcome
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: OutcomeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the Outcome
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: OutcomeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: OutcomeInclude<ExtArgs> | null
     /**
-     * Filter which Vote to delete.
+     * Filter which Outcome to delete.
      */
-    where: VoteWhereUniqueInput
+    where: OutcomeWhereUniqueInput
   }
 
   /**
-   * Vote deleteMany
+   * Outcome deleteMany
    */
-  export type VoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type OutcomeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Votes to delete
+     * Filter which Outcomes to delete
      */
-    where?: VoteWhereInput
+    where?: OutcomeWhereInput
     /**
-     * Limit how many Votes to delete.
+     * Limit how many Outcomes to delete.
      */
     limit?: number
   }
 
   /**
-   * Vote without action
+   * Outcome.tokenAllocations
    */
-  export type VoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Outcome$tokenAllocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Vote
+     * Select specific fields to fetch from the TokenAllocation
      */
-    select?: VoteSelect<ExtArgs> | null
+    select?: TokenAllocationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Vote
+     * Omit specific fields from the TokenAllocation
      */
-    omit?: VoteOmit<ExtArgs> | null
+    omit?: TokenAllocationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: VoteInclude<ExtArgs> | null
+    include?: TokenAllocationInclude<ExtArgs> | null
+    where?: TokenAllocationWhereInput
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    cursor?: TokenAllocationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * Outcome.trades
+   */
+  export type Outcome$tradesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    where?: TradeWhereInput
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    cursor?: TradeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * Outcome without action
+   */
+  export type OutcomeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Outcome
+     */
+    select?: OutcomeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Outcome
+     */
+    omit?: OutcomeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutcomeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TokenAllocation
+   */
+
+  export type AggregateTokenAllocation = {
+    _count: TokenAllocationCountAggregateOutputType | null
+    _avg: TokenAllocationAvgAggregateOutputType | null
+    _sum: TokenAllocationSumAggregateOutputType | null
+    _min: TokenAllocationMinAggregateOutputType | null
+    _max: TokenAllocationMaxAggregateOutputType | null
+  }
+
+  export type TokenAllocationAvgAggregateOutputType = {
+    id: number | null
+    amount: Decimal | null
+    userId: number | null
+    outcomeId: number | null
+  }
+
+  export type TokenAllocationSumAggregateOutputType = {
+    id: number | null
+    amount: Decimal | null
+    userId: number | null
+    outcomeId: number | null
+  }
+
+  export type TokenAllocationMinAggregateOutputType = {
+    id: number | null
+    amount: Decimal | null
+    userId: number | null
+    outcomeId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TokenAllocationMaxAggregateOutputType = {
+    id: number | null
+    amount: Decimal | null
+    userId: number | null
+    outcomeId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TokenAllocationCountAggregateOutputType = {
+    id: number
+    amount: number
+    userId: number
+    outcomeId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TokenAllocationAvgAggregateInputType = {
+    id?: true
+    amount?: true
+    userId?: true
+    outcomeId?: true
+  }
+
+  export type TokenAllocationSumAggregateInputType = {
+    id?: true
+    amount?: true
+    userId?: true
+    outcomeId?: true
+  }
+
+  export type TokenAllocationMinAggregateInputType = {
+    id?: true
+    amount?: true
+    userId?: true
+    outcomeId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TokenAllocationMaxAggregateInputType = {
+    id?: true
+    amount?: true
+    userId?: true
+    outcomeId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TokenAllocationCountAggregateInputType = {
+    id?: true
+    amount?: true
+    userId?: true
+    outcomeId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TokenAllocationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TokenAllocation to aggregate.
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TokenAllocations to fetch.
+     */
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TokenAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TokenAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TokenAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TokenAllocations
+    **/
+    _count?: true | TokenAllocationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TokenAllocationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TokenAllocationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TokenAllocationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TokenAllocationMaxAggregateInputType
+  }
+
+  export type GetTokenAllocationAggregateType<T extends TokenAllocationAggregateArgs> = {
+        [P in keyof T & keyof AggregateTokenAllocation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTokenAllocation[P]>
+      : GetScalarType<T[P], AggregateTokenAllocation[P]>
+  }
+
+
+
+
+  export type TokenAllocationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TokenAllocationWhereInput
+    orderBy?: TokenAllocationOrderByWithAggregationInput | TokenAllocationOrderByWithAggregationInput[]
+    by: TokenAllocationScalarFieldEnum[] | TokenAllocationScalarFieldEnum
+    having?: TokenAllocationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TokenAllocationCountAggregateInputType | true
+    _avg?: TokenAllocationAvgAggregateInputType
+    _sum?: TokenAllocationSumAggregateInputType
+    _min?: TokenAllocationMinAggregateInputType
+    _max?: TokenAllocationMaxAggregateInputType
+  }
+
+  export type TokenAllocationGroupByOutputType = {
+    id: number
+    amount: Decimal
+    userId: number
+    outcomeId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: TokenAllocationCountAggregateOutputType | null
+    _avg: TokenAllocationAvgAggregateOutputType | null
+    _sum: TokenAllocationSumAggregateOutputType | null
+    _min: TokenAllocationMinAggregateOutputType | null
+    _max: TokenAllocationMaxAggregateOutputType | null
+  }
+
+  type GetTokenAllocationGroupByPayload<T extends TokenAllocationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TokenAllocationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TokenAllocationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TokenAllocationGroupByOutputType[P]>
+            : GetScalarType<T[P], TokenAllocationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TokenAllocationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    amount?: boolean
+    userId?: boolean
+    outcomeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tokenAllocation"]>
+
+  export type TokenAllocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    amount?: boolean
+    userId?: boolean
+    outcomeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tokenAllocation"]>
+
+  export type TokenAllocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    amount?: boolean
+    userId?: boolean
+    outcomeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tokenAllocation"]>
+
+  export type TokenAllocationSelectScalar = {
+    id?: boolean
+    amount?: boolean
+    userId?: boolean
+    outcomeId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TokenAllocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "userId" | "outcomeId" | "createdAt" | "updatedAt", ExtArgs["result"]["tokenAllocation"]>
+  export type TokenAllocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }
+  export type TokenAllocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }
+  export type TokenAllocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    outcome?: boolean | OutcomeDefaultArgs<ExtArgs>
+  }
+
+  export type $TokenAllocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TokenAllocation"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      outcome: Prisma.$OutcomePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      amount: Prisma.Decimal
+      userId: number
+      outcomeId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tokenAllocation"]>
+    composites: {}
+  }
+
+  type TokenAllocationGetPayload<S extends boolean | null | undefined | TokenAllocationDefaultArgs> = $Result.GetResult<Prisma.$TokenAllocationPayload, S>
+
+  type TokenAllocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TokenAllocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TokenAllocationCountAggregateInputType | true
+    }
+
+  export interface TokenAllocationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TokenAllocation'], meta: { name: 'TokenAllocation' } }
+    /**
+     * Find zero or one TokenAllocation that matches the filter.
+     * @param {TokenAllocationFindUniqueArgs} args - Arguments to find a TokenAllocation
+     * @example
+     * // Get one TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TokenAllocationFindUniqueArgs>(args: SelectSubset<T, TokenAllocationFindUniqueArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TokenAllocation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TokenAllocationFindUniqueOrThrowArgs} args - Arguments to find a TokenAllocation
+     * @example
+     * // Get one TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TokenAllocationFindUniqueOrThrowArgs>(args: SelectSubset<T, TokenAllocationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TokenAllocation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationFindFirstArgs} args - Arguments to find a TokenAllocation
+     * @example
+     * // Get one TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TokenAllocationFindFirstArgs>(args?: SelectSubset<T, TokenAllocationFindFirstArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TokenAllocation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationFindFirstOrThrowArgs} args - Arguments to find a TokenAllocation
+     * @example
+     * // Get one TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TokenAllocationFindFirstOrThrowArgs>(args?: SelectSubset<T, TokenAllocationFindFirstOrThrowArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TokenAllocations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TokenAllocations
+     * const tokenAllocations = await prisma.tokenAllocation.findMany()
+     * 
+     * // Get first 10 TokenAllocations
+     * const tokenAllocations = await prisma.tokenAllocation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tokenAllocationWithIdOnly = await prisma.tokenAllocation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TokenAllocationFindManyArgs>(args?: SelectSubset<T, TokenAllocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TokenAllocation.
+     * @param {TokenAllocationCreateArgs} args - Arguments to create a TokenAllocation.
+     * @example
+     * // Create one TokenAllocation
+     * const TokenAllocation = await prisma.tokenAllocation.create({
+     *   data: {
+     *     // ... data to create a TokenAllocation
+     *   }
+     * })
+     * 
+     */
+    create<T extends TokenAllocationCreateArgs>(args: SelectSubset<T, TokenAllocationCreateArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TokenAllocations.
+     * @param {TokenAllocationCreateManyArgs} args - Arguments to create many TokenAllocations.
+     * @example
+     * // Create many TokenAllocations
+     * const tokenAllocation = await prisma.tokenAllocation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TokenAllocationCreateManyArgs>(args?: SelectSubset<T, TokenAllocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TokenAllocations and returns the data saved in the database.
+     * @param {TokenAllocationCreateManyAndReturnArgs} args - Arguments to create many TokenAllocations.
+     * @example
+     * // Create many TokenAllocations
+     * const tokenAllocation = await prisma.tokenAllocation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TokenAllocations and only return the `id`
+     * const tokenAllocationWithIdOnly = await prisma.tokenAllocation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TokenAllocationCreateManyAndReturnArgs>(args?: SelectSubset<T, TokenAllocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TokenAllocation.
+     * @param {TokenAllocationDeleteArgs} args - Arguments to delete one TokenAllocation.
+     * @example
+     * // Delete one TokenAllocation
+     * const TokenAllocation = await prisma.tokenAllocation.delete({
+     *   where: {
+     *     // ... filter to delete one TokenAllocation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TokenAllocationDeleteArgs>(args: SelectSubset<T, TokenAllocationDeleteArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TokenAllocation.
+     * @param {TokenAllocationUpdateArgs} args - Arguments to update one TokenAllocation.
+     * @example
+     * // Update one TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TokenAllocationUpdateArgs>(args: SelectSubset<T, TokenAllocationUpdateArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TokenAllocations.
+     * @param {TokenAllocationDeleteManyArgs} args - Arguments to filter TokenAllocations to delete.
+     * @example
+     * // Delete a few TokenAllocations
+     * const { count } = await prisma.tokenAllocation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TokenAllocationDeleteManyArgs>(args?: SelectSubset<T, TokenAllocationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TokenAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TokenAllocations
+     * const tokenAllocation = await prisma.tokenAllocation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TokenAllocationUpdateManyArgs>(args: SelectSubset<T, TokenAllocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TokenAllocations and returns the data updated in the database.
+     * @param {TokenAllocationUpdateManyAndReturnArgs} args - Arguments to update many TokenAllocations.
+     * @example
+     * // Update many TokenAllocations
+     * const tokenAllocation = await prisma.tokenAllocation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TokenAllocations and only return the `id`
+     * const tokenAllocationWithIdOnly = await prisma.tokenAllocation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TokenAllocationUpdateManyAndReturnArgs>(args: SelectSubset<T, TokenAllocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TokenAllocation.
+     * @param {TokenAllocationUpsertArgs} args - Arguments to update or create a TokenAllocation.
+     * @example
+     * // Update or create a TokenAllocation
+     * const tokenAllocation = await prisma.tokenAllocation.upsert({
+     *   create: {
+     *     // ... data to create a TokenAllocation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TokenAllocation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TokenAllocationUpsertArgs>(args: SelectSubset<T, TokenAllocationUpsertArgs<ExtArgs>>): Prisma__TokenAllocationClient<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TokenAllocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationCountArgs} args - Arguments to filter TokenAllocations to count.
+     * @example
+     * // Count the number of TokenAllocations
+     * const count = await prisma.tokenAllocation.count({
+     *   where: {
+     *     // ... the filter for the TokenAllocations we want to count
+     *   }
+     * })
+    **/
+    count<T extends TokenAllocationCountArgs>(
+      args?: Subset<T, TokenAllocationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TokenAllocationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TokenAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TokenAllocationAggregateArgs>(args: Subset<T, TokenAllocationAggregateArgs>): Prisma.PrismaPromise<GetTokenAllocationAggregateType<T>>
+
+    /**
+     * Group by TokenAllocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokenAllocationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TokenAllocationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TokenAllocationGroupByArgs['orderBy'] }
+        : { orderBy?: TokenAllocationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TokenAllocationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTokenAllocationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TokenAllocation model
+   */
+  readonly fields: TokenAllocationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TokenAllocation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TokenAllocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    outcome<T extends OutcomeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OutcomeDefaultArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TokenAllocation model
+   */
+  interface TokenAllocationFieldRefs {
+    readonly id: FieldRef<"TokenAllocation", 'Int'>
+    readonly amount: FieldRef<"TokenAllocation", 'Decimal'>
+    readonly userId: FieldRef<"TokenAllocation", 'Int'>
+    readonly outcomeId: FieldRef<"TokenAllocation", 'Int'>
+    readonly createdAt: FieldRef<"TokenAllocation", 'DateTime'>
+    readonly updatedAt: FieldRef<"TokenAllocation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TokenAllocation findUnique
+   */
+  export type TokenAllocationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which TokenAllocation to fetch.
+     */
+    where: TokenAllocationWhereUniqueInput
+  }
+
+  /**
+   * TokenAllocation findUniqueOrThrow
+   */
+  export type TokenAllocationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which TokenAllocation to fetch.
+     */
+    where: TokenAllocationWhereUniqueInput
+  }
+
+  /**
+   * TokenAllocation findFirst
+   */
+  export type TokenAllocationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which TokenAllocation to fetch.
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TokenAllocations to fetch.
+     */
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TokenAllocations.
+     */
+    cursor?: TokenAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TokenAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TokenAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TokenAllocations.
+     */
+    distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * TokenAllocation findFirstOrThrow
+   */
+  export type TokenAllocationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which TokenAllocation to fetch.
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TokenAllocations to fetch.
+     */
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TokenAllocations.
+     */
+    cursor?: TokenAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TokenAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TokenAllocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TokenAllocations.
+     */
+    distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * TokenAllocation findMany
+   */
+  export type TokenAllocationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter, which TokenAllocations to fetch.
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TokenAllocations to fetch.
+     */
+    orderBy?: TokenAllocationOrderByWithRelationInput | TokenAllocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TokenAllocations.
+     */
+    cursor?: TokenAllocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TokenAllocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TokenAllocations.
+     */
+    skip?: number
+    distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * TokenAllocation create
+   */
+  export type TokenAllocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TokenAllocation.
+     */
+    data: XOR<TokenAllocationCreateInput, TokenAllocationUncheckedCreateInput>
+  }
+
+  /**
+   * TokenAllocation createMany
+   */
+  export type TokenAllocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TokenAllocations.
+     */
+    data: TokenAllocationCreateManyInput | TokenAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TokenAllocation createManyAndReturn
+   */
+  export type TokenAllocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to create many TokenAllocations.
+     */
+    data: TokenAllocationCreateManyInput | TokenAllocationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TokenAllocation update
+   */
+  export type TokenAllocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TokenAllocation.
+     */
+    data: XOR<TokenAllocationUpdateInput, TokenAllocationUncheckedUpdateInput>
+    /**
+     * Choose, which TokenAllocation to update.
+     */
+    where: TokenAllocationWhereUniqueInput
+  }
+
+  /**
+   * TokenAllocation updateMany
+   */
+  export type TokenAllocationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TokenAllocations.
+     */
+    data: XOR<TokenAllocationUpdateManyMutationInput, TokenAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which TokenAllocations to update
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * Limit how many TokenAllocations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TokenAllocation updateManyAndReturn
+   */
+  export type TokenAllocationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * The data used to update TokenAllocations.
+     */
+    data: XOR<TokenAllocationUpdateManyMutationInput, TokenAllocationUncheckedUpdateManyInput>
+    /**
+     * Filter which TokenAllocations to update
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * Limit how many TokenAllocations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TokenAllocation upsert
+   */
+  export type TokenAllocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TokenAllocation to update in case it exists.
+     */
+    where: TokenAllocationWhereUniqueInput
+    /**
+     * In case the TokenAllocation found by the `where` argument doesn't exist, create a new TokenAllocation with this data.
+     */
+    create: XOR<TokenAllocationCreateInput, TokenAllocationUncheckedCreateInput>
+    /**
+     * In case the TokenAllocation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TokenAllocationUpdateInput, TokenAllocationUncheckedUpdateInput>
+  }
+
+  /**
+   * TokenAllocation delete
+   */
+  export type TokenAllocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+    /**
+     * Filter which TokenAllocation to delete.
+     */
+    where: TokenAllocationWhereUniqueInput
+  }
+
+  /**
+   * TokenAllocation deleteMany
+   */
+  export type TokenAllocationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TokenAllocations to delete
+     */
+    where?: TokenAllocationWhereInput
+    /**
+     * Limit how many TokenAllocations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TokenAllocation without action
+   */
+  export type TokenAllocationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TokenAllocation
+     */
+    select?: TokenAllocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TokenAllocation
+     */
+    omit?: TokenAllocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TokenAllocationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Trade
+   */
+
+  export type AggregateTrade = {
+    _count: TradeCountAggregateOutputType | null
+    _avg: TradeAvgAggregateOutputType | null
+    _sum: TradeSumAggregateOutputType | null
+    _min: TradeMinAggregateOutputType | null
+    _max: TradeMaxAggregateOutputType | null
+  }
+
+  export type TradeAvgAggregateOutputType = {
+    id: number | null
+    order_size: Decimal | null
+    amount: Decimal | null
+    afterPrice: Decimal | null
+    marketID: number | null
+    outcomeId: number | null
+    userID: number | null
+  }
+
+  export type TradeSumAggregateOutputType = {
+    id: number | null
+    order_size: Decimal | null
+    amount: Decimal | null
+    afterPrice: Decimal | null
+    marketID: number | null
+    outcomeId: number | null
+    userID: number | null
+  }
+
+  export type TradeMinAggregateOutputType = {
+    id: number | null
+    unique_id: string | null
+    order_type: $Enums.OrderType | null
+    order_size: Decimal | null
+    amount: Decimal | null
+    afterPrice: Decimal | null
+    marketID: number | null
+    outcomeId: number | null
+    userID: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TradeMaxAggregateOutputType = {
+    id: number | null
+    unique_id: string | null
+    order_type: $Enums.OrderType | null
+    order_size: Decimal | null
+    amount: Decimal | null
+    afterPrice: Decimal | null
+    marketID: number | null
+    outcomeId: number | null
+    userID: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TradeCountAggregateOutputType = {
+    id: number
+    unique_id: number
+    order_type: number
+    order_size: number
+    amount: number
+    afterPrice: number
+    marketID: number
+    outcomeId: number
+    userID: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TradeAvgAggregateInputType = {
+    id?: true
+    order_size?: true
+    amount?: true
+    afterPrice?: true
+    marketID?: true
+    outcomeId?: true
+    userID?: true
+  }
+
+  export type TradeSumAggregateInputType = {
+    id?: true
+    order_size?: true
+    amount?: true
+    afterPrice?: true
+    marketID?: true
+    outcomeId?: true
+    userID?: true
+  }
+
+  export type TradeMinAggregateInputType = {
+    id?: true
+    unique_id?: true
+    order_type?: true
+    order_size?: true
+    amount?: true
+    afterPrice?: true
+    marketID?: true
+    outcomeId?: true
+    userID?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TradeMaxAggregateInputType = {
+    id?: true
+    unique_id?: true
+    order_type?: true
+    order_size?: true
+    amount?: true
+    afterPrice?: true
+    marketID?: true
+    outcomeId?: true
+    userID?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TradeCountAggregateInputType = {
+    id?: true
+    unique_id?: true
+    order_type?: true
+    order_size?: true
+    amount?: true
+    afterPrice?: true
+    marketID?: true
+    outcomeId?: true
+    userID?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TradeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Trade to aggregate.
+     */
+    where?: TradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Trades
+    **/
+    _count?: true | TradeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TradeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TradeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TradeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TradeMaxAggregateInputType
+  }
+
+  export type GetTradeAggregateType<T extends TradeAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrade]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrade[P]>
+      : GetScalarType<T[P], AggregateTrade[P]>
+  }
+
+
+
+
+  export type TradeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TradeWhereInput
+    orderBy?: TradeOrderByWithAggregationInput | TradeOrderByWithAggregationInput[]
+    by: TradeScalarFieldEnum[] | TradeScalarFieldEnum
+    having?: TradeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TradeCountAggregateInputType | true
+    _avg?: TradeAvgAggregateInputType
+    _sum?: TradeSumAggregateInputType
+    _min?: TradeMinAggregateInputType
+    _max?: TradeMaxAggregateInputType
+  }
+
+  export type TradeGroupByOutputType = {
+    id: number
+    unique_id: string
+    order_type: $Enums.OrderType
+    order_size: Decimal
+    amount: Decimal
+    afterPrice: Decimal
+    marketID: number | null
+    outcomeId: number | null
+    userID: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TradeCountAggregateOutputType | null
+    _avg: TradeAvgAggregateOutputType | null
+    _sum: TradeSumAggregateOutputType | null
+    _min: TradeMinAggregateOutputType | null
+    _max: TradeMaxAggregateOutputType | null
+  }
+
+  type GetTradeGroupByPayload<T extends TradeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TradeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TradeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TradeGroupByOutputType[P]>
+            : GetScalarType<T[P], TradeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TradeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unique_id?: boolean
+    order_type?: boolean
+    order_size?: boolean
+    amount?: boolean
+    afterPrice?: boolean
+    marketID?: boolean
+    outcomeId?: boolean
+    userID?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }, ExtArgs["result"]["trade"]>
+
+  export type TradeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unique_id?: boolean
+    order_type?: boolean
+    order_size?: boolean
+    amount?: boolean
+    afterPrice?: boolean
+    marketID?: boolean
+    outcomeId?: boolean
+    userID?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }, ExtArgs["result"]["trade"]>
+
+  export type TradeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    unique_id?: boolean
+    order_type?: boolean
+    order_size?: boolean
+    amount?: boolean
+    afterPrice?: boolean
+    marketID?: boolean
+    outcomeId?: boolean
+    userID?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }, ExtArgs["result"]["trade"]>
+
+  export type TradeSelectScalar = {
+    id?: boolean
+    unique_id?: boolean
+    order_type?: boolean
+    order_size?: boolean
+    amount?: boolean
+    afterPrice?: boolean
+    marketID?: boolean
+    outcomeId?: boolean
+    userID?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TradeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "unique_id" | "order_type" | "order_size" | "amount" | "afterPrice" | "marketID" | "outcomeId" | "userID" | "createdAt" | "updatedAt", ExtArgs["result"]["trade"]>
+  export type TradeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }
+  export type TradeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }
+  export type TradeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | Trade$marketArgs<ExtArgs>
+    outcome?: boolean | Trade$outcomeArgs<ExtArgs>
+    user?: boolean | Trade$userArgs<ExtArgs>
+  }
+
+  export type $TradePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Trade"
+    objects: {
+      market: Prisma.$MarketPayload<ExtArgs> | null
+      outcome: Prisma.$OutcomePayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      unique_id: string
+      order_type: $Enums.OrderType
+      order_size: Prisma.Decimal
+      amount: Prisma.Decimal
+      afterPrice: Prisma.Decimal
+      marketID: number | null
+      outcomeId: number | null
+      userID: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["trade"]>
+    composites: {}
+  }
+
+  type TradeGetPayload<S extends boolean | null | undefined | TradeDefaultArgs> = $Result.GetResult<Prisma.$TradePayload, S>
+
+  type TradeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TradeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TradeCountAggregateInputType | true
+    }
+
+  export interface TradeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Trade'], meta: { name: 'Trade' } }
+    /**
+     * Find zero or one Trade that matches the filter.
+     * @param {TradeFindUniqueArgs} args - Arguments to find a Trade
+     * @example
+     * // Get one Trade
+     * const trade = await prisma.trade.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TradeFindUniqueArgs>(args: SelectSubset<T, TradeFindUniqueArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Trade that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TradeFindUniqueOrThrowArgs} args - Arguments to find a Trade
+     * @example
+     * // Get one Trade
+     * const trade = await prisma.trade.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TradeFindUniqueOrThrowArgs>(args: SelectSubset<T, TradeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Trade that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeFindFirstArgs} args - Arguments to find a Trade
+     * @example
+     * // Get one Trade
+     * const trade = await prisma.trade.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TradeFindFirstArgs>(args?: SelectSubset<T, TradeFindFirstArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Trade that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeFindFirstOrThrowArgs} args - Arguments to find a Trade
+     * @example
+     * // Get one Trade
+     * const trade = await prisma.trade.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TradeFindFirstOrThrowArgs>(args?: SelectSubset<T, TradeFindFirstOrThrowArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Trades that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Trades
+     * const trades = await prisma.trade.findMany()
+     * 
+     * // Get first 10 Trades
+     * const trades = await prisma.trade.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tradeWithIdOnly = await prisma.trade.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TradeFindManyArgs>(args?: SelectSubset<T, TradeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Trade.
+     * @param {TradeCreateArgs} args - Arguments to create a Trade.
+     * @example
+     * // Create one Trade
+     * const Trade = await prisma.trade.create({
+     *   data: {
+     *     // ... data to create a Trade
+     *   }
+     * })
+     * 
+     */
+    create<T extends TradeCreateArgs>(args: SelectSubset<T, TradeCreateArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Trades.
+     * @param {TradeCreateManyArgs} args - Arguments to create many Trades.
+     * @example
+     * // Create many Trades
+     * const trade = await prisma.trade.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TradeCreateManyArgs>(args?: SelectSubset<T, TradeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Trades and returns the data saved in the database.
+     * @param {TradeCreateManyAndReturnArgs} args - Arguments to create many Trades.
+     * @example
+     * // Create many Trades
+     * const trade = await prisma.trade.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Trades and only return the `id`
+     * const tradeWithIdOnly = await prisma.trade.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TradeCreateManyAndReturnArgs>(args?: SelectSubset<T, TradeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Trade.
+     * @param {TradeDeleteArgs} args - Arguments to delete one Trade.
+     * @example
+     * // Delete one Trade
+     * const Trade = await prisma.trade.delete({
+     *   where: {
+     *     // ... filter to delete one Trade
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TradeDeleteArgs>(args: SelectSubset<T, TradeDeleteArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Trade.
+     * @param {TradeUpdateArgs} args - Arguments to update one Trade.
+     * @example
+     * // Update one Trade
+     * const trade = await prisma.trade.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TradeUpdateArgs>(args: SelectSubset<T, TradeUpdateArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Trades.
+     * @param {TradeDeleteManyArgs} args - Arguments to filter Trades to delete.
+     * @example
+     * // Delete a few Trades
+     * const { count } = await prisma.trade.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TradeDeleteManyArgs>(args?: SelectSubset<T, TradeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Trades
+     * const trade = await prisma.trade.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TradeUpdateManyArgs>(args: SelectSubset<T, TradeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Trades and returns the data updated in the database.
+     * @param {TradeUpdateManyAndReturnArgs} args - Arguments to update many Trades.
+     * @example
+     * // Update many Trades
+     * const trade = await prisma.trade.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Trades and only return the `id`
+     * const tradeWithIdOnly = await prisma.trade.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TradeUpdateManyAndReturnArgs>(args: SelectSubset<T, TradeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Trade.
+     * @param {TradeUpsertArgs} args - Arguments to update or create a Trade.
+     * @example
+     * // Update or create a Trade
+     * const trade = await prisma.trade.upsert({
+     *   create: {
+     *     // ... data to create a Trade
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Trade we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TradeUpsertArgs>(args: SelectSubset<T, TradeUpsertArgs<ExtArgs>>): Prisma__TradeClient<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Trades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeCountArgs} args - Arguments to filter Trades to count.
+     * @example
+     * // Count the number of Trades
+     * const count = await prisma.trade.count({
+     *   where: {
+     *     // ... the filter for the Trades we want to count
+     *   }
+     * })
+    **/
+    count<T extends TradeCountArgs>(
+      args?: Subset<T, TradeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TradeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Trade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TradeAggregateArgs>(args: Subset<T, TradeAggregateArgs>): Prisma.PrismaPromise<GetTradeAggregateType<T>>
+
+    /**
+     * Group by Trade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TradeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TradeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TradeGroupByArgs['orderBy'] }
+        : { orderBy?: TradeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TradeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTradeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Trade model
+   */
+  readonly fields: TradeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Trade.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TradeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    market<T extends Trade$marketArgs<ExtArgs> = {}>(args?: Subset<T, Trade$marketArgs<ExtArgs>>): Prisma__MarketClient<$Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    outcome<T extends Trade$outcomeArgs<ExtArgs> = {}>(args?: Subset<T, Trade$outcomeArgs<ExtArgs>>): Prisma__OutcomeClient<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends Trade$userArgs<ExtArgs> = {}>(args?: Subset<T, Trade$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Trade model
+   */
+  interface TradeFieldRefs {
+    readonly id: FieldRef<"Trade", 'Int'>
+    readonly unique_id: FieldRef<"Trade", 'String'>
+    readonly order_type: FieldRef<"Trade", 'OrderType'>
+    readonly order_size: FieldRef<"Trade", 'Decimal'>
+    readonly amount: FieldRef<"Trade", 'Decimal'>
+    readonly afterPrice: FieldRef<"Trade", 'Decimal'>
+    readonly marketID: FieldRef<"Trade", 'Int'>
+    readonly outcomeId: FieldRef<"Trade", 'Int'>
+    readonly userID: FieldRef<"Trade", 'Int'>
+    readonly createdAt: FieldRef<"Trade", 'DateTime'>
+    readonly updatedAt: FieldRef<"Trade", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Trade findUnique
+   */
+  export type TradeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Trade to fetch.
+     */
+    where: TradeWhereUniqueInput
+  }
+
+  /**
+   * Trade findUniqueOrThrow
+   */
+  export type TradeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Trade to fetch.
+     */
+    where: TradeWhereUniqueInput
+  }
+
+  /**
+   * Trade findFirst
+   */
+  export type TradeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Trade to fetch.
+     */
+    where?: TradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trades.
+     */
+    cursor?: TradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trades.
+     */
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * Trade findFirstOrThrow
+   */
+  export type TradeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Trade to fetch.
+     */
+    where?: TradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trades.
+     */
+    cursor?: TradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trades.
+     */
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * Trade findMany
+   */
+  export type TradeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Trades to fetch.
+     */
+    where?: TradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trades to fetch.
+     */
+    orderBy?: TradeOrderByWithRelationInput | TradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Trades.
+     */
+    cursor?: TradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trades.
+     */
+    skip?: number
+    distinct?: TradeScalarFieldEnum | TradeScalarFieldEnum[]
+  }
+
+  /**
+   * Trade create
+   */
+  export type TradeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Trade.
+     */
+    data: XOR<TradeCreateInput, TradeUncheckedCreateInput>
+  }
+
+  /**
+   * Trade createMany
+   */
+  export type TradeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Trades.
+     */
+    data: TradeCreateManyInput | TradeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Trade createManyAndReturn
+   */
+  export type TradeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * The data used to create many Trades.
+     */
+    data: TradeCreateManyInput | TradeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Trade update
+   */
+  export type TradeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Trade.
+     */
+    data: XOR<TradeUpdateInput, TradeUncheckedUpdateInput>
+    /**
+     * Choose, which Trade to update.
+     */
+    where: TradeWhereUniqueInput
+  }
+
+  /**
+   * Trade updateMany
+   */
+  export type TradeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Trades.
+     */
+    data: XOR<TradeUpdateManyMutationInput, TradeUncheckedUpdateManyInput>
+    /**
+     * Filter which Trades to update
+     */
+    where?: TradeWhereInput
+    /**
+     * Limit how many Trades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Trade updateManyAndReturn
+   */
+  export type TradeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * The data used to update Trades.
+     */
+    data: XOR<TradeUpdateManyMutationInput, TradeUncheckedUpdateManyInput>
+    /**
+     * Filter which Trades to update
+     */
+    where?: TradeWhereInput
+    /**
+     * Limit how many Trades to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Trade upsert
+   */
+  export type TradeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Trade to update in case it exists.
+     */
+    where: TradeWhereUniqueInput
+    /**
+     * In case the Trade found by the `where` argument doesn't exist, create a new Trade with this data.
+     */
+    create: XOR<TradeCreateInput, TradeUncheckedCreateInput>
+    /**
+     * In case the Trade was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TradeUpdateInput, TradeUncheckedUpdateInput>
+  }
+
+  /**
+   * Trade delete
+   */
+  export type TradeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
+    /**
+     * Filter which Trade to delete.
+     */
+    where: TradeWhereUniqueInput
+  }
+
+  /**
+   * Trade deleteMany
+   */
+  export type TradeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Trades to delete
+     */
+    where?: TradeWhereInput
+    /**
+     * Limit how many Trades to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Trade.market
+   */
+  export type Trade$marketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Market
+     */
+    select?: MarketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Market
+     */
+    omit?: MarketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketInclude<ExtArgs> | null
+    where?: MarketWhereInput
+  }
+
+  /**
+   * Trade.outcome
+   */
+  export type Trade$outcomeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Outcome
+     */
+    select?: OutcomeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Outcome
+     */
+    omit?: OutcomeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutcomeInclude<ExtArgs> | null
+    where?: OutcomeWhereInput
+  }
+
+  /**
+   * Trade.user
+   */
+  export type Trade$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Trade without action
+   */
+  export type TradeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trade
+     */
+    select?: TradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trade
+     */
+    omit?: TradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TradeInclude<ExtArgs> | null
   }
 
 
@@ -4682,26 +7501,57 @@ export namespace Prisma {
     question: 'question',
     expiry_date: 'expiry_date',
     image: 'image',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
     tags: 'tags',
-    creatorId: 'creatorId'
+    status: 'status',
+    outcomeWon: 'outcomeWon',
+    creatorId: 'creatorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type MarketScalarFieldEnum = (typeof MarketScalarFieldEnum)[keyof typeof MarketScalarFieldEnum]
 
 
-  export const VoteScalarFieldEnum: {
+  export const OutcomeScalarFieldEnum: {
     id: 'id',
-    amount: 'amount',
+    outcome_title: 'outcome_title',
+    current_supply: 'current_supply',
+    total_liquidity: 'total_liquidity',
+    marketID: 'marketID',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    voteType: 'voteType',
-    userId: 'userId',
-    marketId: 'marketId'
+    updatedAt: 'updatedAt'
   };
 
-  export type VoteScalarFieldEnum = (typeof VoteScalarFieldEnum)[keyof typeof VoteScalarFieldEnum]
+  export type OutcomeScalarFieldEnum = (typeof OutcomeScalarFieldEnum)[keyof typeof OutcomeScalarFieldEnum]
+
+
+  export const TokenAllocationScalarFieldEnum: {
+    id: 'id',
+    amount: 'amount',
+    userId: 'userId',
+    outcomeId: 'outcomeId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TokenAllocationScalarFieldEnum = (typeof TokenAllocationScalarFieldEnum)[keyof typeof TokenAllocationScalarFieldEnum]
+
+
+  export const TradeScalarFieldEnum: {
+    id: 'id',
+    unique_id: 'unique_id',
+    order_type: 'order_type',
+    order_size: 'order_size',
+    amount: 'amount',
+    afterPrice: 'afterPrice',
+    marketID: 'marketID',
+    outcomeId: 'outcomeId',
+    userID: 'userID',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4790,6 +7640,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'EventStatus'
+   */
+  export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'EventStatus[]'
+   */
+  export type ListEnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderType'
+   */
+  export type EnumOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderType'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderType[]'
+   */
+  export type ListEnumOrderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -4800,20 +7692,6 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'VoteType'
-   */
-  export type EnumVoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VoteType'>
-    
-
-
-  /**
-   * Reference to a field of type 'VoteType[]'
-   */
-  export type ListEnumVoteTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VoteType[]'>
     
   /**
    * Deep Input Types
@@ -4832,8 +7710,9 @@ export namespace Prisma {
     profile_pic?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    votes?: VoteListRelationFilter
     markets?: MarketListRelationFilter
+    trades?: TradeListRelationFilter
+    token_allocated?: TokenAllocationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4845,8 +7724,9 @@ export namespace Prisma {
     profile_pic?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    votes?: VoteOrderByRelationAggregateInput
     markets?: MarketOrderByRelationAggregateInput
+    trades?: TradeOrderByRelationAggregateInput
+    token_allocated?: TokenAllocationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4861,8 +7741,9 @@ export namespace Prisma {
     profile_pic?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    votes?: VoteListRelationFilter
     markets?: MarketListRelationFilter
+    trades?: TradeListRelationFilter
+    token_allocated?: TokenAllocationListRelationFilter
   }, "id" | "username" | "wallet_address">
 
   export type UserOrderByWithAggregationInput = {
@@ -4905,12 +7786,15 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    tags?: StringNullableListFilter<"Market">
+    status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
+    outcomeWon?: IntNullableFilter<"Market"> | number | null
+    creatorId?: IntFilter<"Market"> | number
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
-    tags?: StringNullableListFilter<"Market">
-    creatorId?: IntFilter<"Market"> | number
-    votes?: VoteListRelationFilter
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trades?: TradeListRelationFilter
+    outcome?: OutcomeListRelationFilter
   }
 
   export type MarketOrderByWithRelationInput = {
@@ -4920,12 +7804,15 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    outcomeWon?: SortOrderInput | SortOrder
+    creatorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    tags?: SortOrder
-    creatorId?: SortOrder
-    votes?: VoteOrderByRelationAggregateInput
     creator?: UserOrderByWithRelationInput
+    trades?: TradeOrderByRelationAggregateInput
+    outcome?: OutcomeOrderByRelationAggregateInput
   }
 
   export type MarketWhereUniqueInput = Prisma.AtLeast<{
@@ -4938,12 +7825,15 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    tags?: StringNullableListFilter<"Market">
+    status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
+    outcomeWon?: IntNullableFilter<"Market"> | number | null
+    creatorId?: IntFilter<"Market"> | number
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
-    tags?: StringNullableListFilter<"Market">
-    creatorId?: IntFilter<"Market"> | number
-    votes?: VoteListRelationFilter
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trades?: TradeListRelationFilter
+    outcome?: OutcomeListRelationFilter
   }, "id">
 
   export type MarketOrderByWithAggregationInput = {
@@ -4953,10 +7843,12 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    outcomeWon?: SortOrderInput | SortOrder
+    creatorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    tags?: SortOrder
-    creatorId?: SortOrder
     _count?: MarketCountOrderByAggregateInput
     _avg?: MarketAvgOrderByAggregateInput
     _max?: MarketMaxOrderByAggregateInput
@@ -4974,80 +7866,244 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"Market"> | string
     expiry_date?: DateTimeWithAggregatesFilter<"Market"> | Date | string
     image?: StringNullableWithAggregatesFilter<"Market"> | string | null
+    tags?: StringNullableListFilter<"Market">
+    status?: EnumEventStatusWithAggregatesFilter<"Market"> | $Enums.EventStatus
+    outcomeWon?: IntNullableWithAggregatesFilter<"Market"> | number | null
+    creatorId?: IntWithAggregatesFilter<"Market"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Market"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Market"> | Date | string
-    tags?: StringNullableListFilter<"Market">
-    creatorId?: IntWithAggregatesFilter<"Market"> | number
   }
 
-  export type VoteWhereInput = {
-    AND?: VoteWhereInput | VoteWhereInput[]
-    OR?: VoteWhereInput[]
-    NOT?: VoteWhereInput | VoteWhereInput[]
-    id?: IntFilter<"Vote"> | number
-    amount?: FloatFilter<"Vote"> | number
-    createdAt?: DateTimeFilter<"Vote"> | Date | string
-    updatedAt?: DateTimeFilter<"Vote"> | Date | string
-    voteType?: EnumVoteTypeFilter<"Vote"> | $Enums.VoteType
-    userId?: IntFilter<"Vote"> | number
-    marketId?: IntFilter<"Vote"> | number
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type OutcomeWhereInput = {
+    AND?: OutcomeWhereInput | OutcomeWhereInput[]
+    OR?: OutcomeWhereInput[]
+    NOT?: OutcomeWhereInput | OutcomeWhereInput[]
+    id?: IntFilter<"Outcome"> | number
+    outcome_title?: StringFilter<"Outcome"> | string
+    current_supply?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntFilter<"Outcome"> | number
+    createdAt?: DateTimeFilter<"Outcome"> | Date | string
+    updatedAt?: DateTimeFilter<"Outcome"> | Date | string
     market?: XOR<MarketScalarRelationFilter, MarketWhereInput>
+    tokenAllocations?: TokenAllocationListRelationFilter
+    trades?: TradeListRelationFilter
   }
 
-  export type VoteOrderByWithRelationInput = {
+  export type OutcomeOrderByWithRelationInput = {
     id?: SortOrder
-    amount?: SortOrder
+    outcome_title?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    voteType?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
-    user?: UserOrderByWithRelationInput
     market?: MarketOrderByWithRelationInput
+    tokenAllocations?: TokenAllocationOrderByRelationAggregateInput
+    trades?: TradeOrderByRelationAggregateInput
   }
 
-  export type VoteWhereUniqueInput = Prisma.AtLeast<{
+  export type OutcomeWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    AND?: VoteWhereInput | VoteWhereInput[]
-    OR?: VoteWhereInput[]
-    NOT?: VoteWhereInput | VoteWhereInput[]
-    amount?: FloatFilter<"Vote"> | number
-    createdAt?: DateTimeFilter<"Vote"> | Date | string
-    updatedAt?: DateTimeFilter<"Vote"> | Date | string
-    voteType?: EnumVoteTypeFilter<"Vote"> | $Enums.VoteType
-    userId?: IntFilter<"Vote"> | number
-    marketId?: IntFilter<"Vote"> | number
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    AND?: OutcomeWhereInput | OutcomeWhereInput[]
+    OR?: OutcomeWhereInput[]
+    NOT?: OutcomeWhereInput | OutcomeWhereInput[]
+    outcome_title?: StringFilter<"Outcome"> | string
+    current_supply?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntFilter<"Outcome"> | number
+    createdAt?: DateTimeFilter<"Outcome"> | Date | string
+    updatedAt?: DateTimeFilter<"Outcome"> | Date | string
     market?: XOR<MarketScalarRelationFilter, MarketWhereInput>
+    tokenAllocations?: TokenAllocationListRelationFilter
+    trades?: TradeListRelationFilter
   }, "id">
 
-  export type VoteOrderByWithAggregationInput = {
+  export type OutcomeOrderByWithAggregationInput = {
     id?: SortOrder
-    amount?: SortOrder
+    outcome_title?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    voteType?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
-    _count?: VoteCountOrderByAggregateInput
-    _avg?: VoteAvgOrderByAggregateInput
-    _max?: VoteMaxOrderByAggregateInput
-    _min?: VoteMinOrderByAggregateInput
-    _sum?: VoteSumOrderByAggregateInput
+    _count?: OutcomeCountOrderByAggregateInput
+    _avg?: OutcomeAvgOrderByAggregateInput
+    _max?: OutcomeMaxOrderByAggregateInput
+    _min?: OutcomeMinOrderByAggregateInput
+    _sum?: OutcomeSumOrderByAggregateInput
   }
 
-  export type VoteScalarWhereWithAggregatesInput = {
-    AND?: VoteScalarWhereWithAggregatesInput | VoteScalarWhereWithAggregatesInput[]
-    OR?: VoteScalarWhereWithAggregatesInput[]
-    NOT?: VoteScalarWhereWithAggregatesInput | VoteScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Vote"> | number
-    amount?: FloatWithAggregatesFilter<"Vote"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"Vote"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Vote"> | Date | string
-    voteType?: EnumVoteTypeWithAggregatesFilter<"Vote"> | $Enums.VoteType
-    userId?: IntWithAggregatesFilter<"Vote"> | number
-    marketId?: IntWithAggregatesFilter<"Vote"> | number
+  export type OutcomeScalarWhereWithAggregatesInput = {
+    AND?: OutcomeScalarWhereWithAggregatesInput | OutcomeScalarWhereWithAggregatesInput[]
+    OR?: OutcomeScalarWhereWithAggregatesInput[]
+    NOT?: OutcomeScalarWhereWithAggregatesInput | OutcomeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Outcome"> | number
+    outcome_title?: StringWithAggregatesFilter<"Outcome"> | string
+    current_supply?: DecimalWithAggregatesFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalWithAggregatesFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntWithAggregatesFilter<"Outcome"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Outcome"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Outcome"> | Date | string
+  }
+
+  export type TokenAllocationWhereInput = {
+    AND?: TokenAllocationWhereInput | TokenAllocationWhereInput[]
+    OR?: TokenAllocationWhereInput[]
+    NOT?: TokenAllocationWhereInput | TokenAllocationWhereInput[]
+    id?: IntFilter<"TokenAllocation"> | number
+    amount?: DecimalFilter<"TokenAllocation"> | Decimal | DecimalJsLike | number | string
+    userId?: IntFilter<"TokenAllocation"> | number
+    outcomeId?: IntFilter<"TokenAllocation"> | number
+    createdAt?: DateTimeFilter<"TokenAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"TokenAllocation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    outcome?: XOR<OutcomeScalarRelationFilter, OutcomeWhereInput>
+  }
+
+  export type TokenAllocationOrderByWithRelationInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    outcome?: OutcomeOrderByWithRelationInput
+  }
+
+  export type TokenAllocationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId_outcomeId?: TokenAllocationUserIdOutcomeIdCompoundUniqueInput
+    AND?: TokenAllocationWhereInput | TokenAllocationWhereInput[]
+    OR?: TokenAllocationWhereInput[]
+    NOT?: TokenAllocationWhereInput | TokenAllocationWhereInput[]
+    amount?: DecimalFilter<"TokenAllocation"> | Decimal | DecimalJsLike | number | string
+    userId?: IntFilter<"TokenAllocation"> | number
+    outcomeId?: IntFilter<"TokenAllocation"> | number
+    createdAt?: DateTimeFilter<"TokenAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"TokenAllocation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    outcome?: XOR<OutcomeScalarRelationFilter, OutcomeWhereInput>
+  }, "id" | "userId_outcomeId">
+
+  export type TokenAllocationOrderByWithAggregationInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TokenAllocationCountOrderByAggregateInput
+    _avg?: TokenAllocationAvgOrderByAggregateInput
+    _max?: TokenAllocationMaxOrderByAggregateInput
+    _min?: TokenAllocationMinOrderByAggregateInput
+    _sum?: TokenAllocationSumOrderByAggregateInput
+  }
+
+  export type TokenAllocationScalarWhereWithAggregatesInput = {
+    AND?: TokenAllocationScalarWhereWithAggregatesInput | TokenAllocationScalarWhereWithAggregatesInput[]
+    OR?: TokenAllocationScalarWhereWithAggregatesInput[]
+    NOT?: TokenAllocationScalarWhereWithAggregatesInput | TokenAllocationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TokenAllocation"> | number
+    amount?: DecimalWithAggregatesFilter<"TokenAllocation"> | Decimal | DecimalJsLike | number | string
+    userId?: IntWithAggregatesFilter<"TokenAllocation"> | number
+    outcomeId?: IntWithAggregatesFilter<"TokenAllocation"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"TokenAllocation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TokenAllocation"> | Date | string
+  }
+
+  export type TradeWhereInput = {
+    AND?: TradeWhereInput | TradeWhereInput[]
+    OR?: TradeWhereInput[]
+    NOT?: TradeWhereInput | TradeWhereInput[]
+    id?: IntFilter<"Trade"> | number
+    unique_id?: StringFilter<"Trade"> | string
+    order_type?: EnumOrderTypeFilter<"Trade"> | $Enums.OrderType
+    order_size?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntNullableFilter<"Trade"> | number | null
+    outcomeId?: IntNullableFilter<"Trade"> | number | null
+    userID?: IntNullableFilter<"Trade"> | number | null
+    createdAt?: DateTimeFilter<"Trade"> | Date | string
+    updatedAt?: DateTimeFilter<"Trade"> | Date | string
+    market?: XOR<MarketNullableScalarRelationFilter, MarketWhereInput> | null
+    outcome?: XOR<OutcomeNullableScalarRelationFilter, OutcomeWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type TradeOrderByWithRelationInput = {
+    id?: SortOrder
+    unique_id?: SortOrder
+    order_type?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrderInput | SortOrder
+    outcomeId?: SortOrderInput | SortOrder
+    userID?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    market?: MarketOrderByWithRelationInput
+    outcome?: OutcomeOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TradeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TradeWhereInput | TradeWhereInput[]
+    OR?: TradeWhereInput[]
+    NOT?: TradeWhereInput | TradeWhereInput[]
+    unique_id?: StringFilter<"Trade"> | string
+    order_type?: EnumOrderTypeFilter<"Trade"> | $Enums.OrderType
+    order_size?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntNullableFilter<"Trade"> | number | null
+    outcomeId?: IntNullableFilter<"Trade"> | number | null
+    userID?: IntNullableFilter<"Trade"> | number | null
+    createdAt?: DateTimeFilter<"Trade"> | Date | string
+    updatedAt?: DateTimeFilter<"Trade"> | Date | string
+    market?: XOR<MarketNullableScalarRelationFilter, MarketWhereInput> | null
+    outcome?: XOR<OutcomeNullableScalarRelationFilter, OutcomeWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type TradeOrderByWithAggregationInput = {
+    id?: SortOrder
+    unique_id?: SortOrder
+    order_type?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrderInput | SortOrder
+    outcomeId?: SortOrderInput | SortOrder
+    userID?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TradeCountOrderByAggregateInput
+    _avg?: TradeAvgOrderByAggregateInput
+    _max?: TradeMaxOrderByAggregateInput
+    _min?: TradeMinOrderByAggregateInput
+    _sum?: TradeSumOrderByAggregateInput
+  }
+
+  export type TradeScalarWhereWithAggregatesInput = {
+    AND?: TradeScalarWhereWithAggregatesInput | TradeScalarWhereWithAggregatesInput[]
+    OR?: TradeScalarWhereWithAggregatesInput[]
+    NOT?: TradeScalarWhereWithAggregatesInput | TradeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Trade"> | number
+    unique_id?: StringWithAggregatesFilter<"Trade"> | string
+    order_type?: EnumOrderTypeWithAggregatesFilter<"Trade"> | $Enums.OrderType
+    order_size?: DecimalWithAggregatesFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    amount?: DecimalWithAggregatesFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalWithAggregatesFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntNullableWithAggregatesFilter<"Trade"> | number | null
+    outcomeId?: IntNullableWithAggregatesFilter<"Trade"> | number | null
+    userID?: IntNullableWithAggregatesFilter<"Trade"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Trade"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Trade"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -5058,8 +8114,9 @@ export namespace Prisma {
     profile_pic?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    votes?: VoteCreateNestedManyWithoutUserInput
     markets?: MarketCreateNestedManyWithoutCreatorInput
+    trades?: TradeCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -5071,8 +8128,9 @@ export namespace Prisma {
     profile_pic?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
     markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
+    trades?: TradeUncheckedCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -5083,8 +8141,9 @@ export namespace Prisma {
     profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    votes?: VoteUpdateManyWithoutUserNestedInput
     markets?: MarketUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUpdateManyWithoutUserNestedInput
+    token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5096,8 +8155,9 @@ export namespace Prisma {
     profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
     markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
+    token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -5138,11 +8198,14 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    votes?: VoteCreateNestedManyWithoutMarketInput
     creator: UserCreateNestedOneWithoutMarketsInput
+    trades?: TradeCreateNestedManyWithoutMarketInput
+    outcome?: OutcomeCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUncheckedCreateInput = {
@@ -5152,11 +8215,14 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    creatorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    creatorId: number
-    votes?: VoteUncheckedCreateNestedManyWithoutMarketInput
+    trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
+    outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUpdateInput = {
@@ -5165,11 +8231,14 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
-    votes?: VoteUpdateManyWithoutMarketNestedInput
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    trades?: TradeUpdateManyWithoutMarketNestedInput
+    outcome?: OutcomeUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketUncheckedUpdateInput = {
@@ -5179,11 +8248,14 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    creatorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
-    creatorId?: IntFieldUpdateOperationsInput | number
-    votes?: VoteUncheckedUpdateManyWithoutMarketNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
+    outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketCreateManyInput = {
@@ -5193,10 +8265,12 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    creatorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    creatorId: number
   }
 
   export type MarketUpdateManyMutationInput = {
@@ -5205,9 +8279,11 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
   }
 
   export type MarketUncheckedUpdateManyInput = {
@@ -5217,75 +8293,236 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     creatorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VoteCreateInput = {
-    amount: number
+  export type OutcomeCreateInput = {
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    user: UserCreateNestedOneWithoutVotesInput
-    market: MarketCreateNestedOneWithoutVotesInput
+    market: MarketCreateNestedOneWithoutOutcomeInput
+    tokenAllocations?: TokenAllocationCreateNestedManyWithoutOutcomeInput
+    trades?: TradeCreateNestedManyWithoutOutcomeInput
   }
 
-  export type VoteUncheckedCreateInput = {
+  export type OutcomeUncheckedCreateInput = {
     id?: number
-    amount: number
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    marketID: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    userId: number
-    marketId: number
+    tokenAllocations?: TokenAllocationUncheckedCreateNestedManyWithoutOutcomeInput
+    trades?: TradeUncheckedCreateNestedManyWithoutOutcomeInput
   }
 
-  export type VoteUpdateInput = {
-    amount?: FloatFieldUpdateOperationsInput | number
+  export type OutcomeUpdateInput = {
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    user?: UserUpdateOneRequiredWithoutVotesNestedInput
-    market?: MarketUpdateOneRequiredWithoutVotesNestedInput
+    market?: MarketUpdateOneRequiredWithoutOutcomeNestedInput
+    tokenAllocations?: TokenAllocationUpdateManyWithoutOutcomeNestedInput
+    trades?: TradeUpdateManyWithoutOutcomeNestedInput
   }
 
-  export type VoteUncheckedUpdateInput = {
+  export type OutcomeUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    userId?: IntFieldUpdateOperationsInput | number
-    marketId?: IntFieldUpdateOperationsInput | number
+    tokenAllocations?: TokenAllocationUncheckedUpdateManyWithoutOutcomeNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutOutcomeNestedInput
   }
 
-  export type VoteCreateManyInput = {
+  export type OutcomeCreateManyInput = {
     id?: number
-    amount: number
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    marketID: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    userId: number
-    marketId: number
   }
 
-  export type VoteUpdateManyMutationInput = {
-    amount?: FloatFieldUpdateOperationsInput | number
+  export type OutcomeUpdateManyMutationInput = {
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
   }
 
-  export type VoteUncheckedUpdateManyInput = {
+  export type OutcomeUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
+  }
+
+  export type TokenAllocationCreateInput = {
+    amount: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutToken_allocatedInput
+    outcome: OutcomeCreateNestedOneWithoutTokenAllocationsInput
+  }
+
+  export type TokenAllocationUncheckedCreateInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
+    userId: number
+    outcomeId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TokenAllocationUpdateInput = {
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutToken_allocatedNestedInput
+    outcome?: OutcomeUpdateOneRequiredWithoutTokenAllocationsNestedInput
+  }
+
+  export type TokenAllocationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     userId?: IntFieldUpdateOperationsInput | number
-    marketId?: IntFieldUpdateOperationsInput | number
+    outcomeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TokenAllocationCreateManyInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
+    userId: number
+    outcomeId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TokenAllocationUpdateManyMutationInput = {
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TokenAllocationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
+    outcomeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeCreateInput = {
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    market?: MarketCreateNestedOneWithoutTradesInput
+    outcome?: OutcomeCreateNestedOneWithoutTradesInput
+    user?: UserCreateNestedOneWithoutTradesInput
+  }
+
+  export type TradeUncheckedCreateInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    outcomeId?: number | null
+    userID?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TradeUpdateInput = {
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    market?: MarketUpdateOneWithoutTradesNestedInput
+    outcome?: OutcomeUpdateOneWithoutTradesNestedInput
+    user?: UserUpdateOneWithoutTradesNestedInput
+  }
+
+  export type TradeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeCreateManyInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    outcomeId?: number | null
+    userID?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TradeUpdateManyMutationInput = {
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -5347,16 +8584,22 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type VoteListRelationFilter = {
-    every?: VoteWhereInput
-    some?: VoteWhereInput
-    none?: VoteWhereInput
-  }
-
   export type MarketListRelationFilter = {
     every?: MarketWhereInput
     some?: MarketWhereInput
     none?: MarketWhereInput
+  }
+
+  export type TradeListRelationFilter = {
+    every?: TradeWhereInput
+    some?: TradeWhereInput
+    none?: TradeWhereInput
+  }
+
+  export type TokenAllocationListRelationFilter = {
+    every?: TokenAllocationWhereInput
+    some?: TokenAllocationWhereInput
+    none?: TokenAllocationWhereInput
   }
 
   export type SortOrderInput = {
@@ -5364,11 +8607,15 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type VoteOrderByRelationAggregateInput = {
+  export type MarketOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type MarketOrderByRelationAggregateInput = {
+  export type TradeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TokenAllocationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5497,9 +8744,37 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type OutcomeListRelationFilter = {
+    every?: OutcomeWhereInput
+    some?: OutcomeWhereInput
+    none?: OutcomeWhereInput
+  }
+
+  export type OutcomeOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type MarketCountOrderByAggregateInput = {
@@ -5509,14 +8784,17 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    tags?: SortOrder
+    status?: SortOrder
+    outcomeWon?: SortOrder
+    creatorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    tags?: SortOrder
-    creatorId?: SortOrder
   }
 
   export type MarketAvgOrderByAggregateInput = {
     id?: SortOrder
+    outcomeWon?: SortOrder
     creatorId?: SortOrder
   }
 
@@ -5527,9 +8805,11 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    status?: SortOrder
+    outcomeWon?: SortOrder
+    creatorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    creatorId?: SortOrder
   }
 
   export type MarketMinOrderByAggregateInput = {
@@ -5539,32 +8819,54 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    status?: SortOrder
+    outcomeWon?: SortOrder
+    creatorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    creatorId?: SortOrder
   }
 
   export type MarketSumOrderByAggregateInput = {
     id?: SortOrder
+    outcomeWon?: SortOrder
     creatorId?: SortOrder
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+  export type EnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.EventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumEventStatusFilter<$PrismaModel>
   }
 
-  export type EnumVoteTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.VoteType | EnumVoteTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumVoteTypeFilter<$PrismaModel> | $Enums.VoteType
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type MarketScalarRelationFilter = {
@@ -5572,81 +8874,209 @@ export namespace Prisma {
     isNot?: MarketWhereInput
   }
 
-  export type VoteCountOrderByAggregateInput = {
+  export type OutcomeCountOrderByAggregateInput = {
     id?: SortOrder
-    amount?: SortOrder
+    outcome_title?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    voteType?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
   }
 
-  export type VoteAvgOrderByAggregateInput = {
+  export type OutcomeAvgOrderByAggregateInput = {
     id?: SortOrder
-    amount?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
   }
 
-  export type VoteMaxOrderByAggregateInput = {
+  export type OutcomeMaxOrderByAggregateInput = {
     id?: SortOrder
-    amount?: SortOrder
+    outcome_title?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    voteType?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
   }
 
-  export type VoteMinOrderByAggregateInput = {
+  export type OutcomeMinOrderByAggregateInput = {
     id?: SortOrder
-    amount?: SortOrder
+    outcome_title?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    voteType?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
   }
 
-  export type VoteSumOrderByAggregateInput = {
+  export type OutcomeSumOrderByAggregateInput = {
     id?: SortOrder
-    amount?: SortOrder
-    userId?: SortOrder
-    marketId?: SortOrder
+    current_supply?: SortOrder
+    total_liquidity?: SortOrder
+    marketID?: SortOrder
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type EnumVoteTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.VoteType | EnumVoteTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumVoteTypeWithAggregatesFilter<$PrismaModel> | $Enums.VoteType
+  export type OutcomeScalarRelationFilter = {
+    is?: OutcomeWhereInput
+    isNot?: OutcomeWhereInput
+  }
+
+  export type TokenAllocationUserIdOutcomeIdCompoundUniqueInput = {
+    userId: number
+    outcomeId: number
+  }
+
+  export type TokenAllocationCountOrderByAggregateInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TokenAllocationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+  }
+
+  export type TokenAllocationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TokenAllocationMinOrderByAggregateInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TokenAllocationSumOrderByAggregateInput = {
+    id?: SortOrder
+    amount?: SortOrder
+    userId?: SortOrder
+    outcomeId?: SortOrder
+  }
+
+  export type EnumOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeFilter<$PrismaModel> | $Enums.OrderType
+  }
+
+  export type MarketNullableScalarRelationFilter = {
+    is?: MarketWhereInput | null
+    isNot?: MarketWhereInput | null
+  }
+
+  export type OutcomeNullableScalarRelationFilter = {
+    is?: OutcomeWhereInput | null
+    isNot?: OutcomeWhereInput | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type TradeCountOrderByAggregateInput = {
+    id?: SortOrder
+    unique_id?: SortOrder
+    order_type?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrder
+    outcomeId?: SortOrder
+    userID?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TradeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrder
+    outcomeId?: SortOrder
+    userID?: SortOrder
+  }
+
+  export type TradeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    unique_id?: SortOrder
+    order_type?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrder
+    outcomeId?: SortOrder
+    userID?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TradeMinOrderByAggregateInput = {
+    id?: SortOrder
+    unique_id?: SortOrder
+    order_type?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrder
+    outcomeId?: SortOrder
+    userID?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TradeSumOrderByAggregateInput = {
+    id?: SortOrder
+    order_size?: SortOrder
+    amount?: SortOrder
+    afterPrice?: SortOrder
+    marketID?: SortOrder
+    outcomeId?: SortOrder
+    userID?: SortOrder
+  }
+
+  export type EnumOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.OrderType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumVoteTypeFilter<$PrismaModel>
-    _max?: NestedEnumVoteTypeFilter<$PrismaModel>
-  }
-
-  export type VoteCreateNestedManyWithoutUserInput = {
-    create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
-    createMany?: VoteCreateManyUserInputEnvelope
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+    _min?: NestedEnumOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumOrderTypeFilter<$PrismaModel>
   }
 
   export type MarketCreateNestedManyWithoutCreatorInput = {
@@ -5656,11 +9086,18 @@ export namespace Prisma {
     connect?: MarketWhereUniqueInput | MarketWhereUniqueInput[]
   }
 
-  export type VoteUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
-    createMany?: VoteCreateManyUserInputEnvelope
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  export type TradeCreateNestedManyWithoutUserInput = {
+    create?: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput> | TradeCreateWithoutUserInput[] | TradeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutUserInput | TradeCreateOrConnectWithoutUserInput[]
+    createMany?: TradeCreateManyUserInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type TokenAllocationCreateNestedManyWithoutUserInput = {
+    create?: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput> | TokenAllocationCreateWithoutUserInput[] | TokenAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutUserInput | TokenAllocationCreateOrConnectWithoutUserInput[]
+    createMany?: TokenAllocationCreateManyUserInputEnvelope
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
   }
 
   export type MarketUncheckedCreateNestedManyWithoutCreatorInput = {
@@ -5668,6 +9105,20 @@ export namespace Prisma {
     connectOrCreate?: MarketCreateOrConnectWithoutCreatorInput | MarketCreateOrConnectWithoutCreatorInput[]
     createMany?: MarketCreateManyCreatorInputEnvelope
     connect?: MarketWhereUniqueInput | MarketWhereUniqueInput[]
+  }
+
+  export type TradeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput> | TradeCreateWithoutUserInput[] | TradeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutUserInput | TradeCreateOrConnectWithoutUserInput[]
+    createMany?: TradeCreateManyUserInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type TokenAllocationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput> | TokenAllocationCreateWithoutUserInput[] | TokenAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutUserInput | TokenAllocationCreateOrConnectWithoutUserInput[]
+    createMany?: TokenAllocationCreateManyUserInputEnvelope
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5686,20 +9137,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type VoteUpdateManyWithoutUserNestedInput = {
-    create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
-    upsert?: VoteUpsertWithWhereUniqueWithoutUserInput | VoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: VoteCreateManyUserInputEnvelope
-    set?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    disconnect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    delete?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    update?: VoteUpdateWithWhereUniqueWithoutUserInput | VoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: VoteUpdateManyWithWhereWithoutUserInput | VoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
-  }
-
   export type MarketUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<MarketCreateWithoutCreatorInput, MarketUncheckedCreateWithoutCreatorInput> | MarketCreateWithoutCreatorInput[] | MarketUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: MarketCreateOrConnectWithoutCreatorInput | MarketCreateOrConnectWithoutCreatorInput[]
@@ -5714,26 +9151,40 @@ export namespace Prisma {
     deleteMany?: MarketScalarWhereInput | MarketScalarWhereInput[]
   }
 
+  export type TradeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput> | TradeCreateWithoutUserInput[] | TradeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutUserInput | TradeCreateOrConnectWithoutUserInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutUserInput | TradeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TradeCreateManyUserInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutUserInput | TradeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutUserInput | TradeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
+  }
+
+  export type TokenAllocationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput> | TokenAllocationCreateWithoutUserInput[] | TokenAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutUserInput | TokenAllocationCreateOrConnectWithoutUserInput[]
+    upsert?: TokenAllocationUpsertWithWhereUniqueWithoutUserInput | TokenAllocationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TokenAllocationCreateManyUserInputEnvelope
+    set?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    disconnect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    delete?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    update?: TokenAllocationUpdateWithWhereUniqueWithoutUserInput | TokenAllocationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TokenAllocationUpdateManyWithWhereWithoutUserInput | TokenAllocationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type VoteUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
-    upsert?: VoteUpsertWithWhereUniqueWithoutUserInput | VoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: VoteCreateManyUserInputEnvelope
-    set?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    disconnect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    delete?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    update?: VoteUpdateWithWhereUniqueWithoutUserInput | VoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: VoteUpdateManyWithWhereWithoutUserInput | VoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
   }
 
   export type MarketUncheckedUpdateManyWithoutCreatorNestedInput = {
@@ -5750,15 +9201,36 @@ export namespace Prisma {
     deleteMany?: MarketScalarWhereInput | MarketScalarWhereInput[]
   }
 
-  export type MarketCreatetagsInput = {
-    set: string[]
+  export type TradeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput> | TradeCreateWithoutUserInput[] | TradeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutUserInput | TradeCreateOrConnectWithoutUserInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutUserInput | TradeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TradeCreateManyUserInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutUserInput | TradeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutUserInput | TradeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
   }
 
-  export type VoteCreateNestedManyWithoutMarketInput = {
-    create?: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput> | VoteCreateWithoutMarketInput[] | VoteUncheckedCreateWithoutMarketInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
-    createMany?: VoteCreateManyMarketInputEnvelope
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  export type TokenAllocationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput> | TokenAllocationCreateWithoutUserInput[] | TokenAllocationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutUserInput | TokenAllocationCreateOrConnectWithoutUserInput[]
+    upsert?: TokenAllocationUpsertWithWhereUniqueWithoutUserInput | TokenAllocationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TokenAllocationCreateManyUserInputEnvelope
+    set?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    disconnect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    delete?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    update?: TokenAllocationUpdateWithWhereUniqueWithoutUserInput | TokenAllocationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TokenAllocationUpdateManyWithWhereWithoutUserInput | TokenAllocationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+  }
+
+  export type MarketCreatetagsInput = {
+    set: string[]
   }
 
   export type UserCreateNestedOneWithoutMarketsInput = {
@@ -5767,11 +9239,32 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type VoteUncheckedCreateNestedManyWithoutMarketInput = {
-    create?: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput> | VoteCreateWithoutMarketInput[] | VoteUncheckedCreateWithoutMarketInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
-    createMany?: VoteCreateManyMarketInputEnvelope
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  export type TradeCreateNestedManyWithoutMarketInput = {
+    create?: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput> | TradeCreateWithoutMarketInput[] | TradeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutMarketInput | TradeCreateOrConnectWithoutMarketInput[]
+    createMany?: TradeCreateManyMarketInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type OutcomeCreateNestedManyWithoutMarketInput = {
+    create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
+    createMany?: OutcomeCreateManyMarketInputEnvelope
+    connect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+  }
+
+  export type TradeUncheckedCreateNestedManyWithoutMarketInput = {
+    create?: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput> | TradeCreateWithoutMarketInput[] | TradeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutMarketInput | TradeCreateOrConnectWithoutMarketInput[]
+    createMany?: TradeCreateManyMarketInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type OutcomeUncheckedCreateNestedManyWithoutMarketInput = {
+    create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
+    createMany?: OutcomeCreateManyMarketInputEnvelope
+    connect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
   }
 
   export type MarketUpdatetagsInput = {
@@ -5779,18 +9272,16 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type VoteUpdateManyWithoutMarketNestedInput = {
-    create?: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput> | VoteCreateWithoutMarketInput[] | VoteUncheckedCreateWithoutMarketInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
-    upsert?: VoteUpsertWithWhereUniqueWithoutMarketInput | VoteUpsertWithWhereUniqueWithoutMarketInput[]
-    createMany?: VoteCreateManyMarketInputEnvelope
-    set?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    disconnect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    delete?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    update?: VoteUpdateWithWhereUniqueWithoutMarketInput | VoteUpdateWithWhereUniqueWithoutMarketInput[]
-    updateMany?: VoteUpdateManyWithWhereWithoutMarketInput | VoteUpdateManyWithWhereWithoutMarketInput[]
-    deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
+  export type EnumEventStatusFieldUpdateOperationsInput = {
+    set?: $Enums.EventStatus
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutMarketsNestedInput = {
@@ -5801,58 +9292,246 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMarketsInput, UserUpdateWithoutMarketsInput>, UserUncheckedUpdateWithoutMarketsInput>
   }
 
-  export type VoteUncheckedUpdateManyWithoutMarketNestedInput = {
-    create?: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput> | VoteCreateWithoutMarketInput[] | VoteUncheckedCreateWithoutMarketInput[]
-    connectOrCreate?: VoteCreateOrConnectWithoutMarketInput | VoteCreateOrConnectWithoutMarketInput[]
-    upsert?: VoteUpsertWithWhereUniqueWithoutMarketInput | VoteUpsertWithWhereUniqueWithoutMarketInput[]
-    createMany?: VoteCreateManyMarketInputEnvelope
-    set?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    disconnect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    delete?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-    update?: VoteUpdateWithWhereUniqueWithoutMarketInput | VoteUpdateWithWhereUniqueWithoutMarketInput[]
-    updateMany?: VoteUpdateManyWithWhereWithoutMarketInput | VoteUpdateManyWithWhereWithoutMarketInput[]
-    deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
+  export type TradeUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput> | TradeCreateWithoutMarketInput[] | TradeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutMarketInput | TradeCreateOrConnectWithoutMarketInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutMarketInput | TradeUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: TradeCreateManyMarketInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutMarketInput | TradeUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutMarketInput | TradeUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutVotesInput = {
-    create?: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVotesInput
-    connect?: UserWhereUniqueInput
+  export type OutcomeUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
+    upsert?: OutcomeUpsertWithWhereUniqueWithoutMarketInput | OutcomeUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: OutcomeCreateManyMarketInputEnvelope
+    set?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    disconnect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    delete?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    connect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    update?: OutcomeUpdateWithWhereUniqueWithoutMarketInput | OutcomeUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: OutcomeUpdateManyWithWhereWithoutMarketInput | OutcomeUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: OutcomeScalarWhereInput | OutcomeScalarWhereInput[]
   }
 
-  export type MarketCreateNestedOneWithoutVotesInput = {
-    create?: XOR<MarketCreateWithoutVotesInput, MarketUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: MarketCreateOrConnectWithoutVotesInput
+  export type TradeUncheckedUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput> | TradeCreateWithoutMarketInput[] | TradeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutMarketInput | TradeCreateOrConnectWithoutMarketInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutMarketInput | TradeUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: TradeCreateManyMarketInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutMarketInput | TradeUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutMarketInput | TradeUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
+  }
+
+  export type OutcomeUncheckedUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
+    upsert?: OutcomeUpsertWithWhereUniqueWithoutMarketInput | OutcomeUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: OutcomeCreateManyMarketInputEnvelope
+    set?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    disconnect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    delete?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    connect?: OutcomeWhereUniqueInput | OutcomeWhereUniqueInput[]
+    update?: OutcomeUpdateWithWhereUniqueWithoutMarketInput | OutcomeUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: OutcomeUpdateManyWithWhereWithoutMarketInput | OutcomeUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: OutcomeScalarWhereInput | OutcomeScalarWhereInput[]
+  }
+
+  export type MarketCreateNestedOneWithoutOutcomeInput = {
+    create?: XOR<MarketCreateWithoutOutcomeInput, MarketUncheckedCreateWithoutOutcomeInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutOutcomeInput
     connect?: MarketWhereUniqueInput
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type TokenAllocationCreateNestedManyWithoutOutcomeInput = {
+    create?: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput> | TokenAllocationCreateWithoutOutcomeInput[] | TokenAllocationUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutOutcomeInput | TokenAllocationCreateOrConnectWithoutOutcomeInput[]
+    createMany?: TokenAllocationCreateManyOutcomeInputEnvelope
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
   }
 
-  export type EnumVoteTypeFieldUpdateOperationsInput = {
-    set?: $Enums.VoteType
+  export type TradeCreateNestedManyWithoutOutcomeInput = {
+    create?: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput> | TradeCreateWithoutOutcomeInput[] | TradeUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutOutcomeInput | TradeCreateOrConnectWithoutOutcomeInput[]
+    createMany?: TradeCreateManyOutcomeInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutVotesNestedInput = {
-    create?: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVotesInput
-    upsert?: UserUpsertWithoutVotesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVotesInput, UserUpdateWithoutVotesInput>, UserUncheckedUpdateWithoutVotesInput>
+  export type TokenAllocationUncheckedCreateNestedManyWithoutOutcomeInput = {
+    create?: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput> | TokenAllocationCreateWithoutOutcomeInput[] | TokenAllocationUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutOutcomeInput | TokenAllocationCreateOrConnectWithoutOutcomeInput[]
+    createMany?: TokenAllocationCreateManyOutcomeInputEnvelope
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
   }
 
-  export type MarketUpdateOneRequiredWithoutVotesNestedInput = {
-    create?: XOR<MarketCreateWithoutVotesInput, MarketUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: MarketCreateOrConnectWithoutVotesInput
-    upsert?: MarketUpsertWithoutVotesInput
+  export type TradeUncheckedCreateNestedManyWithoutOutcomeInput = {
+    create?: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput> | TradeCreateWithoutOutcomeInput[] | TradeUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutOutcomeInput | TradeCreateOrConnectWithoutOutcomeInput[]
+    createMany?: TradeCreateManyOutcomeInputEnvelope
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type MarketUpdateOneRequiredWithoutOutcomeNestedInput = {
+    create?: XOR<MarketCreateWithoutOutcomeInput, MarketUncheckedCreateWithoutOutcomeInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutOutcomeInput
+    upsert?: MarketUpsertWithoutOutcomeInput
     connect?: MarketWhereUniqueInput
-    update?: XOR<XOR<MarketUpdateToOneWithWhereWithoutVotesInput, MarketUpdateWithoutVotesInput>, MarketUncheckedUpdateWithoutVotesInput>
+    update?: XOR<XOR<MarketUpdateToOneWithWhereWithoutOutcomeInput, MarketUpdateWithoutOutcomeInput>, MarketUncheckedUpdateWithoutOutcomeInput>
+  }
+
+  export type TokenAllocationUpdateManyWithoutOutcomeNestedInput = {
+    create?: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput> | TokenAllocationCreateWithoutOutcomeInput[] | TokenAllocationUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutOutcomeInput | TokenAllocationCreateOrConnectWithoutOutcomeInput[]
+    upsert?: TokenAllocationUpsertWithWhereUniqueWithoutOutcomeInput | TokenAllocationUpsertWithWhereUniqueWithoutOutcomeInput[]
+    createMany?: TokenAllocationCreateManyOutcomeInputEnvelope
+    set?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    disconnect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    delete?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    update?: TokenAllocationUpdateWithWhereUniqueWithoutOutcomeInput | TokenAllocationUpdateWithWhereUniqueWithoutOutcomeInput[]
+    updateMany?: TokenAllocationUpdateManyWithWhereWithoutOutcomeInput | TokenAllocationUpdateManyWithWhereWithoutOutcomeInput[]
+    deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+  }
+
+  export type TradeUpdateManyWithoutOutcomeNestedInput = {
+    create?: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput> | TradeCreateWithoutOutcomeInput[] | TradeUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutOutcomeInput | TradeCreateOrConnectWithoutOutcomeInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutOutcomeInput | TradeUpsertWithWhereUniqueWithoutOutcomeInput[]
+    createMany?: TradeCreateManyOutcomeInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutOutcomeInput | TradeUpdateWithWhereUniqueWithoutOutcomeInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutOutcomeInput | TradeUpdateManyWithWhereWithoutOutcomeInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
+  }
+
+  export type TokenAllocationUncheckedUpdateManyWithoutOutcomeNestedInput = {
+    create?: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput> | TokenAllocationCreateWithoutOutcomeInput[] | TokenAllocationUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TokenAllocationCreateOrConnectWithoutOutcomeInput | TokenAllocationCreateOrConnectWithoutOutcomeInput[]
+    upsert?: TokenAllocationUpsertWithWhereUniqueWithoutOutcomeInput | TokenAllocationUpsertWithWhereUniqueWithoutOutcomeInput[]
+    createMany?: TokenAllocationCreateManyOutcomeInputEnvelope
+    set?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    disconnect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    delete?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+    update?: TokenAllocationUpdateWithWhereUniqueWithoutOutcomeInput | TokenAllocationUpdateWithWhereUniqueWithoutOutcomeInput[]
+    updateMany?: TokenAllocationUpdateManyWithWhereWithoutOutcomeInput | TokenAllocationUpdateManyWithWhereWithoutOutcomeInput[]
+    deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+  }
+
+  export type TradeUncheckedUpdateManyWithoutOutcomeNestedInput = {
+    create?: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput> | TradeCreateWithoutOutcomeInput[] | TradeUncheckedCreateWithoutOutcomeInput[]
+    connectOrCreate?: TradeCreateOrConnectWithoutOutcomeInput | TradeCreateOrConnectWithoutOutcomeInput[]
+    upsert?: TradeUpsertWithWhereUniqueWithoutOutcomeInput | TradeUpsertWithWhereUniqueWithoutOutcomeInput[]
+    createMany?: TradeCreateManyOutcomeInputEnvelope
+    set?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    disconnect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    delete?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+    update?: TradeUpdateWithWhereUniqueWithoutOutcomeInput | TradeUpdateWithWhereUniqueWithoutOutcomeInput[]
+    updateMany?: TradeUpdateManyWithWhereWithoutOutcomeInput | TradeUpdateManyWithWhereWithoutOutcomeInput[]
+    deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutToken_allocatedInput = {
+    create?: XOR<UserCreateWithoutToken_allocatedInput, UserUncheckedCreateWithoutToken_allocatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutToken_allocatedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type OutcomeCreateNestedOneWithoutTokenAllocationsInput = {
+    create?: XOR<OutcomeCreateWithoutTokenAllocationsInput, OutcomeUncheckedCreateWithoutTokenAllocationsInput>
+    connectOrCreate?: OutcomeCreateOrConnectWithoutTokenAllocationsInput
+    connect?: OutcomeWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutToken_allocatedNestedInput = {
+    create?: XOR<UserCreateWithoutToken_allocatedInput, UserUncheckedCreateWithoutToken_allocatedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutToken_allocatedInput
+    upsert?: UserUpsertWithoutToken_allocatedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutToken_allocatedInput, UserUpdateWithoutToken_allocatedInput>, UserUncheckedUpdateWithoutToken_allocatedInput>
+  }
+
+  export type OutcomeUpdateOneRequiredWithoutTokenAllocationsNestedInput = {
+    create?: XOR<OutcomeCreateWithoutTokenAllocationsInput, OutcomeUncheckedCreateWithoutTokenAllocationsInput>
+    connectOrCreate?: OutcomeCreateOrConnectWithoutTokenAllocationsInput
+    upsert?: OutcomeUpsertWithoutTokenAllocationsInput
+    connect?: OutcomeWhereUniqueInput
+    update?: XOR<XOR<OutcomeUpdateToOneWithWhereWithoutTokenAllocationsInput, OutcomeUpdateWithoutTokenAllocationsInput>, OutcomeUncheckedUpdateWithoutTokenAllocationsInput>
+  }
+
+  export type MarketCreateNestedOneWithoutTradesInput = {
+    create?: XOR<MarketCreateWithoutTradesInput, MarketUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutTradesInput
+    connect?: MarketWhereUniqueInput
+  }
+
+  export type OutcomeCreateNestedOneWithoutTradesInput = {
+    create?: XOR<OutcomeCreateWithoutTradesInput, OutcomeUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: OutcomeCreateOrConnectWithoutTradesInput
+    connect?: OutcomeWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTradesInput = {
+    create?: XOR<UserCreateWithoutTradesInput, UserUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTradesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumOrderTypeFieldUpdateOperationsInput = {
+    set?: $Enums.OrderType
+  }
+
+  export type MarketUpdateOneWithoutTradesNestedInput = {
+    create?: XOR<MarketCreateWithoutTradesInput, MarketUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutTradesInput
+    upsert?: MarketUpsertWithoutTradesInput
+    disconnect?: MarketWhereInput | boolean
+    delete?: MarketWhereInput | boolean
+    connect?: MarketWhereUniqueInput
+    update?: XOR<XOR<MarketUpdateToOneWithWhereWithoutTradesInput, MarketUpdateWithoutTradesInput>, MarketUncheckedUpdateWithoutTradesInput>
+  }
+
+  export type OutcomeUpdateOneWithoutTradesNestedInput = {
+    create?: XOR<OutcomeCreateWithoutTradesInput, OutcomeUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: OutcomeCreateOrConnectWithoutTradesInput
+    upsert?: OutcomeUpsertWithoutTradesInput
+    disconnect?: OutcomeWhereInput | boolean
+    delete?: OutcomeWhereInput | boolean
+    connect?: OutcomeWhereUniqueInput
+    update?: XOR<XOR<OutcomeUpdateToOneWithWhereWithoutTradesInput, OutcomeUpdateWithoutTradesInput>, OutcomeUncheckedUpdateWithoutTradesInput>
+  }
+
+  export type UserUpdateOneWithoutTradesNestedInput = {
+    create?: XOR<UserCreateWithoutTradesInput, UserUncheckedCreateWithoutTradesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTradesInput
+    upsert?: UserUpsertWithoutTradesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTradesInput, UserUpdateWithoutTradesInput>, UserUncheckedUpdateWithoutTradesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6008,64 +9687,92 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumVoteTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.VoteType | EnumVoteTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumVoteTypeFilter<$PrismaModel> | $Enums.VoteType
+  export type NestedEnumEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.EventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumEventStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type NestedEnumVoteTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.VoteType | EnumVoteTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.VoteType[] | ListEnumVoteTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumVoteTypeWithAggregatesFilter<$PrismaModel> | $Enums.VoteType
+  export type NestedEnumOrderTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeFilter<$PrismaModel> | $Enums.OrderType
+  }
+
+  export type NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderType | EnumOrderTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.OrderType[] | ListEnumOrderTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumOrderTypeWithAggregatesFilter<$PrismaModel> | $Enums.OrderType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumVoteTypeFilter<$PrismaModel>
-    _max?: NestedEnumVoteTypeFilter<$PrismaModel>
-  }
-
-  export type VoteCreateWithoutUserInput = {
-    amount: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    market: MarketCreateNestedOneWithoutVotesInput
-  }
-
-  export type VoteUncheckedCreateWithoutUserInput = {
-    id?: number
-    amount: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    marketId: number
-  }
-
-  export type VoteCreateOrConnectWithoutUserInput = {
-    where: VoteWhereUniqueInput
-    create: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput>
-  }
-
-  export type VoteCreateManyUserInputEnvelope = {
-    data: VoteCreateManyUserInput | VoteCreateManyUserInput[]
-    skipDuplicates?: boolean
+    _min?: NestedEnumOrderTypeFilter<$PrismaModel>
+    _max?: NestedEnumOrderTypeFilter<$PrismaModel>
   }
 
   export type MarketCreateWithoutCreatorInput = {
@@ -6074,10 +9781,13 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    votes?: VoteCreateNestedManyWithoutMarketInput
+    trades?: TradeCreateNestedManyWithoutMarketInput
+    outcome?: OutcomeCreateNestedManyWithoutMarketInput
   }
 
   export type MarketUncheckedCreateWithoutCreatorInput = {
@@ -6087,10 +9797,13 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    votes?: VoteUncheckedCreateNestedManyWithoutMarketInput
+    trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
+    outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
   }
 
   export type MarketCreateOrConnectWithoutCreatorInput = {
@@ -6103,33 +9816,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type VoteUpsertWithWhereUniqueWithoutUserInput = {
-    where: VoteWhereUniqueInput
-    update: XOR<VoteUpdateWithoutUserInput, VoteUncheckedUpdateWithoutUserInput>
-    create: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput>
+  export type TradeCreateWithoutUserInput = {
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    market?: MarketCreateNestedOneWithoutTradesInput
+    outcome?: OutcomeCreateNestedOneWithoutTradesInput
   }
 
-  export type VoteUpdateWithWhereUniqueWithoutUserInput = {
-    where: VoteWhereUniqueInput
-    data: XOR<VoteUpdateWithoutUserInput, VoteUncheckedUpdateWithoutUserInput>
+  export type TradeUncheckedCreateWithoutUserInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    outcomeId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type VoteUpdateManyWithWhereWithoutUserInput = {
-    where: VoteScalarWhereInput
-    data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyWithoutUserInput>
+  export type TradeCreateOrConnectWithoutUserInput = {
+    where: TradeWhereUniqueInput
+    create: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput>
   }
 
-  export type VoteScalarWhereInput = {
-    AND?: VoteScalarWhereInput | VoteScalarWhereInput[]
-    OR?: VoteScalarWhereInput[]
-    NOT?: VoteScalarWhereInput | VoteScalarWhereInput[]
-    id?: IntFilter<"Vote"> | number
-    amount?: FloatFilter<"Vote"> | number
-    createdAt?: DateTimeFilter<"Vote"> | Date | string
-    updatedAt?: DateTimeFilter<"Vote"> | Date | string
-    voteType?: EnumVoteTypeFilter<"Vote"> | $Enums.VoteType
-    userId?: IntFilter<"Vote"> | number
-    marketId?: IntFilter<"Vote"> | number
+  export type TradeCreateManyUserInputEnvelope = {
+    data: TradeCreateManyUserInput | TradeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TokenAllocationCreateWithoutUserInput = {
+    amount: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    outcome: OutcomeCreateNestedOneWithoutTokenAllocationsInput
+  }
+
+  export type TokenAllocationUncheckedCreateWithoutUserInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
+    outcomeId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TokenAllocationCreateOrConnectWithoutUserInput = {
+    where: TokenAllocationWhereUniqueInput
+    create: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput>
+  }
+
+  export type TokenAllocationCreateManyUserInputEnvelope = {
+    data: TokenAllocationCreateManyUserInput | TokenAllocationCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type MarketUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -6158,37 +9902,73 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    tags?: StringNullableListFilter<"Market">
+    status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
+    outcomeWon?: IntNullableFilter<"Market"> | number | null
+    creatorId?: IntFilter<"Market"> | number
     createdAt?: DateTimeFilter<"Market"> | Date | string
     updatedAt?: DateTimeFilter<"Market"> | Date | string
-    tags?: StringNullableListFilter<"Market">
-    creatorId?: IntFilter<"Market"> | number
   }
 
-  export type VoteCreateWithoutMarketInput = {
-    amount: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    user: UserCreateNestedOneWithoutVotesInput
+  export type TradeUpsertWithWhereUniqueWithoutUserInput = {
+    where: TradeWhereUniqueInput
+    update: XOR<TradeUpdateWithoutUserInput, TradeUncheckedUpdateWithoutUserInput>
+    create: XOR<TradeCreateWithoutUserInput, TradeUncheckedCreateWithoutUserInput>
   }
 
-  export type VoteUncheckedCreateWithoutMarketInput = {
-    id?: number
-    amount: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    userId: number
+  export type TradeUpdateWithWhereUniqueWithoutUserInput = {
+    where: TradeWhereUniqueInput
+    data: XOR<TradeUpdateWithoutUserInput, TradeUncheckedUpdateWithoutUserInput>
   }
 
-  export type VoteCreateOrConnectWithoutMarketInput = {
-    where: VoteWhereUniqueInput
-    create: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput>
+  export type TradeUpdateManyWithWhereWithoutUserInput = {
+    where: TradeScalarWhereInput
+    data: XOR<TradeUpdateManyMutationInput, TradeUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type VoteCreateManyMarketInputEnvelope = {
-    data: VoteCreateManyMarketInput | VoteCreateManyMarketInput[]
-    skipDuplicates?: boolean
+  export type TradeScalarWhereInput = {
+    AND?: TradeScalarWhereInput | TradeScalarWhereInput[]
+    OR?: TradeScalarWhereInput[]
+    NOT?: TradeScalarWhereInput | TradeScalarWhereInput[]
+    id?: IntFilter<"Trade"> | number
+    unique_id?: StringFilter<"Trade"> | string
+    order_type?: EnumOrderTypeFilter<"Trade"> | $Enums.OrderType
+    order_size?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFilter<"Trade"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntNullableFilter<"Trade"> | number | null
+    outcomeId?: IntNullableFilter<"Trade"> | number | null
+    userID?: IntNullableFilter<"Trade"> | number | null
+    createdAt?: DateTimeFilter<"Trade"> | Date | string
+    updatedAt?: DateTimeFilter<"Trade"> | Date | string
+  }
+
+  export type TokenAllocationUpsertWithWhereUniqueWithoutUserInput = {
+    where: TokenAllocationWhereUniqueInput
+    update: XOR<TokenAllocationUpdateWithoutUserInput, TokenAllocationUncheckedUpdateWithoutUserInput>
+    create: XOR<TokenAllocationCreateWithoutUserInput, TokenAllocationUncheckedCreateWithoutUserInput>
+  }
+
+  export type TokenAllocationUpdateWithWhereUniqueWithoutUserInput = {
+    where: TokenAllocationWhereUniqueInput
+    data: XOR<TokenAllocationUpdateWithoutUserInput, TokenAllocationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TokenAllocationUpdateManyWithWhereWithoutUserInput = {
+    where: TokenAllocationScalarWhereInput
+    data: XOR<TokenAllocationUpdateManyMutationInput, TokenAllocationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TokenAllocationScalarWhereInput = {
+    AND?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+    OR?: TokenAllocationScalarWhereInput[]
+    NOT?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+    id?: IntFilter<"TokenAllocation"> | number
+    amount?: DecimalFilter<"TokenAllocation"> | Decimal | DecimalJsLike | number | string
+    userId?: IntFilter<"TokenAllocation"> | number
+    outcomeId?: IntFilter<"TokenAllocation"> | number
+    createdAt?: DateTimeFilter<"TokenAllocation"> | Date | string
+    updatedAt?: DateTimeFilter<"TokenAllocation"> | Date | string
   }
 
   export type UserCreateWithoutMarketsInput = {
@@ -6199,7 +9979,8 @@ export namespace Prisma {
     profile_pic?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    votes?: VoteCreateNestedManyWithoutUserInput
+    trades?: TradeCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketsInput = {
@@ -6211,7 +9992,8 @@ export namespace Prisma {
     profile_pic?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+    trades?: TradeUncheckedCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketsInput = {
@@ -6219,20 +10001,70 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutMarketsInput, UserUncheckedCreateWithoutMarketsInput>
   }
 
-  export type VoteUpsertWithWhereUniqueWithoutMarketInput = {
-    where: VoteWhereUniqueInput
-    update: XOR<VoteUpdateWithoutMarketInput, VoteUncheckedUpdateWithoutMarketInput>
-    create: XOR<VoteCreateWithoutMarketInput, VoteUncheckedCreateWithoutMarketInput>
+  export type TradeCreateWithoutMarketInput = {
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    outcome?: OutcomeCreateNestedOneWithoutTradesInput
+    user?: UserCreateNestedOneWithoutTradesInput
   }
 
-  export type VoteUpdateWithWhereUniqueWithoutMarketInput = {
-    where: VoteWhereUniqueInput
-    data: XOR<VoteUpdateWithoutMarketInput, VoteUncheckedUpdateWithoutMarketInput>
+  export type TradeUncheckedCreateWithoutMarketInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    outcomeId?: number | null
+    userID?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type VoteUpdateManyWithWhereWithoutMarketInput = {
-    where: VoteScalarWhereInput
-    data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyWithoutMarketInput>
+  export type TradeCreateOrConnectWithoutMarketInput = {
+    where: TradeWhereUniqueInput
+    create: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput>
+  }
+
+  export type TradeCreateManyMarketInputEnvelope = {
+    data: TradeCreateManyMarketInput | TradeCreateManyMarketInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OutcomeCreateWithoutMarketInput = {
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokenAllocations?: TokenAllocationCreateNestedManyWithoutOutcomeInput
+    trades?: TradeCreateNestedManyWithoutOutcomeInput
+  }
+
+  export type OutcomeUncheckedCreateWithoutMarketInput = {
+    id?: number
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokenAllocations?: TokenAllocationUncheckedCreateNestedManyWithoutOutcomeInput
+    trades?: TradeUncheckedCreateNestedManyWithoutOutcomeInput
+  }
+
+  export type OutcomeCreateOrConnectWithoutMarketInput = {
+    where: OutcomeWhereUniqueInput
+    create: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput>
+  }
+
+  export type OutcomeCreateManyMarketInputEnvelope = {
+    data: OutcomeCreateManyMarketInput | OutcomeCreateManyMarketInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutMarketsInput = {
@@ -6254,7 +10086,8 @@ export namespace Prisma {
     profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    votes?: VoteUpdateManyWithoutUserNestedInput
+    trades?: TradeUpdateManyWithoutUserNestedInput
+    token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketsInput = {
@@ -6266,10 +10099,226 @@ export namespace Prisma {
     profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
+    token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutVotesInput = {
+  export type TradeUpsertWithWhereUniqueWithoutMarketInput = {
+    where: TradeWhereUniqueInput
+    update: XOR<TradeUpdateWithoutMarketInput, TradeUncheckedUpdateWithoutMarketInput>
+    create: XOR<TradeCreateWithoutMarketInput, TradeUncheckedCreateWithoutMarketInput>
+  }
+
+  export type TradeUpdateWithWhereUniqueWithoutMarketInput = {
+    where: TradeWhereUniqueInput
+    data: XOR<TradeUpdateWithoutMarketInput, TradeUncheckedUpdateWithoutMarketInput>
+  }
+
+  export type TradeUpdateManyWithWhereWithoutMarketInput = {
+    where: TradeScalarWhereInput
+    data: XOR<TradeUpdateManyMutationInput, TradeUncheckedUpdateManyWithoutMarketInput>
+  }
+
+  export type OutcomeUpsertWithWhereUniqueWithoutMarketInput = {
+    where: OutcomeWhereUniqueInput
+    update: XOR<OutcomeUpdateWithoutMarketInput, OutcomeUncheckedUpdateWithoutMarketInput>
+    create: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput>
+  }
+
+  export type OutcomeUpdateWithWhereUniqueWithoutMarketInput = {
+    where: OutcomeWhereUniqueInput
+    data: XOR<OutcomeUpdateWithoutMarketInput, OutcomeUncheckedUpdateWithoutMarketInput>
+  }
+
+  export type OutcomeUpdateManyWithWhereWithoutMarketInput = {
+    where: OutcomeScalarWhereInput
+    data: XOR<OutcomeUpdateManyMutationInput, OutcomeUncheckedUpdateManyWithoutMarketInput>
+  }
+
+  export type OutcomeScalarWhereInput = {
+    AND?: OutcomeScalarWhereInput | OutcomeScalarWhereInput[]
+    OR?: OutcomeScalarWhereInput[]
+    NOT?: OutcomeScalarWhereInput | OutcomeScalarWhereInput[]
+    id?: IntFilter<"Outcome"> | number
+    outcome_title?: StringFilter<"Outcome"> | string
+    current_supply?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFilter<"Outcome"> | Decimal | DecimalJsLike | number | string
+    marketID?: IntFilter<"Outcome"> | number
+    createdAt?: DateTimeFilter<"Outcome"> | Date | string
+    updatedAt?: DateTimeFilter<"Outcome"> | Date | string
+  }
+
+  export type MarketCreateWithoutOutcomeInput = {
+    description?: string
+    resolution_criteria?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutMarketsInput
+    trades?: TradeCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketUncheckedCreateWithoutOutcomeInput = {
+    id?: number
+    description?: string
+    resolution_criteria?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    creatorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketCreateOrConnectWithoutOutcomeInput = {
+    where: MarketWhereUniqueInput
+    create: XOR<MarketCreateWithoutOutcomeInput, MarketUncheckedCreateWithoutOutcomeInput>
+  }
+
+  export type TokenAllocationCreateWithoutOutcomeInput = {
+    amount: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutToken_allocatedInput
+  }
+
+  export type TokenAllocationUncheckedCreateWithoutOutcomeInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
+    userId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TokenAllocationCreateOrConnectWithoutOutcomeInput = {
+    where: TokenAllocationWhereUniqueInput
+    create: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput>
+  }
+
+  export type TokenAllocationCreateManyOutcomeInputEnvelope = {
+    data: TokenAllocationCreateManyOutcomeInput | TokenAllocationCreateManyOutcomeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TradeCreateWithoutOutcomeInput = {
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    market?: MarketCreateNestedOneWithoutTradesInput
+    user?: UserCreateNestedOneWithoutTradesInput
+  }
+
+  export type TradeUncheckedCreateWithoutOutcomeInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    userID?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TradeCreateOrConnectWithoutOutcomeInput = {
+    where: TradeWhereUniqueInput
+    create: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput>
+  }
+
+  export type TradeCreateManyOutcomeInputEnvelope = {
+    data: TradeCreateManyOutcomeInput | TradeCreateManyOutcomeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MarketUpsertWithoutOutcomeInput = {
+    update: XOR<MarketUpdateWithoutOutcomeInput, MarketUncheckedUpdateWithoutOutcomeInput>
+    create: XOR<MarketCreateWithoutOutcomeInput, MarketUncheckedCreateWithoutOutcomeInput>
+    where?: MarketWhereInput
+  }
+
+  export type MarketUpdateToOneWithWhereWithoutOutcomeInput = {
+    where?: MarketWhereInput
+    data: XOR<MarketUpdateWithoutOutcomeInput, MarketUncheckedUpdateWithoutOutcomeInput>
+  }
+
+  export type MarketUpdateWithoutOutcomeInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    trades?: TradeUpdateManyWithoutMarketNestedInput
+  }
+
+  export type MarketUncheckedUpdateWithoutOutcomeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    creatorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
+  }
+
+  export type TokenAllocationUpsertWithWhereUniqueWithoutOutcomeInput = {
+    where: TokenAllocationWhereUniqueInput
+    update: XOR<TokenAllocationUpdateWithoutOutcomeInput, TokenAllocationUncheckedUpdateWithoutOutcomeInput>
+    create: XOR<TokenAllocationCreateWithoutOutcomeInput, TokenAllocationUncheckedCreateWithoutOutcomeInput>
+  }
+
+  export type TokenAllocationUpdateWithWhereUniqueWithoutOutcomeInput = {
+    where: TokenAllocationWhereUniqueInput
+    data: XOR<TokenAllocationUpdateWithoutOutcomeInput, TokenAllocationUncheckedUpdateWithoutOutcomeInput>
+  }
+
+  export type TokenAllocationUpdateManyWithWhereWithoutOutcomeInput = {
+    where: TokenAllocationScalarWhereInput
+    data: XOR<TokenAllocationUpdateManyMutationInput, TokenAllocationUncheckedUpdateManyWithoutOutcomeInput>
+  }
+
+  export type TradeUpsertWithWhereUniqueWithoutOutcomeInput = {
+    where: TradeWhereUniqueInput
+    update: XOR<TradeUpdateWithoutOutcomeInput, TradeUncheckedUpdateWithoutOutcomeInput>
+    create: XOR<TradeCreateWithoutOutcomeInput, TradeUncheckedCreateWithoutOutcomeInput>
+  }
+
+  export type TradeUpdateWithWhereUniqueWithoutOutcomeInput = {
+    where: TradeWhereUniqueInput
+    data: XOR<TradeUpdateWithoutOutcomeInput, TradeUncheckedUpdateWithoutOutcomeInput>
+  }
+
+  export type TradeUpdateManyWithWhereWithoutOutcomeInput = {
+    where: TradeScalarWhereInput
+    data: XOR<TradeUpdateManyMutationInput, TradeUncheckedUpdateManyWithoutOutcomeInput>
+  }
+
+  export type UserCreateWithoutToken_allocatedInput = {
     username: string
     about: string
     wallet_address: string
@@ -6278,9 +10327,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     markets?: MarketCreateNestedManyWithoutCreatorInput
+    trades?: TradeCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutVotesInput = {
+  export type UserUncheckedCreateWithoutToken_allocatedInput = {
     id?: number
     username: string
     about: string
@@ -6290,55 +10340,52 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
+    trades?: TradeUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutVotesInput = {
+  export type UserCreateOrConnectWithoutToken_allocatedInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
+    create: XOR<UserCreateWithoutToken_allocatedInput, UserUncheckedCreateWithoutToken_allocatedInput>
   }
 
-  export type MarketCreateWithoutVotesInput = {
-    description?: string
-    resolution_criteria?: string
-    question: string
-    expiry_date: Date | string
-    image?: string | null
+  export type OutcomeCreateWithoutTokenAllocationsInput = {
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    creator: UserCreateNestedOneWithoutMarketsInput
+    market: MarketCreateNestedOneWithoutOutcomeInput
+    trades?: TradeCreateNestedManyWithoutOutcomeInput
   }
 
-  export type MarketUncheckedCreateWithoutVotesInput = {
+  export type OutcomeUncheckedCreateWithoutTokenAllocationsInput = {
     id?: number
-    description?: string
-    resolution_criteria?: string
-    question: string
-    expiry_date: Date | string
-    image?: string | null
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    marketID: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
-    creatorId: number
+    trades?: TradeUncheckedCreateNestedManyWithoutOutcomeInput
   }
 
-  export type MarketCreateOrConnectWithoutVotesInput = {
-    where: MarketWhereUniqueInput
-    create: XOR<MarketCreateWithoutVotesInput, MarketUncheckedCreateWithoutVotesInput>
+  export type OutcomeCreateOrConnectWithoutTokenAllocationsInput = {
+    where: OutcomeWhereUniqueInput
+    create: XOR<OutcomeCreateWithoutTokenAllocationsInput, OutcomeUncheckedCreateWithoutTokenAllocationsInput>
   }
 
-  export type UserUpsertWithoutVotesInput = {
-    update: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
-    create: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
+  export type UserUpsertWithoutToken_allocatedInput = {
+    update: XOR<UserUpdateWithoutToken_allocatedInput, UserUncheckedUpdateWithoutToken_allocatedInput>
+    create: XOR<UserCreateWithoutToken_allocatedInput, UserUncheckedCreateWithoutToken_allocatedInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutVotesInput = {
+  export type UserUpdateToOneWithWhereWithoutToken_allocatedInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
+    data: XOR<UserUpdateWithoutToken_allocatedInput, UserUncheckedUpdateWithoutToken_allocatedInput>
   }
 
-  export type UserUpdateWithoutVotesInput = {
+  export type UserUpdateWithoutToken_allocatedInput = {
     username?: StringFieldUpdateOperationsInput | string
     about?: StringFieldUpdateOperationsInput | string
     wallet_address?: StringFieldUpdateOperationsInput | string
@@ -6347,9 +10394,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutVotesInput = {
+  export type UserUncheckedUpdateWithoutToken_allocatedInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     about?: StringFieldUpdateOperationsInput | string
@@ -6359,51 +10407,241 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type MarketUpsertWithoutVotesInput = {
-    update: XOR<MarketUpdateWithoutVotesInput, MarketUncheckedUpdateWithoutVotesInput>
-    create: XOR<MarketCreateWithoutVotesInput, MarketUncheckedCreateWithoutVotesInput>
+  export type OutcomeUpsertWithoutTokenAllocationsInput = {
+    update: XOR<OutcomeUpdateWithoutTokenAllocationsInput, OutcomeUncheckedUpdateWithoutTokenAllocationsInput>
+    create: XOR<OutcomeCreateWithoutTokenAllocationsInput, OutcomeUncheckedCreateWithoutTokenAllocationsInput>
+    where?: OutcomeWhereInput
+  }
+
+  export type OutcomeUpdateToOneWithWhereWithoutTokenAllocationsInput = {
+    where?: OutcomeWhereInput
+    data: XOR<OutcomeUpdateWithoutTokenAllocationsInput, OutcomeUncheckedUpdateWithoutTokenAllocationsInput>
+  }
+
+  export type OutcomeUpdateWithoutTokenAllocationsInput = {
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    market?: MarketUpdateOneRequiredWithoutOutcomeNestedInput
+    trades?: TradeUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type OutcomeUncheckedUpdateWithoutTokenAllocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trades?: TradeUncheckedUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type MarketCreateWithoutTradesInput = {
+    description?: string
+    resolution_criteria?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutMarketsInput
+    outcome?: OutcomeCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketUncheckedCreateWithoutTradesInput = {
+    id?: number
+    description?: string
+    resolution_criteria?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
+    creatorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketCreateOrConnectWithoutTradesInput = {
+    where: MarketWhereUniqueInput
+    create: XOR<MarketCreateWithoutTradesInput, MarketUncheckedCreateWithoutTradesInput>
+  }
+
+  export type OutcomeCreateWithoutTradesInput = {
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    market: MarketCreateNestedOneWithoutOutcomeInput
+    tokenAllocations?: TokenAllocationCreateNestedManyWithoutOutcomeInput
+  }
+
+  export type OutcomeUncheckedCreateWithoutTradesInput = {
+    id?: number
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    marketID: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tokenAllocations?: TokenAllocationUncheckedCreateNestedManyWithoutOutcomeInput
+  }
+
+  export type OutcomeCreateOrConnectWithoutTradesInput = {
+    where: OutcomeWhereUniqueInput
+    create: XOR<OutcomeCreateWithoutTradesInput, OutcomeUncheckedCreateWithoutTradesInput>
+  }
+
+  export type UserCreateWithoutTradesInput = {
+    username: string
+    about: string
+    wallet_address: string
+    role?: $Enums.Role
+    profile_pic?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    markets?: MarketCreateNestedManyWithoutCreatorInput
+    token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTradesInput = {
+    id?: number
+    username: string
+    about: string
+    wallet_address: string
+    role?: $Enums.Role
+    profile_pic?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
+    token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTradesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTradesInput, UserUncheckedCreateWithoutTradesInput>
+  }
+
+  export type MarketUpsertWithoutTradesInput = {
+    update: XOR<MarketUpdateWithoutTradesInput, MarketUncheckedUpdateWithoutTradesInput>
+    create: XOR<MarketCreateWithoutTradesInput, MarketUncheckedCreateWithoutTradesInput>
     where?: MarketWhereInput
   }
 
-  export type MarketUpdateToOneWithWhereWithoutVotesInput = {
+  export type MarketUpdateToOneWithWhereWithoutTradesInput = {
     where?: MarketWhereInput
-    data: XOR<MarketUpdateWithoutVotesInput, MarketUncheckedUpdateWithoutVotesInput>
+    data: XOR<MarketUpdateWithoutTradesInput, MarketUncheckedUpdateWithoutTradesInput>
   }
 
-  export type MarketUpdateWithoutVotesInput = {
+  export type MarketUpdateWithoutTradesInput = {
     description?: StringFieldUpdateOperationsInput | string
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    outcome?: OutcomeUpdateManyWithoutMarketNestedInput
   }
 
-  export type MarketUncheckedUpdateWithoutVotesInput = {
+  export type MarketUncheckedUpdateWithoutTradesInput = {
     id?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    creatorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
-    creatorId?: IntFieldUpdateOperationsInput | number
+    outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
   }
 
-  export type VoteCreateManyUserInput = {
-    id?: number
-    amount: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    voteType: $Enums.VoteType
-    marketId: number
+  export type OutcomeUpsertWithoutTradesInput = {
+    update: XOR<OutcomeUpdateWithoutTradesInput, OutcomeUncheckedUpdateWithoutTradesInput>
+    create: XOR<OutcomeCreateWithoutTradesInput, OutcomeUncheckedCreateWithoutTradesInput>
+    where?: OutcomeWhereInput
+  }
+
+  export type OutcomeUpdateToOneWithWhereWithoutTradesInput = {
+    where?: OutcomeWhereInput
+    data: XOR<OutcomeUpdateWithoutTradesInput, OutcomeUncheckedUpdateWithoutTradesInput>
+  }
+
+  export type OutcomeUpdateWithoutTradesInput = {
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    market?: MarketUpdateOneRequiredWithoutOutcomeNestedInput
+    tokenAllocations?: TokenAllocationUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type OutcomeUncheckedUpdateWithoutTradesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenAllocations?: TokenAllocationUncheckedUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type UserUpsertWithoutTradesInput = {
+    update: XOR<UserUpdateWithoutTradesInput, UserUncheckedUpdateWithoutTradesInput>
+    create: XOR<UserCreateWithoutTradesInput, UserUncheckedCreateWithoutTradesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTradesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTradesInput, UserUncheckedUpdateWithoutTradesInput>
+  }
+
+  export type UserUpdateWithoutTradesInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    wallet_address?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    markets?: MarketUpdateManyWithoutCreatorNestedInput
+    token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTradesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    wallet_address?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
+    token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MarketCreateManyCreatorInput = {
@@ -6413,35 +10651,32 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    tags?: MarketCreatetagsInput | string[]
+    status?: $Enums.EventStatus
+    outcomeWon?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    tags?: MarketCreatetagsInput | string[]
   }
 
-  export type VoteUpdateWithoutUserInput = {
-    amount?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    market?: MarketUpdateOneRequiredWithoutVotesNestedInput
+  export type TradeCreateManyUserInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    outcomeId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type VoteUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    marketId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type VoteUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    marketId?: IntFieldUpdateOperationsInput | number
+  export type TokenAllocationCreateManyUserInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
+    outcomeId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MarketUpdateWithoutCreatorInput = {
@@ -6450,10 +10685,13 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
-    votes?: VoteUpdateManyWithoutMarketNestedInput
+    trades?: TradeUpdateManyWithoutMarketNestedInput
+    outcome?: OutcomeUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketUncheckedUpdateWithoutCreatorInput = {
@@ -6463,10 +10701,13 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
-    votes?: VoteUncheckedUpdateManyWithoutMarketNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
+    outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
   }
 
   export type MarketUncheckedUpdateManyWithoutCreatorInput = {
@@ -6476,44 +10717,244 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: MarketUpdatetagsInput | string[]
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tags?: MarketUpdatetagsInput | string[]
   }
 
-  export type VoteCreateManyMarketInput = {
+  export type TradeUpdateWithoutUserInput = {
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    market?: MarketUpdateOneWithoutTradesNestedInput
+    outcome?: OutcomeUpdateOneWithoutTradesNestedInput
+  }
+
+  export type TradeUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TokenAllocationUpdateWithoutUserInput = {
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    outcome?: OutcomeUpdateOneRequiredWithoutTokenAllocationsNestedInput
+  }
+
+  export type TokenAllocationUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    outcomeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TokenAllocationUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    outcomeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeCreateManyMarketInput = {
     id?: number
-    amount: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    outcomeId?: number | null
+    userID?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    voteType: $Enums.VoteType
+  }
+
+  export type OutcomeCreateManyMarketInput = {
+    id?: number
+    outcome_title: string
+    current_supply?: Decimal | DecimalJsLike | number | string
+    total_liquidity?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TradeUpdateWithoutMarketInput = {
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    outcome?: OutcomeUpdateOneWithoutTradesNestedInput
+    user?: UserUpdateOneWithoutTradesNestedInput
+  }
+
+  export type TradeUncheckedUpdateWithoutMarketInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeUncheckedUpdateManyWithoutMarketInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    outcomeId?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OutcomeUpdateWithoutMarketInput = {
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenAllocations?: TokenAllocationUpdateManyWithoutOutcomeNestedInput
+    trades?: TradeUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type OutcomeUncheckedUpdateWithoutMarketInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenAllocations?: TokenAllocationUncheckedUpdateManyWithoutOutcomeNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutOutcomeNestedInput
+  }
+
+  export type OutcomeUncheckedUpdateManyWithoutMarketInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    outcome_title?: StringFieldUpdateOperationsInput | string
+    current_supply?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_liquidity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TokenAllocationCreateManyOutcomeInput = {
+    id?: number
+    amount: Decimal | DecimalJsLike | number | string
     userId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type VoteUpdateWithoutMarketInput = {
-    amount?: FloatFieldUpdateOperationsInput | number
+  export type TradeCreateManyOutcomeInput = {
+    id?: number
+    unique_id?: string
+    order_type?: $Enums.OrderType
+    order_size?: Decimal | DecimalJsLike | number | string
+    amount?: Decimal | DecimalJsLike | number | string
+    afterPrice?: Decimal | DecimalJsLike | number | string
+    marketID?: number | null
+    userID?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TokenAllocationUpdateWithoutOutcomeInput = {
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    user?: UserUpdateOneRequiredWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutToken_allocatedNestedInput
   }
 
-  export type VoteUncheckedUpdateWithoutMarketInput = {
+  export type TokenAllocationUncheckedUpdateWithoutOutcomeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    userId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type VoteUncheckedUpdateManyWithoutMarketInput = {
+  export type TokenAllocationUncheckedUpdateManyWithoutOutcomeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    voteType?: EnumVoteTypeFieldUpdateOperationsInput | $Enums.VoteType
-    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TradeUpdateWithoutOutcomeInput = {
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    market?: MarketUpdateOneWithoutTradesNestedInput
+    user?: UserUpdateOneWithoutTradesNestedInput
+  }
+
+  export type TradeUncheckedUpdateWithoutOutcomeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TradeUncheckedUpdateManyWithoutOutcomeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    unique_id?: StringFieldUpdateOperationsInput | string
+    order_type?: EnumOrderTypeFieldUpdateOperationsInput | $Enums.OrderType
+    order_size?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    afterPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    marketID?: NullableIntFieldUpdateOperationsInput | number | null
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

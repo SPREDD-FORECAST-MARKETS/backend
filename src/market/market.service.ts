@@ -18,7 +18,8 @@ export class MarketService {
     image: string | undefined,
     userId: number
   ) {
-    const data = await this.prismaService.market.create({
+
+    const market = await this.prismaService.market.create({
       data: {
         description,
         resolution_criteria,
@@ -29,12 +30,26 @@ export class MarketService {
       }
     })
 
-    return data;
+    await this.prismaService.outcome.create({
+      data: {
+        outcome_title: "YES",
+        marketID: market.id,
+      }
+    })
+
+    await this.prismaService.outcome.create({
+      data: {
+        outcome_title: "NO",
+        marketID: market.id,
+      }
+    })
+
+    return market;
   }
 
 
   async getMarkets(getMarketDto: GetMarketDto) {
-    
+
     const { page = 1, size = 10, id, question, tags, sortBy = "asc", orderBy = "id" } = getMarketDto;
 
     const where: any = {};
@@ -71,7 +86,13 @@ export class MarketService {
               username: true,
               wallet_address: true
             }
-          }
+          },
+          outcome: {
+            select: {
+              id: true,
+              outcome_title: true
+            }
+          } 
         }
       }),
       this.prismaService.market.count({ where })

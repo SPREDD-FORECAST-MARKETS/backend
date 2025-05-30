@@ -16,7 +16,7 @@ export class MarketController {
     @UseGuards(PrivyAuthGuard)
     @ApiBearerAuth()
     @ApiSecurity('bearer')
-    async createToken(@Body() createMarketDto: CreateMarketDto, @CurrentUser() user) {
+    async createMarket(@Body() createMarketDto: CreateMarketDto, @CurrentUser() user) {
 
         return this.marketService.createMarket(
             createMarketDto.description,

@@ -138,20 +138,45 @@ exports.Prisma.MarketScalarFieldEnum = {
   question: 'question',
   expiry_date: 'expiry_date',
   image: 'image',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   tags: 'tags',
-  creatorId: 'creatorId'
+  status: 'status',
+  outcomeWon: 'outcomeWon',
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.VoteScalarFieldEnum = {
+exports.Prisma.OutcomeScalarFieldEnum = {
+  id: 'id',
+  outcome_title: 'outcome_title',
+  current_supply: 'current_supply',
+  total_liquidity: 'total_liquidity',
+  marketID: 'marketID',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TokenAllocationScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  voteType: 'voteType',
   userId: 'userId',
-  marketId: 'marketId'
+  outcomeId: 'outcomeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TradeScalarFieldEnum = {
+  id: 'id',
+  unique_id: 'unique_id',
+  order_type: 'order_type',
+  order_size: 'order_size',
+  amount: 'amount',
+  afterPrice: 'afterPrice',
+  marketID: 'marketID',
+  outcomeId: 'outcomeId',
+  userID: 'userID',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -174,15 +199,23 @@ exports.Role = exports.$Enums.Role = {
   VOTERS: 'VOTERS'
 };
 
-exports.VoteType = exports.$Enums.VoteType = {
-  YES: 'YES',
-  NO: 'NO'
+exports.EventStatus = exports.$Enums.EventStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  CLOSED: 'CLOSED'
+};
+
+exports.OrderType = exports.$Enums.OrderType = {
+  BUY: 'BUY',
+  SELL: 'SELL'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   Market: 'Market',
-  Vote: 'Vote'
+  Outcome: 'Outcome',
+  TokenAllocation: 'TokenAllocation',
+  Trade: 'Trade'
 };
 
 /**

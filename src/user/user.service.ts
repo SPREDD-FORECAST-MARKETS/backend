@@ -59,9 +59,7 @@ export class UserService {
     if (marketId) {
       where.OR = [
         // Users who created the market
-        { markets: { some: { id: marketId } } },
-        // Users who voted on the market
-        { votes: { some: { marketId } } }
+        { markets: { some: { id: marketId } } }
       ];
     }
 
