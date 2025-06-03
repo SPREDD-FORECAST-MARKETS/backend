@@ -7,7 +7,7 @@ import { GetMarketDto } from "./dto/get-market.dto";
 
 @Injectable()
 export class MarketService {
-  constructor(private readonly supabaseService: SupabaseService, private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) { }
 
 
   async createMarket(
@@ -16,6 +16,7 @@ export class MarketService {
     question: string,
     expiry_date: Date,
     image: string | undefined,
+    contract_address: string,
     userId: number
   ) {
 
@@ -26,6 +27,7 @@ export class MarketService {
         question,
         expiry_date,
         image,
+        contract_address,
         creatorId: userId,
       }
     })

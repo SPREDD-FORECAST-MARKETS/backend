@@ -138,6 +138,7 @@ exports.Prisma.MarketScalarFieldEnum = {
   question: 'question',
   expiry_date: 'expiry_date',
   image: 'image',
+  contract_address: 'contract_address',
   tags: 'tags',
   status: 'status',
   outcomeWon: 'outcomeWon',

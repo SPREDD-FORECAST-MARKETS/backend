@@ -24,6 +24,7 @@ export class MarketController {
             createMarketDto.question,
             createMarketDto.expiry_date,
             createMarketDto.image,
+            createMarketDto.contract_address,
             user.id as number
         )
 

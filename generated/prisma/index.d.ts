@@ -2672,6 +2672,7 @@ export namespace Prisma {
     question: string | null
     expiry_date: Date | null
     image: string | null
+    contract_address: string | null
     status: $Enums.EventStatus | null
     outcomeWon: number | null
     creatorId: number | null
@@ -2686,6 +2687,7 @@ export namespace Prisma {
     question: string | null
     expiry_date: Date | null
     image: string | null
+    contract_address: string | null
     status: $Enums.EventStatus | null
     outcomeWon: number | null
     creatorId: number | null
@@ -2700,6 +2702,7 @@ export namespace Prisma {
     question: number
     expiry_date: number
     image: number
+    contract_address: number
     tags: number
     status: number
     outcomeWon: number
@@ -2729,6 +2732,7 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    contract_address?: true
     status?: true
     outcomeWon?: true
     creatorId?: true
@@ -2743,6 +2747,7 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    contract_address?: true
     status?: true
     outcomeWon?: true
     creatorId?: true
@@ -2757,6 +2762,7 @@ export namespace Prisma {
     question?: true
     expiry_date?: true
     image?: true
+    contract_address?: true
     tags?: true
     status?: true
     outcomeWon?: true
@@ -2859,6 +2865,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date
     image: string | null
+    contract_address: string
     tags: string[]
     status: $Enums.EventStatus
     outcomeWon: number | null
@@ -2893,6 +2900,7 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    contract_address?: boolean
     tags?: boolean
     status?: boolean
     outcomeWon?: boolean
@@ -2912,6 +2920,7 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    contract_address?: boolean
     tags?: boolean
     status?: boolean
     outcomeWon?: boolean
@@ -2928,6 +2937,7 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    contract_address?: boolean
     tags?: boolean
     status?: boolean
     outcomeWon?: boolean
@@ -2944,6 +2954,7 @@ export namespace Prisma {
     question?: boolean
     expiry_date?: boolean
     image?: boolean
+    contract_address?: boolean
     tags?: boolean
     status?: boolean
     outcomeWon?: boolean
@@ -2952,7 +2963,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "resolution_criteria" | "question" | "expiry_date" | "image" | "tags" | "status" | "outcomeWon" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "resolution_criteria" | "question" | "expiry_date" | "image" | "contract_address" | "tags" | "status" | "outcomeWon" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["market"]>
   export type MarketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     trades?: boolean | Market$tradesArgs<ExtArgs>
@@ -2980,6 +2991,7 @@ export namespace Prisma {
       question: string
       expiry_date: Date
       image: string | null
+      contract_address: string
       tags: string[]
       status: $Enums.EventStatus
       outcomeWon: number | null
@@ -3418,6 +3430,7 @@ export namespace Prisma {
     readonly question: FieldRef<"Market", 'String'>
     readonly expiry_date: FieldRef<"Market", 'DateTime'>
     readonly image: FieldRef<"Market", 'String'>
+    readonly contract_address: FieldRef<"Market", 'String'>
     readonly tags: FieldRef<"Market", 'String[]'>
     readonly status: FieldRef<"Market", 'EventStatus'>
     readonly outcomeWon: FieldRef<"Market", 'Int'>
@@ -7501,6 +7514,7 @@ export namespace Prisma {
     question: 'question',
     expiry_date: 'expiry_date',
     image: 'image',
+    contract_address: 'contract_address',
     tags: 'tags',
     status: 'status',
     outcomeWon: 'outcomeWon',
@@ -7786,6 +7800,7 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    contract_address?: StringFilter<"Market"> | string
     tags?: StringNullableListFilter<"Market">
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     outcomeWon?: IntNullableFilter<"Market"> | number | null
@@ -7804,6 +7819,7 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
+    contract_address?: SortOrder
     tags?: SortOrder
     status?: SortOrder
     outcomeWon?: SortOrderInput | SortOrder
@@ -7825,6 +7841,7 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    contract_address?: StringFilter<"Market"> | string
     tags?: StringNullableListFilter<"Market">
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     outcomeWon?: IntNullableFilter<"Market"> | number | null
@@ -7843,6 +7860,7 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrderInput | SortOrder
+    contract_address?: SortOrder
     tags?: SortOrder
     status?: SortOrder
     outcomeWon?: SortOrderInput | SortOrder
@@ -7866,6 +7884,7 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"Market"> | string
     expiry_date?: DateTimeWithAggregatesFilter<"Market"> | Date | string
     image?: StringNullableWithAggregatesFilter<"Market"> | string | null
+    contract_address?: StringWithAggregatesFilter<"Market"> | string
     tags?: StringNullableListFilter<"Market">
     status?: EnumEventStatusWithAggregatesFilter<"Market"> | $Enums.EventStatus
     outcomeWon?: IntNullableWithAggregatesFilter<"Market"> | number | null
@@ -8198,6 +8217,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -8215,6 +8235,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -8231,6 +8252,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8248,6 +8270,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8265,6 +8288,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -8279,6 +8303,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8293,6 +8318,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -8784,6 +8810,7 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    contract_address?: SortOrder
     tags?: SortOrder
     status?: SortOrder
     outcomeWon?: SortOrder
@@ -8805,6 +8832,7 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    contract_address?: SortOrder
     status?: SortOrder
     outcomeWon?: SortOrder
     creatorId?: SortOrder
@@ -8819,6 +8847,7 @@ export namespace Prisma {
     question?: SortOrder
     expiry_date?: SortOrder
     image?: SortOrder
+    contract_address?: SortOrder
     status?: SortOrder
     outcomeWon?: SortOrder
     creatorId?: SortOrder
@@ -9781,6 +9810,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -9797,6 +9827,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -9902,6 +9933,7 @@ export namespace Prisma {
     question?: StringFilter<"Market"> | string
     expiry_date?: DateTimeFilter<"Market"> | Date | string
     image?: StringNullableFilter<"Market"> | string | null
+    contract_address?: StringFilter<"Market"> | string
     tags?: StringNullableListFilter<"Market">
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     outcomeWon?: IntNullableFilter<"Market"> | number | null
@@ -10154,6 +10186,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -10170,6 +10203,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -10261,6 +10295,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10277,6 +10312,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10448,6 +10484,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -10464,6 +10501,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -10551,6 +10589,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10567,6 +10606,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10651,6 +10691,7 @@ export namespace Prisma {
     question: string
     expiry_date: Date | string
     image?: string | null
+    contract_address?: string
     tags?: MarketCreatetagsInput | string[]
     status?: $Enums.EventStatus
     outcomeWon?: number | null
@@ -10685,6 +10726,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10701,6 +10743,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
@@ -10717,6 +10760,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    contract_address?: StringFieldUpdateOperationsInput | string
     tags?: MarketUpdatetagsInput | string[]
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null

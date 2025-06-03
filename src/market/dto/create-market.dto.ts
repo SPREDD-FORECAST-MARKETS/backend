@@ -18,8 +18,14 @@ export class CreateMarketDto {
 
   @IsString()
   @ApiProperty({
+    description: 'Deployed contract address of Market'
+  })
+  contract_address: string;
+
+  @IsString()
+  @ApiProperty({
     description: 'On what parameters the market will be resolved',
-    example: 'https://coinmarketcap.com lising the token by end of 2025',
+    example: 'https://coinmarketcap.com listing the token by end of 2025',
   })
   resolution_criteria: string;
 

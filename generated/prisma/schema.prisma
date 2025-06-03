@@ -37,6 +37,8 @@ model Market {
   expiry_date         DateTime
   image               String?
 
+  contract_address String @default("")
+
   tags String[]
 
   status     EventStatus @default(ACTIVE)
