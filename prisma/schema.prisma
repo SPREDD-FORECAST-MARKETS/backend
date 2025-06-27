@@ -27,6 +27,8 @@ model User {
   markets         Market[]
   trades          Trade[]
   token_allocated TokenAllocation[]
+
+  leaderboard LeaderBoard[]
 }
 
 model Market {
@@ -37,7 +39,7 @@ model Market {
   expiry_date         DateTime
   image               String?
 
-  contract_address    String   @default("")
+  contract_address String @default("")
 
   tags String[]
 
@@ -47,11 +49,11 @@ model Market {
   creator   User @relation(fields: [creatorId], references: [id])
   creatorId Int
 
-  trades Trade[]
-  outcome   Outcome[]
+  trades  Trade[]
+  outcome Outcome[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Outcome {
@@ -107,6 +109,16 @@ model Trade {
   updatedAt DateTime @updatedAt
 }
 
+model LeaderBoard {
+  id        Int       @id @default(autoincrement())
+  user      User?     @relation(fields: [userID], references: [id])
+  userID    Int?
+  pointType PointType
+  points    Int       @default(0)
+
+  @@unique([userID, pointType])
+}
+
 enum VoteType {
   YES
   NO
@@ -139,4 +151,9 @@ enum EventOption {
 enum OrderType {
   BUY
   SELL
+}
+
+enum PointType {
+  CREATOR
+  TRADER
 }

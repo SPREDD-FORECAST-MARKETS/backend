@@ -38,6 +38,11 @@ export type TokenAllocation = $Result.DefaultSelection<Prisma.$TokenAllocationPa
  * 
  */
 export type Trade = $Result.DefaultSelection<Prisma.$TradePayload>
+/**
+ * Model LeaderBoard
+ * 
+ */
+export type LeaderBoard = $Result.DefaultSelection<Prisma.$LeaderBoardPayload>
 
 /**
  * Enums
@@ -94,6 +99,14 @@ export const OrderType: {
 
 export type OrderType = (typeof OrderType)[keyof typeof OrderType]
 
+
+export const PointType: {
+  CREATOR: 'CREATOR',
+  TRADER: 'TRADER'
+};
+
+export type PointType = (typeof PointType)[keyof typeof PointType]
+
 }
 
 export type VoteType = $Enums.VoteType
@@ -119,6 +132,10 @@ export const EventOption: typeof $Enums.EventOption
 export type OrderType = $Enums.OrderType
 
 export const OrderType: typeof $Enums.OrderType
+
+export type PointType = $Enums.PointType
+
+export const PointType: typeof $Enums.PointType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -294,6 +311,16 @@ export class PrismaClient<
     * ```
     */
   get trade(): Prisma.TradeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.leaderBoard`: Exposes CRUD operations for the **LeaderBoard** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeaderBoards
+    * const leaderBoards = await prisma.leaderBoard.findMany()
+    * ```
+    */
+  get leaderBoard(): Prisma.LeaderBoardDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -738,7 +765,8 @@ export namespace Prisma {
     Market: 'Market',
     Outcome: 'Outcome',
     TokenAllocation: 'TokenAllocation',
-    Trade: 'Trade'
+    Trade: 'Trade',
+    LeaderBoard: 'LeaderBoard'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -757,7 +785,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "market" | "outcome" | "tokenAllocation" | "trade"
+      modelProps: "user" | "market" | "outcome" | "tokenAllocation" | "trade" | "leaderBoard"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1131,6 +1159,80 @@ export namespace Prisma {
           }
         }
       }
+      LeaderBoard: {
+        payload: Prisma.$LeaderBoardPayload<ExtArgs>
+        fields: Prisma.LeaderBoardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeaderBoardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeaderBoardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          findFirst: {
+            args: Prisma.LeaderBoardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeaderBoardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          findMany: {
+            args: Prisma.LeaderBoardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>[]
+          }
+          create: {
+            args: Prisma.LeaderBoardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          createMany: {
+            args: Prisma.LeaderBoardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeaderBoardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>[]
+          }
+          delete: {
+            args: Prisma.LeaderBoardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          update: {
+            args: Prisma.LeaderBoardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeaderBoardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeaderBoardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LeaderBoardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>[]
+          }
+          upsert: {
+            args: Prisma.LeaderBoardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaderBoardPayload>
+          }
+          aggregate: {
+            args: Prisma.LeaderBoardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeaderBoard>
+          }
+          groupBy: {
+            args: Prisma.LeaderBoardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeaderBoardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeaderBoardCountArgs<ExtArgs>
+            result: $Utils.Optional<LeaderBoardCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1220,6 +1322,7 @@ export namespace Prisma {
     outcome?: OutcomeOmit
     tokenAllocation?: TokenAllocationOmit
     trade?: TradeOmit
+    leaderBoard?: LeaderBoardOmit
   }
 
   /* Types for Logging */
@@ -1317,12 +1420,14 @@ export namespace Prisma {
     markets: number
     trades: number
     token_allocated: number
+    leaderboard: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     markets?: boolean | UserCountOutputTypeCountMarketsArgs
     trades?: boolean | UserCountOutputTypeCountTradesArgs
     token_allocated?: boolean | UserCountOutputTypeCountToken_allocatedArgs
+    leaderboard?: boolean | UserCountOutputTypeCountLeaderboardArgs
   }
 
   // Custom InputTypes
@@ -1355,6 +1460,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountToken_allocatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TokenAllocationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLeaderboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaderBoardWhereInput
   }
 
 
@@ -1667,6 +1779,7 @@ export namespace Prisma {
     markets?: boolean | User$marketsArgs<ExtArgs>
     trades?: boolean | User$tradesArgs<ExtArgs>
     token_allocated?: boolean | User$token_allocatedArgs<ExtArgs>
+    leaderboard?: boolean | User$leaderboardArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1708,6 +1821,7 @@ export namespace Prisma {
     markets?: boolean | User$marketsArgs<ExtArgs>
     trades?: boolean | User$tradesArgs<ExtArgs>
     token_allocated?: boolean | User$token_allocatedArgs<ExtArgs>
+    leaderboard?: boolean | User$leaderboardArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1719,6 +1833,7 @@ export namespace Prisma {
       markets: Prisma.$MarketPayload<ExtArgs>[]
       trades: Prisma.$TradePayload<ExtArgs>[]
       token_allocated: Prisma.$TokenAllocationPayload<ExtArgs>[]
+      leaderboard: Prisma.$LeaderBoardPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2126,6 +2241,7 @@ export namespace Prisma {
     markets<T extends User$marketsArgs<ExtArgs> = {}>(args?: Subset<T, User$marketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trades<T extends User$tradesArgs<ExtArgs> = {}>(args?: Subset<T, User$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     token_allocated<T extends User$token_allocatedArgs<ExtArgs> = {}>(args?: Subset<T, User$token_allocatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TokenAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leaderboard<T extends User$leaderboardArgs<ExtArgs> = {}>(args?: Subset<T, User$leaderboardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2620,6 +2736,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TokenAllocationScalarFieldEnum | TokenAllocationScalarFieldEnum[]
+  }
+
+  /**
+   * User.leaderboard
+   */
+  export type User$leaderboardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    where?: LeaderBoardWhereInput
+    orderBy?: LeaderBoardOrderByWithRelationInput | LeaderBoardOrderByWithRelationInput[]
+    cursor?: LeaderBoardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaderBoardScalarFieldEnum | LeaderBoardScalarFieldEnum[]
   }
 
   /**
@@ -7480,6 +7620,1112 @@ export namespace Prisma {
 
 
   /**
+   * Model LeaderBoard
+   */
+
+  export type AggregateLeaderBoard = {
+    _count: LeaderBoardCountAggregateOutputType | null
+    _avg: LeaderBoardAvgAggregateOutputType | null
+    _sum: LeaderBoardSumAggregateOutputType | null
+    _min: LeaderBoardMinAggregateOutputType | null
+    _max: LeaderBoardMaxAggregateOutputType | null
+  }
+
+  export type LeaderBoardAvgAggregateOutputType = {
+    id: number | null
+    userID: number | null
+    points: number | null
+  }
+
+  export type LeaderBoardSumAggregateOutputType = {
+    id: number | null
+    userID: number | null
+    points: number | null
+  }
+
+  export type LeaderBoardMinAggregateOutputType = {
+    id: number | null
+    userID: number | null
+    pointType: $Enums.PointType | null
+    points: number | null
+  }
+
+  export type LeaderBoardMaxAggregateOutputType = {
+    id: number | null
+    userID: number | null
+    pointType: $Enums.PointType | null
+    points: number | null
+  }
+
+  export type LeaderBoardCountAggregateOutputType = {
+    id: number
+    userID: number
+    pointType: number
+    points: number
+    _all: number
+  }
+
+
+  export type LeaderBoardAvgAggregateInputType = {
+    id?: true
+    userID?: true
+    points?: true
+  }
+
+  export type LeaderBoardSumAggregateInputType = {
+    id?: true
+    userID?: true
+    points?: true
+  }
+
+  export type LeaderBoardMinAggregateInputType = {
+    id?: true
+    userID?: true
+    pointType?: true
+    points?: true
+  }
+
+  export type LeaderBoardMaxAggregateInputType = {
+    id?: true
+    userID?: true
+    pointType?: true
+    points?: true
+  }
+
+  export type LeaderBoardCountAggregateInputType = {
+    id?: true
+    userID?: true
+    pointType?: true
+    points?: true
+    _all?: true
+  }
+
+  export type LeaderBoardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaderBoard to aggregate.
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaderBoards to fetch.
+     */
+    orderBy?: LeaderBoardOrderByWithRelationInput | LeaderBoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeaderBoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaderBoards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaderBoards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeaderBoards
+    **/
+    _count?: true | LeaderBoardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LeaderBoardAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LeaderBoardSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeaderBoardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeaderBoardMaxAggregateInputType
+  }
+
+  export type GetLeaderBoardAggregateType<T extends LeaderBoardAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeaderBoard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeaderBoard[P]>
+      : GetScalarType<T[P], AggregateLeaderBoard[P]>
+  }
+
+
+
+
+  export type LeaderBoardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaderBoardWhereInput
+    orderBy?: LeaderBoardOrderByWithAggregationInput | LeaderBoardOrderByWithAggregationInput[]
+    by: LeaderBoardScalarFieldEnum[] | LeaderBoardScalarFieldEnum
+    having?: LeaderBoardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeaderBoardCountAggregateInputType | true
+    _avg?: LeaderBoardAvgAggregateInputType
+    _sum?: LeaderBoardSumAggregateInputType
+    _min?: LeaderBoardMinAggregateInputType
+    _max?: LeaderBoardMaxAggregateInputType
+  }
+
+  export type LeaderBoardGroupByOutputType = {
+    id: number
+    userID: number | null
+    pointType: $Enums.PointType
+    points: number
+    _count: LeaderBoardCountAggregateOutputType | null
+    _avg: LeaderBoardAvgAggregateOutputType | null
+    _sum: LeaderBoardSumAggregateOutputType | null
+    _min: LeaderBoardMinAggregateOutputType | null
+    _max: LeaderBoardMaxAggregateOutputType | null
+  }
+
+  type GetLeaderBoardGroupByPayload<T extends LeaderBoardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeaderBoardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeaderBoardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeaderBoardGroupByOutputType[P]>
+            : GetScalarType<T[P], LeaderBoardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeaderBoardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userID?: boolean
+    pointType?: boolean
+    points?: boolean
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }, ExtArgs["result"]["leaderBoard"]>
+
+  export type LeaderBoardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userID?: boolean
+    pointType?: boolean
+    points?: boolean
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }, ExtArgs["result"]["leaderBoard"]>
+
+  export type LeaderBoardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userID?: boolean
+    pointType?: boolean
+    points?: boolean
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }, ExtArgs["result"]["leaderBoard"]>
+
+  export type LeaderBoardSelectScalar = {
+    id?: boolean
+    userID?: boolean
+    pointType?: boolean
+    points?: boolean
+  }
+
+  export type LeaderBoardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userID" | "pointType" | "points", ExtArgs["result"]["leaderBoard"]>
+  export type LeaderBoardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }
+  export type LeaderBoardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }
+  export type LeaderBoardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | LeaderBoard$userArgs<ExtArgs>
+  }
+
+  export type $LeaderBoardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeaderBoard"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userID: number | null
+      pointType: $Enums.PointType
+      points: number
+    }, ExtArgs["result"]["leaderBoard"]>
+    composites: {}
+  }
+
+  type LeaderBoardGetPayload<S extends boolean | null | undefined | LeaderBoardDefaultArgs> = $Result.GetResult<Prisma.$LeaderBoardPayload, S>
+
+  type LeaderBoardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LeaderBoardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LeaderBoardCountAggregateInputType | true
+    }
+
+  export interface LeaderBoardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeaderBoard'], meta: { name: 'LeaderBoard' } }
+    /**
+     * Find zero or one LeaderBoard that matches the filter.
+     * @param {LeaderBoardFindUniqueArgs} args - Arguments to find a LeaderBoard
+     * @example
+     * // Get one LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeaderBoardFindUniqueArgs>(args: SelectSubset<T, LeaderBoardFindUniqueArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LeaderBoard that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LeaderBoardFindUniqueOrThrowArgs} args - Arguments to find a LeaderBoard
+     * @example
+     * // Get one LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeaderBoardFindUniqueOrThrowArgs>(args: SelectSubset<T, LeaderBoardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaderBoard that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardFindFirstArgs} args - Arguments to find a LeaderBoard
+     * @example
+     * // Get one LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeaderBoardFindFirstArgs>(args?: SelectSubset<T, LeaderBoardFindFirstArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaderBoard that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardFindFirstOrThrowArgs} args - Arguments to find a LeaderBoard
+     * @example
+     * // Get one LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeaderBoardFindFirstOrThrowArgs>(args?: SelectSubset<T, LeaderBoardFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaderBoards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeaderBoards
+     * const leaderBoards = await prisma.leaderBoard.findMany()
+     * 
+     * // Get first 10 LeaderBoards
+     * const leaderBoards = await prisma.leaderBoard.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leaderBoardWithIdOnly = await prisma.leaderBoard.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeaderBoardFindManyArgs>(args?: SelectSubset<T, LeaderBoardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LeaderBoard.
+     * @param {LeaderBoardCreateArgs} args - Arguments to create a LeaderBoard.
+     * @example
+     * // Create one LeaderBoard
+     * const LeaderBoard = await prisma.leaderBoard.create({
+     *   data: {
+     *     // ... data to create a LeaderBoard
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeaderBoardCreateArgs>(args: SelectSubset<T, LeaderBoardCreateArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LeaderBoards.
+     * @param {LeaderBoardCreateManyArgs} args - Arguments to create many LeaderBoards.
+     * @example
+     * // Create many LeaderBoards
+     * const leaderBoard = await prisma.leaderBoard.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeaderBoardCreateManyArgs>(args?: SelectSubset<T, LeaderBoardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeaderBoards and returns the data saved in the database.
+     * @param {LeaderBoardCreateManyAndReturnArgs} args - Arguments to create many LeaderBoards.
+     * @example
+     * // Create many LeaderBoards
+     * const leaderBoard = await prisma.leaderBoard.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeaderBoards and only return the `id`
+     * const leaderBoardWithIdOnly = await prisma.leaderBoard.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeaderBoardCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaderBoardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LeaderBoard.
+     * @param {LeaderBoardDeleteArgs} args - Arguments to delete one LeaderBoard.
+     * @example
+     * // Delete one LeaderBoard
+     * const LeaderBoard = await prisma.leaderBoard.delete({
+     *   where: {
+     *     // ... filter to delete one LeaderBoard
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeaderBoardDeleteArgs>(args: SelectSubset<T, LeaderBoardDeleteArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LeaderBoard.
+     * @param {LeaderBoardUpdateArgs} args - Arguments to update one LeaderBoard.
+     * @example
+     * // Update one LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeaderBoardUpdateArgs>(args: SelectSubset<T, LeaderBoardUpdateArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LeaderBoards.
+     * @param {LeaderBoardDeleteManyArgs} args - Arguments to filter LeaderBoards to delete.
+     * @example
+     * // Delete a few LeaderBoards
+     * const { count } = await prisma.leaderBoard.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeaderBoardDeleteManyArgs>(args?: SelectSubset<T, LeaderBoardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaderBoards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeaderBoards
+     * const leaderBoard = await prisma.leaderBoard.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeaderBoardUpdateManyArgs>(args: SelectSubset<T, LeaderBoardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaderBoards and returns the data updated in the database.
+     * @param {LeaderBoardUpdateManyAndReturnArgs} args - Arguments to update many LeaderBoards.
+     * @example
+     * // Update many LeaderBoards
+     * const leaderBoard = await prisma.leaderBoard.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LeaderBoards and only return the `id`
+     * const leaderBoardWithIdOnly = await prisma.leaderBoard.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LeaderBoardUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaderBoardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LeaderBoard.
+     * @param {LeaderBoardUpsertArgs} args - Arguments to update or create a LeaderBoard.
+     * @example
+     * // Update or create a LeaderBoard
+     * const leaderBoard = await prisma.leaderBoard.upsert({
+     *   create: {
+     *     // ... data to create a LeaderBoard
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeaderBoard we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeaderBoardUpsertArgs>(args: SelectSubset<T, LeaderBoardUpsertArgs<ExtArgs>>): Prisma__LeaderBoardClient<$Result.GetResult<Prisma.$LeaderBoardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LeaderBoards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardCountArgs} args - Arguments to filter LeaderBoards to count.
+     * @example
+     * // Count the number of LeaderBoards
+     * const count = await prisma.leaderBoard.count({
+     *   where: {
+     *     // ... the filter for the LeaderBoards we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeaderBoardCountArgs>(
+      args?: Subset<T, LeaderBoardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeaderBoardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeaderBoard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeaderBoardAggregateArgs>(args: Subset<T, LeaderBoardAggregateArgs>): Prisma.PrismaPromise<GetLeaderBoardAggregateType<T>>
+
+    /**
+     * Group by LeaderBoard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaderBoardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeaderBoardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeaderBoardGroupByArgs['orderBy'] }
+        : { orderBy?: LeaderBoardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeaderBoardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeaderBoardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeaderBoard model
+   */
+  readonly fields: LeaderBoardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeaderBoard.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeaderBoardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends LeaderBoard$userArgs<ExtArgs> = {}>(args?: Subset<T, LeaderBoard$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeaderBoard model
+   */
+  interface LeaderBoardFieldRefs {
+    readonly id: FieldRef<"LeaderBoard", 'Int'>
+    readonly userID: FieldRef<"LeaderBoard", 'Int'>
+    readonly pointType: FieldRef<"LeaderBoard", 'PointType'>
+    readonly points: FieldRef<"LeaderBoard", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeaderBoard findUnique
+   */
+  export type LeaderBoardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaderBoard to fetch.
+     */
+    where: LeaderBoardWhereUniqueInput
+  }
+
+  /**
+   * LeaderBoard findUniqueOrThrow
+   */
+  export type LeaderBoardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaderBoard to fetch.
+     */
+    where: LeaderBoardWhereUniqueInput
+  }
+
+  /**
+   * LeaderBoard findFirst
+   */
+  export type LeaderBoardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaderBoard to fetch.
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaderBoards to fetch.
+     */
+    orderBy?: LeaderBoardOrderByWithRelationInput | LeaderBoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaderBoards.
+     */
+    cursor?: LeaderBoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaderBoards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaderBoards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaderBoards.
+     */
+    distinct?: LeaderBoardScalarFieldEnum | LeaderBoardScalarFieldEnum[]
+  }
+
+  /**
+   * LeaderBoard findFirstOrThrow
+   */
+  export type LeaderBoardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaderBoard to fetch.
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaderBoards to fetch.
+     */
+    orderBy?: LeaderBoardOrderByWithRelationInput | LeaderBoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaderBoards.
+     */
+    cursor?: LeaderBoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaderBoards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaderBoards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaderBoards.
+     */
+    distinct?: LeaderBoardScalarFieldEnum | LeaderBoardScalarFieldEnum[]
+  }
+
+  /**
+   * LeaderBoard findMany
+   */
+  export type LeaderBoardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaderBoards to fetch.
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaderBoards to fetch.
+     */
+    orderBy?: LeaderBoardOrderByWithRelationInput | LeaderBoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeaderBoards.
+     */
+    cursor?: LeaderBoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaderBoards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaderBoards.
+     */
+    skip?: number
+    distinct?: LeaderBoardScalarFieldEnum | LeaderBoardScalarFieldEnum[]
+  }
+
+  /**
+   * LeaderBoard create
+   */
+  export type LeaderBoardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeaderBoard.
+     */
+    data: XOR<LeaderBoardCreateInput, LeaderBoardUncheckedCreateInput>
+  }
+
+  /**
+   * LeaderBoard createMany
+   */
+  export type LeaderBoardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeaderBoards.
+     */
+    data: LeaderBoardCreateManyInput | LeaderBoardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeaderBoard createManyAndReturn
+   */
+  export type LeaderBoardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * The data used to create many LeaderBoards.
+     */
+    data: LeaderBoardCreateManyInput | LeaderBoardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaderBoard update
+   */
+  export type LeaderBoardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeaderBoard.
+     */
+    data: XOR<LeaderBoardUpdateInput, LeaderBoardUncheckedUpdateInput>
+    /**
+     * Choose, which LeaderBoard to update.
+     */
+    where: LeaderBoardWhereUniqueInput
+  }
+
+  /**
+   * LeaderBoard updateMany
+   */
+  export type LeaderBoardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeaderBoards.
+     */
+    data: XOR<LeaderBoardUpdateManyMutationInput, LeaderBoardUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaderBoards to update
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * Limit how many LeaderBoards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaderBoard updateManyAndReturn
+   */
+  export type LeaderBoardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * The data used to update LeaderBoards.
+     */
+    data: XOR<LeaderBoardUpdateManyMutationInput, LeaderBoardUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaderBoards to update
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * Limit how many LeaderBoards to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaderBoard upsert
+   */
+  export type LeaderBoardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeaderBoard to update in case it exists.
+     */
+    where: LeaderBoardWhereUniqueInput
+    /**
+     * In case the LeaderBoard found by the `where` argument doesn't exist, create a new LeaderBoard with this data.
+     */
+    create: XOR<LeaderBoardCreateInput, LeaderBoardUncheckedCreateInput>
+    /**
+     * In case the LeaderBoard was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeaderBoardUpdateInput, LeaderBoardUncheckedUpdateInput>
+  }
+
+  /**
+   * LeaderBoard delete
+   */
+  export type LeaderBoardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+    /**
+     * Filter which LeaderBoard to delete.
+     */
+    where: LeaderBoardWhereUniqueInput
+  }
+
+  /**
+   * LeaderBoard deleteMany
+   */
+  export type LeaderBoardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaderBoards to delete
+     */
+    where?: LeaderBoardWhereInput
+    /**
+     * Limit how many LeaderBoards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaderBoard.user
+   */
+  export type LeaderBoard$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * LeaderBoard without action
+   */
+  export type LeaderBoardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaderBoard
+     */
+    select?: LeaderBoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaderBoard
+     */
+    omit?: LeaderBoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaderBoardInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -7566,6 +8812,16 @@ export namespace Prisma {
   };
 
   export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]
+
+
+  export const LeaderBoardScalarFieldEnum: {
+    id: 'id',
+    userID: 'userID',
+    pointType: 'pointType',
+    points: 'points'
+  };
+
+  export type LeaderBoardScalarFieldEnum = (typeof LeaderBoardScalarFieldEnum)[keyof typeof LeaderBoardScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7696,6 +8952,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PointType'
+   */
+  export type EnumPointTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointType'>
+    
+
+
+  /**
+   * Reference to a field of type 'PointType[]'
+   */
+  export type ListEnumPointTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -7727,6 +8997,7 @@ export namespace Prisma {
     markets?: MarketListRelationFilter
     trades?: TradeListRelationFilter
     token_allocated?: TokenAllocationListRelationFilter
+    leaderboard?: LeaderBoardListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7741,6 +9012,7 @@ export namespace Prisma {
     markets?: MarketOrderByRelationAggregateInput
     trades?: TradeOrderByRelationAggregateInput
     token_allocated?: TokenAllocationOrderByRelationAggregateInput
+    leaderboard?: LeaderBoardOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7758,6 +9030,7 @@ export namespace Prisma {
     markets?: MarketListRelationFilter
     trades?: TradeListRelationFilter
     token_allocated?: TokenAllocationListRelationFilter
+    leaderboard?: LeaderBoardListRelationFilter
   }, "id" | "username" | "wallet_address">
 
   export type UserOrderByWithAggregationInput = {
@@ -8125,6 +9398,59 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Trade"> | Date | string
   }
 
+  export type LeaderBoardWhereInput = {
+    AND?: LeaderBoardWhereInput | LeaderBoardWhereInput[]
+    OR?: LeaderBoardWhereInput[]
+    NOT?: LeaderBoardWhereInput | LeaderBoardWhereInput[]
+    id?: IntFilter<"LeaderBoard"> | number
+    userID?: IntNullableFilter<"LeaderBoard"> | number | null
+    pointType?: EnumPointTypeFilter<"LeaderBoard"> | $Enums.PointType
+    points?: IntFilter<"LeaderBoard"> | number
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type LeaderBoardOrderByWithRelationInput = {
+    id?: SortOrder
+    userID?: SortOrderInput | SortOrder
+    pointType?: SortOrder
+    points?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type LeaderBoardWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userID_pointType?: LeaderBoardUserIDPointTypeCompoundUniqueInput
+    AND?: LeaderBoardWhereInput | LeaderBoardWhereInput[]
+    OR?: LeaderBoardWhereInput[]
+    NOT?: LeaderBoardWhereInput | LeaderBoardWhereInput[]
+    userID?: IntNullableFilter<"LeaderBoard"> | number | null
+    pointType?: EnumPointTypeFilter<"LeaderBoard"> | $Enums.PointType
+    points?: IntFilter<"LeaderBoard"> | number
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "userID_pointType">
+
+  export type LeaderBoardOrderByWithAggregationInput = {
+    id?: SortOrder
+    userID?: SortOrderInput | SortOrder
+    pointType?: SortOrder
+    points?: SortOrder
+    _count?: LeaderBoardCountOrderByAggregateInput
+    _avg?: LeaderBoardAvgOrderByAggregateInput
+    _max?: LeaderBoardMaxOrderByAggregateInput
+    _min?: LeaderBoardMinOrderByAggregateInput
+    _sum?: LeaderBoardSumOrderByAggregateInput
+  }
+
+  export type LeaderBoardScalarWhereWithAggregatesInput = {
+    AND?: LeaderBoardScalarWhereWithAggregatesInput | LeaderBoardScalarWhereWithAggregatesInput[]
+    OR?: LeaderBoardScalarWhereWithAggregatesInput[]
+    NOT?: LeaderBoardScalarWhereWithAggregatesInput | LeaderBoardScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"LeaderBoard"> | number
+    userID?: IntNullableWithAggregatesFilter<"LeaderBoard"> | number | null
+    pointType?: EnumPointTypeWithAggregatesFilter<"LeaderBoard"> | $Enums.PointType
+    points?: IntWithAggregatesFilter<"LeaderBoard"> | number
+  }
+
   export type UserCreateInput = {
     username: string
     about: string
@@ -8136,6 +9462,7 @@ export namespace Prisma {
     markets?: MarketCreateNestedManyWithoutCreatorInput
     trades?: TradeCreateNestedManyWithoutUserInput
     token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8150,6 +9477,7 @@ export namespace Prisma {
     markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
     trades?: TradeUncheckedCreateNestedManyWithoutUserInput
     token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8163,6 +9491,7 @@ export namespace Prisma {
     markets?: MarketUpdateManyWithoutCreatorNestedInput
     trades?: TradeUpdateManyWithoutUserNestedInput
     token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8177,6 +9506,7 @@ export namespace Prisma {
     markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
     trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
     token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8551,6 +9881,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LeaderBoardCreateInput = {
+    pointType: $Enums.PointType
+    points?: number
+    user?: UserCreateNestedOneWithoutLeaderboardInput
+  }
+
+  export type LeaderBoardUncheckedCreateInput = {
+    id?: number
+    userID?: number | null
+    pointType: $Enums.PointType
+    points?: number
+  }
+
+  export type LeaderBoardUpdateInput = {
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+    user?: UserUpdateOneWithoutLeaderboardNestedInput
+  }
+
+  export type LeaderBoardUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LeaderBoardCreateManyInput = {
+    id?: number
+    userID?: number | null
+    pointType: $Enums.PointType
+    points?: number
+  }
+
+  export type LeaderBoardUpdateManyMutationInput = {
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LeaderBoardUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userID?: NullableIntFieldUpdateOperationsInput | number | null
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -8628,6 +10003,12 @@ export namespace Prisma {
     none?: TokenAllocationWhereInput
   }
 
+  export type LeaderBoardListRelationFilter = {
+    every?: LeaderBoardWhereInput
+    some?: LeaderBoardWhereInput
+    none?: LeaderBoardWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8642,6 +10023,10 @@ export namespace Prisma {
   }
 
   export type TokenAllocationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeaderBoardOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9108,6 +10493,61 @@ export namespace Prisma {
     _max?: NestedEnumOrderTypeFilter<$PrismaModel>
   }
 
+  export type EnumPointTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PointType | EnumPointTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPointTypeFilter<$PrismaModel> | $Enums.PointType
+  }
+
+  export type LeaderBoardUserIDPointTypeCompoundUniqueInput = {
+    userID: number
+    pointType: $Enums.PointType
+  }
+
+  export type LeaderBoardCountOrderByAggregateInput = {
+    id?: SortOrder
+    userID?: SortOrder
+    pointType?: SortOrder
+    points?: SortOrder
+  }
+
+  export type LeaderBoardAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userID?: SortOrder
+    points?: SortOrder
+  }
+
+  export type LeaderBoardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userID?: SortOrder
+    pointType?: SortOrder
+    points?: SortOrder
+  }
+
+  export type LeaderBoardMinOrderByAggregateInput = {
+    id?: SortOrder
+    userID?: SortOrder
+    pointType?: SortOrder
+    points?: SortOrder
+  }
+
+  export type LeaderBoardSumOrderByAggregateInput = {
+    id?: SortOrder
+    userID?: SortOrder
+    points?: SortOrder
+  }
+
+  export type EnumPointTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PointType | EnumPointTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPointTypeWithAggregatesFilter<$PrismaModel> | $Enums.PointType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPointTypeFilter<$PrismaModel>
+    _max?: NestedEnumPointTypeFilter<$PrismaModel>
+  }
+
   export type MarketCreateNestedManyWithoutCreatorInput = {
     create?: XOR<MarketCreateWithoutCreatorInput, MarketUncheckedCreateWithoutCreatorInput> | MarketCreateWithoutCreatorInput[] | MarketUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: MarketCreateOrConnectWithoutCreatorInput | MarketCreateOrConnectWithoutCreatorInput[]
@@ -9129,6 +10569,13 @@ export namespace Prisma {
     connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
   }
 
+  export type LeaderBoardCreateNestedManyWithoutUserInput = {
+    create?: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput> | LeaderBoardCreateWithoutUserInput[] | LeaderBoardUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LeaderBoardCreateOrConnectWithoutUserInput | LeaderBoardCreateOrConnectWithoutUserInput[]
+    createMany?: LeaderBoardCreateManyUserInputEnvelope
+    connect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+  }
+
   export type MarketUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<MarketCreateWithoutCreatorInput, MarketUncheckedCreateWithoutCreatorInput> | MarketCreateWithoutCreatorInput[] | MarketUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: MarketCreateOrConnectWithoutCreatorInput | MarketCreateOrConnectWithoutCreatorInput[]
@@ -9148,6 +10595,13 @@ export namespace Prisma {
     connectOrCreate?: TokenAllocationCreateOrConnectWithoutUserInput | TokenAllocationCreateOrConnectWithoutUserInput[]
     createMany?: TokenAllocationCreateManyUserInputEnvelope
     connect?: TokenAllocationWhereUniqueInput | TokenAllocationWhereUniqueInput[]
+  }
+
+  export type LeaderBoardUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput> | LeaderBoardCreateWithoutUserInput[] | LeaderBoardUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LeaderBoardCreateOrConnectWithoutUserInput | LeaderBoardCreateOrConnectWithoutUserInput[]
+    createMany?: LeaderBoardCreateManyUserInputEnvelope
+    connect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9208,6 +10662,20 @@ export namespace Prisma {
     deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
   }
 
+  export type LeaderBoardUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput> | LeaderBoardCreateWithoutUserInput[] | LeaderBoardUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LeaderBoardCreateOrConnectWithoutUserInput | LeaderBoardCreateOrConnectWithoutUserInput[]
+    upsert?: LeaderBoardUpsertWithWhereUniqueWithoutUserInput | LeaderBoardUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LeaderBoardCreateManyUserInputEnvelope
+    set?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    disconnect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    delete?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    connect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    update?: LeaderBoardUpdateWithWhereUniqueWithoutUserInput | LeaderBoardUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LeaderBoardUpdateManyWithWhereWithoutUserInput | LeaderBoardUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LeaderBoardScalarWhereInput | LeaderBoardScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -9256,6 +10724,20 @@ export namespace Prisma {
     update?: TokenAllocationUpdateWithWhereUniqueWithoutUserInput | TokenAllocationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TokenAllocationUpdateManyWithWhereWithoutUserInput | TokenAllocationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TokenAllocationScalarWhereInput | TokenAllocationScalarWhereInput[]
+  }
+
+  export type LeaderBoardUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput> | LeaderBoardCreateWithoutUserInput[] | LeaderBoardUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LeaderBoardCreateOrConnectWithoutUserInput | LeaderBoardCreateOrConnectWithoutUserInput[]
+    upsert?: LeaderBoardUpsertWithWhereUniqueWithoutUserInput | LeaderBoardUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LeaderBoardCreateManyUserInputEnvelope
+    set?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    disconnect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    delete?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    connect?: LeaderBoardWhereUniqueInput | LeaderBoardWhereUniqueInput[]
+    update?: LeaderBoardUpdateWithWhereUniqueWithoutUserInput | LeaderBoardUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LeaderBoardUpdateManyWithWhereWithoutUserInput | LeaderBoardUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LeaderBoardScalarWhereInput | LeaderBoardScalarWhereInput[]
   }
 
   export type MarketCreatetagsInput = {
@@ -9563,6 +11045,26 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTradesInput, UserUpdateWithoutTradesInput>, UserUncheckedUpdateWithoutTradesInput>
   }
 
+  export type UserCreateNestedOneWithoutLeaderboardInput = {
+    create?: XOR<UserCreateWithoutLeaderboardInput, UserUncheckedCreateWithoutLeaderboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLeaderboardInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPointTypeFieldUpdateOperationsInput = {
+    set?: $Enums.PointType
+  }
+
+  export type UserUpdateOneWithoutLeaderboardNestedInput = {
+    create?: XOR<UserCreateWithoutLeaderboardInput, UserUncheckedCreateWithoutLeaderboardInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLeaderboardInput
+    upsert?: UserUpsertWithoutLeaderboardInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLeaderboardInput, UserUpdateWithoutLeaderboardInput>, UserUncheckedUpdateWithoutLeaderboardInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9804,6 +11306,23 @@ export namespace Prisma {
     _max?: NestedEnumOrderTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumPointTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.PointType | EnumPointTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPointTypeFilter<$PrismaModel> | $Enums.PointType
+  }
+
+  export type NestedEnumPointTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PointType | EnumPointTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PointType[] | ListEnumPointTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPointTypeWithAggregatesFilter<$PrismaModel> | $Enums.PointType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPointTypeFilter<$PrismaModel>
+    _max?: NestedEnumPointTypeFilter<$PrismaModel>
+  }
+
   export type MarketCreateWithoutCreatorInput = {
     description?: string
     resolution_criteria?: string
@@ -9907,6 +11426,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LeaderBoardCreateWithoutUserInput = {
+    pointType: $Enums.PointType
+    points?: number
+  }
+
+  export type LeaderBoardUncheckedCreateWithoutUserInput = {
+    id?: number
+    pointType: $Enums.PointType
+    points?: number
+  }
+
+  export type LeaderBoardCreateOrConnectWithoutUserInput = {
+    where: LeaderBoardWhereUniqueInput
+    create: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput>
+  }
+
+  export type LeaderBoardCreateManyUserInputEnvelope = {
+    data: LeaderBoardCreateManyUserInput | LeaderBoardCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MarketUpsertWithWhereUniqueWithoutCreatorInput = {
     where: MarketWhereUniqueInput
     update: XOR<MarketUpdateWithoutCreatorInput, MarketUncheckedUpdateWithoutCreatorInput>
@@ -10003,6 +11543,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"TokenAllocation"> | Date | string
   }
 
+  export type LeaderBoardUpsertWithWhereUniqueWithoutUserInput = {
+    where: LeaderBoardWhereUniqueInput
+    update: XOR<LeaderBoardUpdateWithoutUserInput, LeaderBoardUncheckedUpdateWithoutUserInput>
+    create: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput>
+  }
+
+  export type LeaderBoardUpdateWithWhereUniqueWithoutUserInput = {
+    where: LeaderBoardWhereUniqueInput
+    data: XOR<LeaderBoardUpdateWithoutUserInput, LeaderBoardUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LeaderBoardUpdateManyWithWhereWithoutUserInput = {
+    where: LeaderBoardScalarWhereInput
+    data: XOR<LeaderBoardUpdateManyMutationInput, LeaderBoardUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LeaderBoardScalarWhereInput = {
+    AND?: LeaderBoardScalarWhereInput | LeaderBoardScalarWhereInput[]
+    OR?: LeaderBoardScalarWhereInput[]
+    NOT?: LeaderBoardScalarWhereInput | LeaderBoardScalarWhereInput[]
+    id?: IntFilter<"LeaderBoard"> | number
+    userID?: IntNullableFilter<"LeaderBoard"> | number | null
+    pointType?: EnumPointTypeFilter<"LeaderBoard"> | $Enums.PointType
+    points?: IntFilter<"LeaderBoard"> | number
+  }
+
   export type UserCreateWithoutMarketsInput = {
     username: string
     about: string
@@ -10013,6 +11579,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     trades?: TradeCreateNestedManyWithoutUserInput
     token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketsInput = {
@@ -10026,6 +11593,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     trades?: TradeUncheckedCreateNestedManyWithoutUserInput
     token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketsInput = {
@@ -10120,6 +11688,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trades?: TradeUpdateManyWithoutUserNestedInput
     token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketsInput = {
@@ -10133,6 +11702,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
     token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TradeUpsertWithWhereUniqueWithoutMarketInput = {
@@ -10364,6 +11934,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     markets?: MarketCreateNestedManyWithoutCreatorInput
     trades?: TradeCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutToken_allocatedInput = {
@@ -10377,6 +11948,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
     trades?: TradeUncheckedCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutToken_allocatedInput = {
@@ -10431,6 +12003,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUpdateManyWithoutCreatorNestedInput
     trades?: TradeUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutToken_allocatedInput = {
@@ -10444,6 +12017,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
     trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OutcomeUpsertWithoutTokenAllocationsInput = {
@@ -10552,6 +12126,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     markets?: MarketCreateNestedManyWithoutCreatorInput
     token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTradesInput = {
@@ -10565,6 +12140,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
     token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
+    leaderboard?: LeaderBoardUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTradesInput = {
@@ -10669,6 +12245,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUpdateManyWithoutCreatorNestedInput
     token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTradesInput = {
@@ -10681,6 +12258,77 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
+    token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
+    leaderboard?: LeaderBoardUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutLeaderboardInput = {
+    username: string
+    about: string
+    wallet_address: string
+    role?: $Enums.Role
+    profile_pic?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    markets?: MarketCreateNestedManyWithoutCreatorInput
+    trades?: TradeCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLeaderboardInput = {
+    id?: number
+    username: string
+    about: string
+    wallet_address: string
+    role?: $Enums.Role
+    profile_pic?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    markets?: MarketUncheckedCreateNestedManyWithoutCreatorInput
+    trades?: TradeUncheckedCreateNestedManyWithoutUserInput
+    token_allocated?: TokenAllocationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLeaderboardInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLeaderboardInput, UserUncheckedCreateWithoutLeaderboardInput>
+  }
+
+  export type UserUpsertWithoutLeaderboardInput = {
+    update: XOR<UserUpdateWithoutLeaderboardInput, UserUncheckedUpdateWithoutLeaderboardInput>
+    create: XOR<UserCreateWithoutLeaderboardInput, UserUncheckedCreateWithoutLeaderboardInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLeaderboardInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLeaderboardInput, UserUncheckedUpdateWithoutLeaderboardInput>
+  }
+
+  export type UserUpdateWithoutLeaderboardInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    wallet_address?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    markets?: MarketUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUpdateManyWithoutUserNestedInput
+    token_allocated?: TokenAllocationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLeaderboardInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    wallet_address?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    profile_pic?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    markets?: MarketUncheckedUpdateManyWithoutCreatorNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
     token_allocated?: TokenAllocationUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10718,6 +12366,12 @@ export namespace Prisma {
     outcomeId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type LeaderBoardCreateManyUserInput = {
+    id?: number
+    pointType: $Enums.PointType
+    points?: number
   }
 
   export type MarketUpdateWithoutCreatorInput = {
@@ -10827,6 +12481,23 @@ export namespace Prisma {
     outcomeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaderBoardUpdateWithoutUserInput = {
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LeaderBoardUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LeaderBoardUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    pointType?: EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
+    points?: IntFieldUpdateOperationsInput | number
   }
 
   export type TradeCreateManyMarketInput = {

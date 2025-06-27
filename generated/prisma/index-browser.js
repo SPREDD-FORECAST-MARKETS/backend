@@ -180,6 +180,13 @@ exports.Prisma.TradeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LeaderBoardScalarFieldEnum = {
+  id: 'id',
+  userID: 'userID',
+  pointType: 'pointType',
+  points: 'points'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -211,12 +218,18 @@ exports.OrderType = exports.$Enums.OrderType = {
   SELL: 'SELL'
 };
 
+exports.PointType = exports.$Enums.PointType = {
+  CREATOR: 'CREATOR',
+  TRADER: 'TRADER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Market: 'Market',
   Outcome: 'Outcome',
   TokenAllocation: 'TokenAllocation',
-  Trade: 'Trade'
+  Trade: 'Trade',
+  LeaderBoard: 'LeaderBoard'
 };
 
 /**

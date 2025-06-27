@@ -27,6 +27,8 @@ model User {
   markets         Market[]
   trades          Trade[]
   token_allocated TokenAllocation[]
+
+  leaderboard LeaderBoard[]
 }
 
 model Market {
@@ -107,6 +109,16 @@ model Trade {
   updatedAt DateTime @updatedAt
 }
 
+model LeaderBoard {
+  id        Int       @id @default(autoincrement())
+  user      User?     @relation(fields: [userID], references: [id])
+  userID    Int?
+  pointType PointType
+  points    Int       @default(0)
+
+  @@unique([userID, pointType])
+}
+
 enum VoteType {
   YES
   NO
@@ -139,4 +151,9 @@ enum EventOption {
 enum OrderType {
   BUY
   SELL
+}
+
+enum PointType {
+  CREATOR
+  TRADER
 }
