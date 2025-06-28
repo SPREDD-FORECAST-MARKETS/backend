@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { TradeModule } from './trade/trade.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './cron.service';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TasksService } from './cron.service';
     MarketModule,
     UserModule,
     TradeModule,
+    DashboardModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],

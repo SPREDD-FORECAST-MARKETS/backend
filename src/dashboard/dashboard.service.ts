@@ -1,0 +1,237 @@
+import { Injectable } from '@nestjs/common';
+import { Express } from 'express';
+import { PointType } from 'generated/prisma';
+import { Decimal } from 'generated/prisma/runtime/library';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+
+
+export interface MarketVolumeResponse {
+  marketId: number;
+  marketQuestion: string;
+  totalVolume: string;
+  totalTrades: number;
+  buyVolume: string;
+  sellVolume: string;
+  buyTradesCount: number;
+  sellTradesCount: number;
+}
+
+export interface DetailedMarketVolumeResponse {
+  marketId: number;
+  marketQuestion: string;
+  totalVolume: string;
+  totalTrades: number;
+  outcomes: Array<{
+    outcomeId: number;
+    outcomeTitle: string;
+    buyVolume: string;
+    sellVolume: string;
+    totalOutcomeVolume: string;
+    tradesCount: number;
+  }>;
+}
+
+@Injectable()
+export class DashboardService {
+  constructor(private readonly prisma: PrismaService) { }
+
+  async getLeaderboard(pointType: PointType, limit = 10) {
+    return this.prisma.leaderBoard.findMany({
+      where: { pointType },
+      orderBy: { points: 'desc' },
+      take: limit,
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            wallet_address: true,
+            profile_pic: true
+          }
+        },
+      },
+    });
+  }
+
+  async getMostTradedMarketsIn24Hours(limit = 10) {
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    const groupedTrades = await this.prisma.trade.groupBy({
+      by: ['marketID'],
+      where: {
+        createdAt: { gte: oneWeekAgo },
+        marketID: { not: null },
+      },
+      _count: {
+        marketID: true,
+      },
+      orderBy: {
+        _count: {
+          marketID: 'desc',
+        },
+      },
+      take: limit,
+    });
+
+    const marketIds = groupedTrades.map((t) => t.marketID).filter((id): id is number => id !== null);
+    console.log(marketIds)
+
+    const markets = await this.prisma.market.findMany({
+      where: { id: { in: marketIds } },
+      include: {
+        creator: {
+          select: {
+            username: true,
+            wallet_address: true,
+          },
+        },
+      },
+    });
+
+    return markets.map((market) => {
+      const count = groupedTrades.find((t) => t.marketID === market.id)?._count.marketID || 0;
+      return {
+        ...market,
+        tradeCount: count,
+      };
+    });
+  }
+
+
+  async getMarketVolume(marketId: number): Promise<MarketVolumeResponse> {
+    // First check if market exists
+    const market = await this.prisma.market.findUnique({
+      where: { id: marketId },
+      select: { id: true, question: true }
+    });
+
+    if (!market) {
+      throw new Error('Market not found');
+    }
+
+    // Get all trades for this market with aggregation
+    const tradeStats = await this.prisma.trade.groupBy({
+      by: ['order_type'],
+      where: {
+        marketID: marketId
+      },
+      _sum: {
+        amount: true
+      },
+      _count: {
+        id: true
+      }
+    });
+
+    // Initialize volumes
+    let buyVolume = new Decimal(0);
+    let sellVolume = new Decimal(0);
+    let buyTradesCount = 0;
+    let sellTradesCount = 0;
+
+    // Process aggregated results
+    tradeStats.forEach(stat => {
+      if (stat.order_type === 'BUY') {
+        buyVolume = stat._sum.amount || new Decimal(0);
+        buyTradesCount = stat._count.id;
+      } else if (stat.order_type === 'SELL') {
+        sellVolume = stat._sum.amount || new Decimal(0);
+        sellTradesCount = stat._count.id;
+      }
+    });
+
+    const totalVolume = buyVolume.add(sellVolume);
+    const totalTrades = buyTradesCount + sellTradesCount;
+
+    return {
+      marketId: market.id,
+      marketQuestion: market.question,
+      totalVolume: totalVolume.toString(),
+      totalTrades,
+      buyVolume: buyVolume.toString(),
+      sellVolume: sellVolume.toString(),
+      buyTradesCount,
+      sellTradesCount
+    };
+  }
+
+  async getDetailedMarketVolume(marketId: number): Promise<DetailedMarketVolumeResponse> {
+    // Check if market exists and get outcomes
+    const market = await this.prisma.market.findUnique({
+      where: { id: marketId },
+      include: {
+        outcome: {
+          select: {
+            id: true,
+            outcome_title: true
+          }
+        }
+      }
+    });
+
+    if (!market) {
+      throw new Error('Market not found');
+    }
+
+    // Get trade stats grouped by outcome and order type
+    const tradeStatsByOutcome = await this.prisma.trade.groupBy({
+      by: ['outcomeId', 'order_type'],
+      where: {
+        marketID: marketId,
+        outcomeId: { not: null }
+      },
+      _sum: {
+        amount: true
+      },
+      _count: {
+        id: true
+      }
+    });
+
+    // Process outcomes
+    const outcomes = market.outcome.map(outcome => {
+      const outcomeStats = tradeStatsByOutcome.filter(stat => stat.outcomeId === outcome.id);
+
+      let buyVolume = new Decimal(0);
+      let sellVolume = new Decimal(0);
+      let tradesCount = 0;
+
+      outcomeStats.forEach(stat => {
+        if (stat.order_type === 'BUY') {
+          buyVolume = stat._sum.amount || new Decimal(0);
+        } else if (stat.order_type === 'SELL') {
+          sellVolume = stat._sum.amount || new Decimal(0);
+        }
+        tradesCount += stat._count.id;
+      });
+
+      const totalOutcomeVolume = buyVolume.add(sellVolume);
+
+      return {
+        outcomeId: outcome.id,
+        outcomeTitle: outcome.outcome_title,
+        buyVolume: buyVolume.toString(),
+        sellVolume: sellVolume.toString(),
+        totalOutcomeVolume: totalOutcomeVolume.toString(),
+        tradesCount
+      };
+    });
+
+    // Calculate totals
+    const totalVolume = outcomes.reduce((sum, outcome) =>
+      sum.add(new Decimal(outcome.totalOutcomeVolume)), new Decimal(0)
+    );
+    const totalTrades = outcomes.reduce((sum, outcome) => sum + outcome.tradesCount, 0);
+
+    return {
+      marketId: market.id,
+      marketQuestion: market.question,
+      totalVolume: totalVolume.toString(),
+      totalTrades,
+      outcomes
+    };
+  }
+
+
+}
