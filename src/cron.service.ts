@@ -13,7 +13,6 @@ interface TopPerformersResult {
   creatorFP: bigint[];
 }
 
-
 @Injectable()
 export class TasksService {
   private readonly logger = new Logger(TasksService.name);

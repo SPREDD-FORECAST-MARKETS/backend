@@ -75,7 +75,6 @@ export class DashboardService {
     });
 
     const marketIds = groupedTrades.map((t) => t.marketID).filter((id): id is number => id !== null);
-    console.log(marketIds)
 
     const markets = await this.prisma.market.findMany({
       where: { id: { in: marketIds } },
@@ -89,13 +88,15 @@ export class DashboardService {
       },
     });
 
-    return markets.map((market) => {
-      const count = groupedTrades.find((t) => t.marketID === market.id)?._count.marketID || 0;
-      return {
-        ...market,
-        tradeCount: count,
-      };
-    });
+    return markets
+      .map((market) => {
+        const count = groupedTrades.find((t) => t.marketID === market.id)?._count.marketID || 0;
+        return {
+          ...market,
+          tradeCount: count,
+        };
+      })
+      .sort((a, b) => b.tradeCount - a.tradeCount);
   }
 
 

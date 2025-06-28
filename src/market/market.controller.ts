@@ -41,5 +41,16 @@ export class MarketController {
         return this.marketService.getMarket(id)
     }
 
+    @Get('user/:wallet_address')
+    async getUserMarkets(
+        @Param('wallet_address') wallet_address: string,
+        @Query('page') page = '1',
+        @Query('limit') limit = '10',
+    ) {
+        const pageNum = parseInt(page, 10);
+        const limitNum = parseInt(limit, 10);
+
+        return this.marketService.getUserMarkets(wallet_address, pageNum, limitNum);
+    }
 
 }

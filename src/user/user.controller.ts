@@ -53,5 +53,13 @@ export class UserController {
         return this.userService.getMyCreatedMarkets(filterDto, user.id);
     }
 
+    @Get("dashboard")
+    @UseGuards(PrivyAuthGuard)
+    @ApiBearerAuth()
+    @ApiSecurity('bearer')
+    async getDashboardInfo(@CurrentUser() user: User) {
+        return this.userService.getUserDashboardInfo(user.id);
+    }
+
 
 }

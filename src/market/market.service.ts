@@ -145,4 +145,34 @@ export class MarketService {
 
   }
 
+
+  async getUserMarkets(wallet_address: string, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+
+    const markets = await this.prismaService.market.findMany({
+      where: {
+        creator: {
+          wallet_address,
+        },
+      },
+      skip,
+      take: limit,
+      select: {
+        id: true,
+        contract_address: true,
+        description: true,
+        question: true,
+        expiry_date: true,
+        createdAt: true,
+        image: true,
+        status: true,
+        outcomeWon: true,
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+
+    return markets;
+  }
 }

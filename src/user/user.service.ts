@@ -104,4 +104,58 @@ export class UserService {
 
   }
 
+
+  async getUserDashboardInfo(userId: number) {
+
+    const uniquePredictions = await this.prismaService.trade.groupBy({
+      by: ['outcomeId'],
+      where: {
+        userID: userId,
+        outcomeId: { not: null },
+      },
+    });
+
+    const winningTrades = await this.prismaService.trade.findMany({
+      where: {
+        userID: userId,
+        outcome: {
+          is: {
+            market: {
+              status: 'CLOSED',
+              outcomeWon: {
+                not: null,
+              },
+            },
+          },
+        },
+      },
+      include: {
+        outcome: {
+          include: {
+            market: true,
+          },
+        },
+      },
+    });
+
+    // Filter for trades where the outcomeId matches market.outcomeWon
+    const uniqueWinningOutcomes = new Set<number>();
+
+    for (const trade of winningTrades) {
+      const outcomeId = trade.outcomeId;
+      const wonOutcomeId = trade.outcome?.market?.outcomeWon;
+
+      if (outcomeId !== null && wonOutcomeId === outcomeId) {
+        uniqueWinningOutcomes.add(outcomeId);
+      }
+    }
+
+
+    return {
+      "predictions": uniquePredictions.length,
+      "wins": uniqueWinningOutcomes.size
+    }
+
+  }
+
 }
