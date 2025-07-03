@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class CreateMarketDto {
   @IsString()
@@ -43,4 +43,12 @@ export class CreateMarketDto {
     example: 'https://example.com/market-image.png',
   })
   image?: string;
+
+  @IsArray()
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: 'Optional tags',
+    example: 'https://example.com/market-image.png',
+  })
+  tags?: string[];
 }

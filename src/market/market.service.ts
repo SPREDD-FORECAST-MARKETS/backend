@@ -17,7 +17,8 @@ export class MarketService {
     expiry_date: Date,
     image: string | undefined,
     contract_address: string,
-    userId: number
+    userId: number,
+    tags?:string[]
   ) {
 
     const market = await this.prismaService.market.create({
@@ -28,6 +29,7 @@ export class MarketService {
         expiry_date,
         image,
         contract_address,
+        tags,
         creatorId: userId,
       }
     })

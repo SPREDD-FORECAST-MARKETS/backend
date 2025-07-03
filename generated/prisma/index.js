@@ -232,7 +232,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/swapnilshinde/Desktop/spreadd/spreadd-backend/generated/prisma",
+      "value": "/home/shlok/Desktop/codes/spreddMarket/backend/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -241,12 +241,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "debian-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/swapnilshinde/Desktop/spreadd/spreadd-backend/prisma/schema.prisma",
+    "sourceFilePath": "/home/shlok/Desktop/codes/spreddMarket/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -269,8 +273,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id             Int      @id @default(autoincrement())\n  username       String   @unique\n  about          String   @db.Text\n  wallet_address String   @unique\n  role           Role     @default(USER)\n  profile_pic    String?\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n\n  markets         Market[]\n  trades          Trade[]\n  token_allocated TokenAllocation[]\n\n  leaderboard LeaderBoard[]\n}\n\nmodel Market {\n  id                  Int      @id @default(autoincrement())\n  description         String   @default(\"\") @db.Text\n  resolution_criteria String   @default(\"\") @db.Text\n  question            String\n  expiry_date         DateTime\n  image               String?\n\n  contract_address String @default(\"\")\n\n  tags String[]\n\n  status     EventStatus @default(ACTIVE)\n  outcomeWon Int?\n\n  creator   User @relation(fields: [creatorId], references: [id])\n  creatorId Int\n\n  trades  Trade[]\n  outcome Outcome[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Outcome {\n  id               Int               @id @default(autoincrement())\n  outcome_title    String\n  current_supply   Decimal           @default(0)\n  total_liquidity  Decimal           @default(0)\n  market           Market            @relation(fields: [marketID], references: [id])\n  marketID         Int\n  tokenAllocations TokenAllocation[]\n  trades           Trade[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel TokenAllocation {\n  id        Int     @id @default(autoincrement())\n  amount    Decimal\n  user      User    @relation(fields: [userId], references: [id])\n  userId    Int\n  outcome   Outcome @relation(fields: [outcomeId], references: [id])\n  outcomeId Int\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, outcomeId])\n}\n\nmodel Trade {\n  id        Int    @id @default(autoincrement())\n  unique_id String @default(uuid())\n\n  order_type OrderType @default(BUY)\n  order_size Decimal   @default(0)\n  amount     Decimal   @default(0)\n\n  afterPrice Decimal @default(0) // price shift after the trade is bought\n\n  // Trade happened on\n  market   Market? @relation(fields: [marketID], references: [id])\n  marketID Int?\n\n  outcome   Outcome? @relation(fields: [outcomeId], references: [id])\n  outcomeId Int?\n\n  // Trade done by\n  user   User? @relation(fields: [userID], references: [id])\n  userID Int?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel LeaderBoard {\n  id        Int       @id @default(autoincrement())\n  user      User?     @relation(fields: [userID], references: [id])\n  userID    Int?\n  pointType PointType\n  points    Int       @default(0)\n\n  @@unique([userID, pointType])\n}\n\nenum VoteType {\n  YES\n  NO\n}\n\nenum Role {\n  ADMIN\n  USER\n  VOTERS\n}\n\nenum TokenType {\n  ACCESS\n  REFRESH\n  RESET_PASSWORD\n  VERIFY_EMAIL\n}\n\nenum EventStatus {\n  ACTIVE\n  EXPIRED\n  CLOSED\n}\n\nenum EventOption {\n  OPTION_A\n  OPTION_B\n}\n\nenum OrderType {\n  BUY\n  SELL\n}\n\nenum PointType {\n  CREATOR\n  TRADER\n}\n",
-  "inlineSchemaHash": "acfc2384d658e2f460aabd3e9161fdc41c846d0a828b5900b6e8dcdaa28a166a",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id             Int      @id @default(autoincrement())\n  username       String   @unique\n  about          String   @db.Text\n  wallet_address String   @unique\n  role           Role     @default(USER)\n  profile_pic    String?\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n\n  markets         Market[]\n  trades          Trade[]\n  token_allocated TokenAllocation[]\n\n  leaderboard LeaderBoard[]\n}\n\nmodel Market {\n  id                  Int      @id @default(autoincrement())\n  description         String   @default(\"\") @db.Text\n  resolution_criteria String   @default(\"\") @db.Text\n  question            String\n  expiry_date         DateTime\n  image               String?\n\n  contract_address String @default(\"\")\n\n  tags String[]\n\n  status     EventStatus @default(ACTIVE)\n  outcomeWon Int?\n\n  creator   User @relation(fields: [creatorId], references: [id])\n  creatorId Int\n\n  trades  Trade[]\n  outcome Outcome[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Outcome {\n  id               Int               @id @default(autoincrement())\n  outcome_title    String\n  current_supply   Decimal           @default(0)\n  total_liquidity  Decimal           @default(0)\n  market           Market            @relation(fields: [marketID], references: [id])\n  marketID         Int\n  tokenAllocations TokenAllocation[]\n  trades           Trade[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel TokenAllocation {\n  id        Int     @id @default(autoincrement())\n  amount    Decimal\n  user      User    @relation(fields: [userId], references: [id])\n  userId    Int\n  outcome   Outcome @relation(fields: [outcomeId], references: [id])\n  outcomeId Int\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, outcomeId])\n}\n\nmodel Trade {\n  id        Int    @id @default(autoincrement())\n  unique_id String @default(uuid())\n\n  order_type OrderType @default(BUY)\n  order_size Decimal   @default(0)\n  amount     Decimal   @default(0)\n\n  afterPrice Decimal @default(0) // price shift after the trade is bought\n\n  // Trade happened on\n  market   Market? @relation(fields: [marketID], references: [id])\n  marketID Int?\n\n  outcome   Outcome? @relation(fields: [outcomeId], references: [id])\n  outcomeId Int?\n\n  // Trade done by\n  user   User? @relation(fields: [userID], references: [id])\n  userID Int?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel LeaderBoard {\n  id        Int       @id @default(autoincrement())\n  user      User?     @relation(fields: [userID], references: [id])\n  userID    Int?\n  pointType PointType\n  points    Int       @default(0)\n\n  @@unique([userID, pointType])\n}\n\nenum VoteType {\n  YES\n  NO\n}\n\nenum Role {\n  ADMIN\n  USER\n  VOTERS\n}\n\nenum TokenType {\n  ACCESS\n  REFRESH\n  RESET_PASSWORD\n  VERIFY_EMAIL\n}\n\nenum EventStatus {\n  ACTIVE\n  EXPIRED\n  CLOSED\n}\n\nenum EventOption {\n  OPTION_A\n  OPTION_B\n}\n\nenum OrderType {\n  BUY\n  SELL\n}\n\nenum PointType {\n  CREATOR\n  TRADER\n}\n",
+  "inlineSchemaHash": "08be692ffc43fb8e15124e3158cd2d49ebbca4252b563642edcbb7bbc871376a",
   "copyEngine": true
 }
 
@@ -309,8 +313,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")
