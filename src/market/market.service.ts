@@ -48,6 +48,20 @@ export class MarketService {
       }
     })
 
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id: userId
+      }
+    })
+
+    await this.prismaService.news.create({
+      data: {
+        title: "New Market created on Spredd Markets",
+        description: `New prediction market created on spredd markets with title: ${question}, description: ${description} by Creator: ${user?.username}`,
+        source: "Spredd Markets"
+      }
+    })
+
     return market;
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Express } from 'express';
 import { PointType } from 'generated/prisma';
 import { Decimal } from 'generated/prisma/runtime/library';
@@ -232,6 +232,53 @@ export class DashboardService {
       totalTrades,
       outcomes
     };
+  }
+
+
+  async getRandomUnreadNews() {
+    try {
+      // First, get count of unread news
+      const unreadCount = await this.prisma.news.count({
+        where: { isRead: false }
+      });
+
+      if (unreadCount === 0) {
+        throw new NotFoundException('No unread news available');
+      }
+
+      const randomOffset = Math.floor(Math.random() * unreadCount);
+
+      const randomNews = await this.prisma.news.findFirst({
+        where: { isRead: false },
+        skip: randomOffset,
+        orderBy: { createdAt: 'desc' }
+      });
+
+      if (!randomNews) {
+        throw new NotFoundException('No unread news found');
+      }
+
+      // Mark the news as read
+      const updatedNews = await this.prisma.news.update({
+        where: { id: randomNews.id },
+        data: { isRead: true }
+      });
+
+      return {
+        success: true,
+        data: updatedNews,
+        message: 'Random news retrieved and marked as read'
+      };
+
+    } catch (error) {
+      console.log('Failed to get random unread news:', error);
+
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
+      throw new Error('Failed to retrieve news');
+    }
   }
 
 

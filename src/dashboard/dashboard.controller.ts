@@ -170,4 +170,17 @@ export class DashboardController {
     }
   }
 
+
+  @Get('news')
+  @ApiOperation({
+    summary: 'Get detailed volume breakdown by outcome',
+    description: 'Returns volume breakdown for each outcome in the market'
+  })
+  async getRandomUnreadNews() {
+    try {
+      return await this.leaderboardService.getRandomUnreadNews();
+    } catch (error) {
+      throw new HttpException('Market not found', HttpStatus.NOT_FOUND);
+    }
+  }
 }

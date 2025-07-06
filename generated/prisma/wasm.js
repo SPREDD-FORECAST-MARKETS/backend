@@ -187,6 +187,16 @@ exports.Prisma.LeaderBoardScalarFieldEnum = {
   points: 'points'
 };
 
+exports.Prisma.NewsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  source: 'source',
+  isRead: 'isRead',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -229,7 +239,8 @@ exports.Prisma.ModelName = {
   Outcome: 'Outcome',
   TokenAllocation: 'TokenAllocation',
   Trade: 'Trade',
-  LeaderBoard: 'LeaderBoard'
+  LeaderBoard: 'LeaderBoard',
+  News: 'News'
 };
 
 /**

@@ -32,7 +32,86 @@ export class TasksService {
     return user?.id ?? null;
   }
 
-  @Cron('*/100 * * * * *') // Every 10 seconds
+
+  @Cron('*/3600 * * * * *') // Every 10 seconds
+  async handleNews() {
+    this.logger.log('🔁 Task 2: Logging News..');
+
+    const crypto_coins_resp = await fetch(`https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_DATA_API_KEY}&q=crypto%20coins&language=en`);
+    const crypto_resp = await fetch(`https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_DATA_API_KEY}&q=crypto&language=en`);
+    const blockchain_resp = await fetch(`https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_DATA_API_KEY}&q=blockchain&language=en`);
+
+    if (crypto_coins_resp.status !== 200 || crypto_resp.status !== 200 || blockchain_resp.status !== 200) {
+      this.logger.log('🔁 Task 2: News Data api returned error, status: ', crypto_resp);
+      return;
+    }
+
+    const crypto_coins_data = await crypto_coins_resp.json();
+    const crypto_resp_data = await crypto_resp.json();
+    const blockchain_resp_data = await blockchain_resp.json();
+
+    let news_data: {
+      title: string;
+      description: string;
+      source: string;
+    }[] = [];
+
+    // Helper function to safely extract news data
+    const extractNewsData = (news: any) => ({
+      title: news.title || "No News for now lets talk about Spredd Markets",
+      description: news.description || "No News for now lets talk about Spredd Markets",
+      source: news.source_name || "No News for now lets talk about Spredd Markets"
+    });
+
+    // Apply consistent null handling to all API responses
+    crypto_coins_data.results?.forEach(news => {
+      news_data.push(extractNewsData(news));
+    });
+
+    crypto_resp_data.results?.forEach(news => {
+      news_data.push(extractNewsData(news));
+    });
+
+    blockchain_resp_data.results?.forEach(news => {
+      news_data.push(extractNewsData(news));
+    });
+
+    // Shuffle the news data
+    news_data = news_data.sort(() => Math.random() - 0.5);
+
+    // Filter out any potential duplicates or invalid entries
+    const validNewsData = news_data.filter(item =>
+      item.title && item.description && item.source
+    );
+
+    if (validNewsData.length === 0) {
+      this.logger.log('🔁 Task 2: No valid news data to insert');
+      return;
+    }
+
+    try {
+      await this.prisma.news.createMany({
+        data: validNewsData,
+        skipDuplicates: true // This prevents errors if you have unique constraints
+      });
+
+      this.logger.log(`🔁 Task 2: ${validNewsData.length} News items logged successfully`);
+    } catch (error) {
+      this.logger.error('🔁 Task 2: Failed to insert news data:', error);
+    }
+  }
+
+  @Cron('0 0 * * *') // At 00:00 (midnight) every day
+  async deleteOldNews() {
+    this.logger.log('🗑️ Task: Deleting all news from database...');
+
+    await this.prisma.news.deleteMany({});
+
+    this.logger.log('✅ Task: All news deleted successfully.');
+  }
+
+
+  @Cron('*/1000 * * * * *') // Every 10 seconds
   async handleTaskOne() {
     this.logger.log('🔁 Task 1: Run every minute');
 

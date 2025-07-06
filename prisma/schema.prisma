@@ -120,6 +120,16 @@ model LeaderBoard {
   @@unique([userID, pointType])
 }
 
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  source      String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 enum VoteType {
   YES
   NO
