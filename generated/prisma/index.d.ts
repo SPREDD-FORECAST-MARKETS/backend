@@ -8841,6 +8841,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     source: string | null
+    image: string | null
     isRead: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8851,6 +8852,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     source: string | null
+    image: string | null
     isRead: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8861,6 +8863,7 @@ export namespace Prisma {
     title: number
     description: number
     source: number
+    image: number
     isRead: number
     createdAt: number
     updatedAt: number
@@ -8881,6 +8884,7 @@ export namespace Prisma {
     title?: true
     description?: true
     source?: true
+    image?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -8891,6 +8895,7 @@ export namespace Prisma {
     title?: true
     description?: true
     source?: true
+    image?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -8901,6 +8906,7 @@ export namespace Prisma {
     title?: true
     description?: true
     source?: true
+    image?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -8998,6 +9004,7 @@ export namespace Prisma {
     title: string
     description: string
     source: string
+    image: string
     isRead: boolean
     createdAt: Date
     updatedAt: Date
@@ -9027,6 +9034,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     source?: boolean
+    image?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9037,6 +9045,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     source?: boolean
+    image?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9047,6 +9056,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     source?: boolean
+    image?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9057,12 +9067,13 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     source?: boolean
+    image?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "source" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
+  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "source" | "image" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
 
   export type $NewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "News"
@@ -9072,6 +9083,7 @@ export namespace Prisma {
       title: string
       description: string
       source: string
+      image: string
       isRead: boolean
       createdAt: Date
       updatedAt: Date
@@ -9502,6 +9514,7 @@ export namespace Prisma {
     readonly title: FieldRef<"News", 'String'>
     readonly description: FieldRef<"News", 'String'>
     readonly source: FieldRef<"News", 'String'>
+    readonly image: FieldRef<"News", 'String'>
     readonly isRead: FieldRef<"News", 'Boolean'>
     readonly createdAt: FieldRef<"News", 'DateTime'>
     readonly updatedAt: FieldRef<"News", 'DateTime'>
@@ -9975,6 +9988,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     source: 'source',
+    image: 'image',
     isRead: 'isRead',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -10625,6 +10639,7 @@ export namespace Prisma {
     title?: StringFilter<"News"> | string
     description?: StringFilter<"News"> | string
     source?: StringFilter<"News"> | string
+    image?: StringFilter<"News"> | string
     isRead?: BoolFilter<"News"> | boolean
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
@@ -10635,6 +10650,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     source?: SortOrder
+    image?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10648,6 +10664,7 @@ export namespace Prisma {
     title?: StringFilter<"News"> | string
     description?: StringFilter<"News"> | string
     source?: StringFilter<"News"> | string
+    image?: StringFilter<"News"> | string
     isRead?: BoolFilter<"News"> | boolean
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
@@ -10658,6 +10675,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     source?: SortOrder
+    image?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10676,6 +10694,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"News"> | string
     description?: StringWithAggregatesFilter<"News"> | string
     source?: StringWithAggregatesFilter<"News"> | string
+    image?: StringWithAggregatesFilter<"News"> | string
     isRead?: BoolWithAggregatesFilter<"News"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
@@ -11160,6 +11179,7 @@ export namespace Prisma {
     title: string
     description: string
     source: string
+    image: string
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11170,6 +11190,7 @@ export namespace Prisma {
     title: string
     description: string
     source: string
+    image: string
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11179,6 +11200,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     source?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11189,6 +11211,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     source?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11199,6 +11222,7 @@ export namespace Prisma {
     title: string
     description: string
     source: string
+    image: string
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11208,6 +11232,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     source?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11218,6 +11243,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     source?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11855,6 +11881,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     source?: SortOrder
+    image?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11869,6 +11896,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     source?: SortOrder
+    image?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11879,6 +11907,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     source?: SortOrder
+    image?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder

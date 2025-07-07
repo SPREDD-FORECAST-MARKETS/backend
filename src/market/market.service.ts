@@ -58,7 +58,8 @@ export class MarketService {
       data: {
         title: "New Market created on Spredd Markets",
         description: `New prediction market created on spredd markets with title: ${question}, description: ${description} by Creator: ${user?.username}`,
-        source: "Spredd Markets"
+        source: "Spredd Markets",
+        image: image || "https://spredd.markets/logo.jpg"
       }
     })
 

@@ -54,13 +54,15 @@ export class TasksService {
       title: string;
       description: string;
       source: string;
+      image: string;
     }[] = [];
 
     // Helper function to safely extract news data
     const extractNewsData = (news: any) => ({
       title: news.title || "No News for now lets talk about Spredd Markets",
       description: news.description || "No News for now lets talk about Spredd Markets",
-      source: news.source_name || "No News for now lets talk about Spredd Markets"
+      source: news.source_name || "No News for now lets talk about Spredd Markets",
+      image: news.image_url || "https://spredd.markets/logo.jpg"
     });
 
     // Apply consistent null handling to all API responses
@@ -111,7 +113,7 @@ export class TasksService {
   }
 
 
-  @Cron('*/1000 * * * * *') // Every 10 seconds
+  @Cron('*/10 * * * * *') // Every 10 seconds
   async handleTaskOne() {
     this.logger.log('🔁 Task 1: Run every minute');
 
