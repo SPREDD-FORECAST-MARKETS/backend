@@ -26,14 +26,14 @@ export class TasksService {
   });
 
   private async getUserIdByAddress(wallet_address: string): Promise<number | null> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findFirst({
       where: { wallet_address },
     });
     return user?.id ?? null;
   }
 
 
-  @Cron('*/3600 * * * * *') // Every 10 seconds
+  @Cron('0 */2 * * *') // Every 2 hours 
   async handleNews() {
     this.logger.log('🔁 Task 2: Logging News..');
 
@@ -137,7 +137,7 @@ export class TasksService {
       const points = Number(traderFP[i]);
 
       const userId = await this.getUserIdByAddress(userAddress);
-      if (!userId) continue;
+      if (!userId) return;
 
       await this.prisma.leaderBoard.upsert({
         where: {
