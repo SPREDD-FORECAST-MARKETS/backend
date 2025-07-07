@@ -113,7 +113,7 @@ export class TasksService {
   }
 
 
-  @Cron('*/10 * * * * *') // Every 10 seconds
+  @Cron('*/100 * * * * *') // Every 10 seconds
   async handleTaskOne() {
     this.logger.log('🔁 Task 1: Run every minute');
 
