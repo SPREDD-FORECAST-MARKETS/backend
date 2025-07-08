@@ -1,5 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateMarketDto {
   @IsString()
@@ -12,15 +18,23 @@ export class CreateMarketDto {
   @IsString()
   @ApiProperty({
     description: 'Detailed description of the market',
-    example: 'This market predicts whether Bitcoin will hit a 100K milestone by 2025.',
+    example:
+      'This market predicts whether Bitcoin will hit a 100K milestone by 2025.',
   })
   description: string;
 
   @IsString()
   @ApiProperty({
-    description: 'Deployed contract address of Market'
+    description: 'Deployed contract address of Market',
   })
   contract_address: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Deployed contract MarketID',
+    example: '0x1234567890abcdef1234567890abcdef12345678',
+  })
+  marketId: string;
 
   @IsString()
   @ApiProperty({
@@ -30,6 +44,7 @@ export class CreateMarketDto {
   resolution_criteria: string;
 
   @IsDateString()
+  @IsString()
   @ApiProperty({
     description: 'Expiry date of the market in ISO format',
     example: '2025-12-31T23:59:59.000Z',

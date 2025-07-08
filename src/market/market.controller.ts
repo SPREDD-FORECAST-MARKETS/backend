@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -14,6 +15,7 @@ import { CurrentUser } from 'src/decorators';
 import { MarketService } from './market.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { GetMarketDto } from './dto/get-market.dto';
+import { ResolveMarketByIdDto } from './dto/resolve-market.dto';
 
 @Controller('market')
 export class MarketController {
@@ -34,9 +36,10 @@ export class MarketController {
       createMarketDto.description,
       createMarketDto.resolution_criteria,
       createMarketDto.question,
+      createMarketDto.contract_address,
       createMarketDto.expiry_date,
       createMarketDto.image,
-      createMarketDto.contract_address,
+      createMarketDto.marketId,
       user.id as number,
       createMarketDto.tags,
     );
@@ -62,5 +65,13 @@ export class MarketController {
     const limitNum = parseInt(limit, 10);
 
     return this.marketService.getUserMarkets(wallet_address, pageNum, limitNum);
+  }
+
+  @Patch('resolve-market')
+  async resolveMarket(@Body() ResolveMarketByIdDto: ResolveMarketByIdDto) {
+    return this.marketService.resolveMarket(
+      ResolveMarketByIdDto.marketId,
+      ResolveMarketByIdDto.outcomeWon,
+    );
   }
 }
