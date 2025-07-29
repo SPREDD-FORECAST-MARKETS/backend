@@ -5,6 +5,11 @@ export const FP_MANAGER_ABI = [
 				"internalType": "uint256",
 				"name": "_topK",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_rewardToken",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -13,6 +18,17 @@ export const FP_MANAGER_ABI = [
 	{
 		"inputs": [],
 		"name": "OwnableUnauthorized",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "SafeERC20FailedOperation",
 		"type": "error"
 	},
 	{
@@ -82,6 +98,44 @@ export const FP_MANAGER_ABI = [
 		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": false,
+				"internalType": "uint256[10]",
+				"name": "newPercentages",
+				"type": "uint256[10]"
+			}
+		],
+		"name": "RewardPercentagesUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "market",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newPoolTotal",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardPoolContribution",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "user",
@@ -101,6 +155,37 @@ export const FP_MANAGER_ABI = [
 			}
 		],
 		"name": "TraderFPAwarded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "week",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address[]",
+				"name": "traders",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "rewardAmounts",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalDistributed",
+				"type": "uint256"
+			}
+		],
+		"name": "TraderRewardsDistributed",
 		"type": "event"
 	},
 	{
@@ -393,6 +478,19 @@ export const FP_MANAGER_ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "contributeToRewardPool",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
@@ -442,9 +540,63 @@ export const FP_MANAGER_ABI = [
 	},
 	{
 		"inputs": [],
+		"name": "currentWeekRewardPool",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "emergencyWithdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "forceWeeklyReset",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCurrentRewardPoolStatus",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "currentPool",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "contractBalance",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "rewardTokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "weeklyDistributed",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -479,6 +631,11 @@ export const FP_MANAGER_ABI = [
 			{
 				"internalType": "uint256",
 				"name": "topKSetting",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentRewardPool",
 				"type": "uint256"
 			}
 		],
@@ -549,6 +706,53 @@ export const FP_MANAGER_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getRewardPercentages",
+		"outputs": [
+			{
+				"internalType": "uint256[10]",
+				"name": "",
+				"type": "uint256[10]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_trader",
+				"type": "address"
+			}
+		],
+		"name": "getTraderRewardInfo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totalEarned",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentWeekFP",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentWeekRank",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "potentialReward",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -571,6 +775,11 @@ export const FP_MANAGER_ABI = [
 			{
 				"internalType": "uint256",
 				"name": "grandTotalFP",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalRewardsEarned_",
 				"type": "uint256"
 			}
 		],
@@ -632,6 +841,11 @@ export const FP_MANAGER_ABI = [
 				"type": "uint256[]"
 			},
 			{
+				"internalType": "uint256[]",
+				"name": "traderRewards",
+				"type": "uint256[]"
+			},
+			{
 				"internalType": "address[]",
 				"name": "topCreators",
 				"type": "address[]"
@@ -640,6 +854,11 @@ export const FP_MANAGER_ABI = [
 				"internalType": "uint256[]",
 				"name": "creatorFP",
 				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalDistributed",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -784,6 +1003,29 @@ export const FP_MANAGER_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "previewCurrentWeekRewards",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "topTraders",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "traderFP",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "potentialRewards",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -850,6 +1092,38 @@ export const FP_MANAGER_ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "rewardPercentages",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rewardToken",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_contract",
 				"type": "address"
@@ -874,6 +1148,19 @@ export const FP_MANAGER_ABI = [
 			}
 		],
 		"name": "setOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[10]",
+				"name": "_percentages",
+				"type": "uint256[10]"
+			}
+		],
+		"name": "setRewardPercentages",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -944,6 +1231,25 @@ export const FP_MANAGER_ABI = [
 				"type": "address"
 			}
 		],
+		"name": "totalRewardsEarned",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
 		"name": "totalTraderFP",
 		"outputs": [
 			{
@@ -977,6 +1283,25 @@ export const FP_MANAGER_ABI = [
 			}
 		],
 		"name": "weeklyCreatorFP",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "weeklyRewardPoolDistributed",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -1054,6 +1379,30 @@ export const FP_MANAGER_ABI = [
 			}
 		],
 		"name": "weeklyTraderFP",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "weeklyTraderRewards",
 		"outputs": [
 			{
 				"internalType": "uint256",

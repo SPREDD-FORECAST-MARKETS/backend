@@ -65,31 +65,6 @@ export const MARKET_ABI = [
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newSharesA",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newSharesB",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newK",
-				"type": "uint256"
-			}
-		],
-		"name": "CPMMRebalanced",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
 				"indexed": true,
 				"internalType": "address",
 				"name": "user",
@@ -97,22 +72,9 @@ export const MARKET_ABI = [
 			},
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Claimed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "provider",
-				"type": "address"
+				"internalType": "bool",
+				"name": "betOnA",
+				"type": "bool"
 			},
 			{
 				"indexed": false,
@@ -123,36 +85,29 @@ export const MARKET_ABI = [
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "lpTokens",
-				"type": "uint256"
-			}
-		],
-		"name": "LiquidityAdded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "provider",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
+				"name": "totalUserBetA",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "lpTokens",
+				"name": "totalUserBetB",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalVolumeA",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalVolumeB",
 				"type": "uint256"
 			}
 		],
-		"name": "LiquidityRemoved",
+		"name": "BetPlaced",
 		"type": "event"
 	},
 	{
@@ -160,7 +115,32 @@ export const MARKET_ABI = [
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "enum BinaryAMMPredictionMarket.MarketOutcome",
+				"internalType": "uint256",
+				"name": "creatorFee",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewardPoolFee",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "factoryFee",
+				"type": "uint256"
+			}
+		],
+		"name": "FeesDistributed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "enum SpreddMarket.MarketOutcome",
 				"name": "outcome",
 				"type": "uint8"
 			}
@@ -193,239 +173,45 @@ export const MARKET_ABI = [
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "trader",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "buyingA",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amountIn",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "tokensOut",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newPriceA",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "fee",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "priceImpact",
-				"type": "uint256"
-			}
-		],
-		"name": "TokensBought",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "trader",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "sellingA",
-				"type": "bool"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "tokensIn",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amountOut",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "newPriceA",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "fee",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "priceImpact",
-				"type": "uint256"
-			}
-		],
-		"name": "TokensSold",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
 				"name": "user",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "firstPositionTime",
+				"name": "originalBet",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "winnings",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalPayout",
 				"type": "uint256"
 			}
 		],
-		"name": "UserPositionTracked",
+		"name": "WinningsClaimed",
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "FEE_DENOMINATOR",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "MAX_PRICE_IMPACT",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "MIN_LIQUIDITY",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "PRECISION",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_amount",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "addLiquidity",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "_buyOptionA",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_minTokensOut",
-				"type": "uint256"
-			}
-		],
-		"name": "buyTokens",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "_buyOptionA",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountIn",
-				"type": "uint256"
-			}
-		],
-		"name": "calculateBuyTokensOut",
+		"name": "bettors",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "tokensOut",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "fee",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "newPriceA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "priceImpact",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -435,30 +221,25 @@ export const MARKET_ABI = [
 		"inputs": [
 			{
 				"internalType": "bool",
-				"name": "_sellOptionA",
+				"name": "_betOnA",
 				"type": "bool"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_tokensIn",
+				"name": "_betAmount",
 				"type": "uint256"
 			}
 		],
-		"name": "calculateSellTokensOut",
+		"name": "calculatePotentialWinnings",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "amountOut",
+				"name": "potentialWinnings",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "fee",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "newPriceA",
+				"name": "netBetAmount",
 				"type": "uint256"
 			}
 		],
@@ -474,12 +255,45 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
+		"name": "creatorFeePercent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "emergencyWithdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "factory",
 		"outputs": [
 			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "factoryFeePercent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -500,73 +314,12 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getCPMMState",
+		"name": "getAllBettors",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "sharesA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sharesB",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "k",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "priceA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "priceB",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalValue",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "utilization",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCurrentPrices",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "priceA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "priceB",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getFPManagerAddress",
-		"outputs": [
-			{
-				"internalType": "address",
+				"internalType": "address[]",
 				"name": "",
-				"type": "address"
+				"type": "address[]"
 			}
 		],
 		"stateMutability": "view",
@@ -574,7 +327,20 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getMarketInfoWithFP",
+		"name": "getBettorCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMarketInfo",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -597,7 +363,7 @@ export const MARKET_ABI = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "enum BinaryAMMPredictionMarket.MarketOutcome",
+				"internalType": "enum SpreddMarket.MarketOutcome",
 				"name": "outcome",
 				"type": "uint8"
 			},
@@ -605,21 +371,6 @@ export const MARKET_ABI = [
 				"internalType": "bool",
 				"name": "resolved",
 				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "initialized",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalTrades",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "usersCount",
-				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -632,68 +383,65 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getMarketState",
+		"name": "getMarketOdds",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "sharesA",
+				"name": "oddsA",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "sharesB",
+				"name": "oddsB",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "k",
+				"name": "totalVolume",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMarketVolumes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "volumeA",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "priceA",
+				"name": "volumeB",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "priceB",
+				"name": "totalVolume",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "creatorFees",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "factoryFees",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalBets",
 				"type": "uint256"
 			},
 			{
 				"internalType": "bool",
-				"name": "initialized",
+				"name": "feesDistributed",
 				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "endTime",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getPriceA",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getPriceB",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -733,21 +481,26 @@ export const MARKET_ABI = [
 				"type": "address"
 			}
 		],
-		"name": "getUserBalances",
+		"name": "getUserBet",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "optionA",
+				"name": "amountA",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "optionB",
+				"name": "amountB",
 				"type": "uint256"
 			},
 			{
+				"internalType": "bool",
+				"name": "claimed",
+				"type": "bool"
+			},
+			{
 				"internalType": "uint256",
-				"name": "lpTokensAmount",
+				"name": "firstPositionTime",
 				"type": "uint256"
 			}
 		],
@@ -762,27 +515,51 @@ export const MARKET_ABI = [
 				"type": "address"
 			}
 		],
-		"name": "getUserPosition",
+		"name": "getUserExpectedWinnings",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "firstPositionTime",
+				"name": "expectedWinningsA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expectedWinningsB",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getUserWinnings",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "originalBet",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "winnings",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalPayout",
 				"type": "uint256"
 			},
 			{
 				"internalType": "bool",
-				"name": "hasPosition",
+				"name": "canClaim",
 				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "optionA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "optionB",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -790,82 +567,31 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getUsersWithPositions",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "hasClaimed",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "initializeMarket",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "isUserTracked",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "lpTokens",
+		"name": "getWinningPoolSize",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "isBettor",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -912,7 +638,7 @@ export const MARKET_ABI = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "enum BinaryAMMPredictionMarket.MarketOutcome",
+				"internalType": "enum SpreddMarket.MarketOutcome",
 				"name": "outcome",
 				"type": "uint8"
 			},
@@ -928,17 +654,22 @@ export const MARKET_ABI = [
 			},
 			{
 				"internalType": "uint256",
-				"name": "sharesA",
+				"name": "totalVolumeA",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "sharesB",
+				"name": "totalVolumeB",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "k",
+				"name": "creatorFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "factoryFee",
 				"type": "uint256"
 			},
 			{
@@ -948,64 +679,8 @@ export const MARKET_ABI = [
 			},
 			{
 				"internalType": "bool",
-				"name": "initialized",
+				"name": "feesDistributed",
 				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalLpTokens",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "marketMake",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "optionABalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "optionBBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -1027,12 +702,17 @@ export const MARKET_ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "bool",
+				"name": "_betOnA",
+				"type": "bool"
+			},
+			{
 				"internalType": "uint256",
-				"name": "_lpTokens",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
-		"name": "removeLiquidity",
+		"name": "placeBet",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1040,7 +720,7 @@ export const MARKET_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "enum BinaryAMMPredictionMarket.MarketOutcome",
+				"internalType": "enum SpreddMarket.MarketOutcome",
 				"name": "_outcome",
 				"type": "uint8"
 			}
@@ -1051,26 +731,16 @@ export const MARKET_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "_sellOptionA",
-				"type": "bool"
-			},
+		"inputs": [],
+		"name": "rewardPoolPercent",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_tokensIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_minAmountOut",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "sellTokens",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1082,19 +752,6 @@ export const MARKET_ABI = [
 			}
 		],
 		"name": "setOwner",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_newFee",
-				"type": "uint256"
-			}
-		],
-		"name": "setTradingFee",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1114,7 +771,7 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "totalTradeCount",
+		"name": "totalBetCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -1127,7 +784,7 @@ export const MARKET_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "tradingFee",
+		"name": "totalFeePercent",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -1146,46 +803,30 @@ export const MARKET_ABI = [
 				"type": "address"
 			}
 		],
-		"name": "userPositions",
+		"name": "userBets",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "firstPositionTime",
+				"name": "amountA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountB",
 				"type": "uint256"
 			},
 			{
 				"internalType": "bool",
-				"name": "hasPosition",
+				"name": "claimed",
 				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "firstPositionTime",
 				"type": "uint256"
 			}
 		],
-		"name": "usersWithPositions",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawFees",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

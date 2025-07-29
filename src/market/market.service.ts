@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { GetMarketDto } from './dto/get-market.dto';
+import { GetMarketChartDto } from './dto/get-market-chart.dto';
 
 @Injectable()
 export class MarketService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   async createMarket(
     description: string,
@@ -275,4 +276,89 @@ export class MarketService {
 
     return resolvedMarket;
   }
+
+
+  async getMarketChartData(dto: GetMarketChartDto) {
+    const {
+      marketId,
+      contract_address,
+      timestampGte,
+      timestampLte,
+      interval,
+    } = dto;
+
+    const where: any = {};
+    if (marketId) where.marketId = marketId;
+    if (timestampGte || timestampLte) {
+      where.timestamp = {};
+      if (timestampGte) where.timestamp.gte = timestampGte;
+      if (timestampLte) where.timestamp.lte = timestampLte;
+    }
+
+    // Resolve marketId if only contract_address is provided
+    if (!marketId && contract_address) {
+      const market = await this.prismaService.market.findFirst({
+        where: { contract_address },
+        select: { id: true },
+      });
+      if (market) where.marketId = market.id;
+    }
+
+    const intervalToPostgres = {
+      '10s': '10 seconds',
+      '1m': '1 minute',
+      '5m': '5 minutes',
+      '1h': '1 hour',
+      '1d': '1 day',
+      '1mo': '1 month',
+    };
+
+    // If interval is not given, auto-distribute into 20 buckets
+    if (!interval) {
+      const dataRange = await this.prismaService.marketPriceSnapshot.aggregate({
+        where,
+        _min: { timestamp: true },
+        _max: { timestamp: true },
+      });
+
+      const { _min, _max } = dataRange;
+      const start = _min.timestamp;
+      const end = _max.timestamp;
+
+      const diffMs = new Date(end!).getTime() - new Date(start!).getTime();
+      const bucketSizeMs = Math.ceil(diffMs / 20);
+
+      // Convert bucket size to interval string
+      const pgInterval = `${Math.floor(bucketSizeMs / 1000)} seconds`;
+
+      return this.prismaService.$queryRawUnsafe(`
+        SELECT time_bucket('${pgInterval}', "timestamp") AS bucket,
+               avg("noOdds") as "noOdds",
+               avg("yesOdds") as "yesOdds",
+               avg("totalVolume") as "totalVolume"
+        FROM "MarketPriceSnapshot"
+        WHERE ${where.marketId ? `"marketId" = ${where.marketId}` : 'TRUE'}
+        ${timestampGte ? `AND "timestamp" >= '${timestampGte.toISOString()}'` : ''}
+        ${timestampLte ? `AND "timestamp" <= '${timestampLte.toISOString()}'` : ''}
+        GROUP BY bucket
+        ORDER BY bucket ASC
+      `);
+    }
+
+    const pgInterval = intervalToPostgres[interval];
+
+    return this.prismaService.$queryRawUnsafe(`
+      SELECT time_bucket('${pgInterval}', "timestamp") AS bucket,
+             avg("noOdds") as "noOdds",
+             avg("yesOdds") as "yesOdds",
+             avg("totalVolume") as "totalVolume"
+      FROM "MarketPriceSnapshot"
+      WHERE ${where.marketId ? `"marketId" = ${where.marketId}` : 'TRUE'}
+      ${timestampGte ? `AND "timestamp" >= '${timestampGte.toISOString()}'` : ''}
+      ${timestampLte ? `AND "timestamp" <= '${timestampLte.toISOString()}'` : ''}
+      GROUP BY bucket
+      ORDER BY bucket ASC
+    `);
+  }
+
 }

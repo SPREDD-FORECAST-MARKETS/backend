@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiSecurity } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { PrivyAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CurrentUser } from 'src/decorators';
@@ -16,13 +16,14 @@ import { MarketService } from './market.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { GetMarketDto } from './dto/get-market.dto';
 import { ResolveMarketByIdDto } from './dto/resolve-market.dto';
+import { GetMarketChartDto } from './dto/get-market-chart.dto';
 
 @Controller('market')
 export class MarketController {
   constructor(
     private marketService: MarketService,
     private prismaService: PrismaService,
-  ) {}
+  ) { }
 
   @Post('create-market')
   @UseGuards(PrivyAuthGuard)
@@ -50,11 +51,6 @@ export class MarketController {
     return this.marketService.getMarkets(getMarketDto);
   }
 
-  @Get(':id')
-  async getMarket(@Param('id') id: number) {
-    return this.marketService.getMarket(id);
-  }
-
   @Get('user/:wallet_address')
   async getUserMarkets(
     @Param('wallet_address') wallet_address: string,
@@ -74,4 +70,15 @@ export class MarketController {
       ResolveMarketByIdDto.outcomeWon,
     );
   }
+
+  @Get('chart')
+  async getMarketChart(@Query() dto: GetMarketChartDto) {
+    return this.marketService.getMarketChartData(dto);
+  }
+
+  @Get(':id')
+  async getMarket(@Param('id') id: number) {
+    return this.marketService.getMarket(id);
+  }
+
 }

@@ -48,6 +48,11 @@ export type LeaderBoard = $Result.DefaultSelection<Prisma.$LeaderBoardPayload>
  * 
  */
 export type News = $Result.DefaultSelection<Prisma.$NewsPayload>
+/**
+ * Model MarketPriceSnapshot
+ * 
+ */
+export type MarketPriceSnapshot = $Result.DefaultSelection<Prisma.$MarketPriceSnapshotPayload>
 
 /**
  * Enums
@@ -336,6 +341,16 @@ export class PrismaClient<
     * ```
     */
   get news(): Prisma.NewsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.marketPriceSnapshot`: Exposes CRUD operations for the **MarketPriceSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MarketPriceSnapshots
+    * const marketPriceSnapshots = await prisma.marketPriceSnapshot.findMany()
+    * ```
+    */
+  get marketPriceSnapshot(): Prisma.MarketPriceSnapshotDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -782,7 +797,8 @@ export namespace Prisma {
     TokenAllocation: 'TokenAllocation',
     Trade: 'Trade',
     LeaderBoard: 'LeaderBoard',
-    News: 'News'
+    News: 'News',
+    MarketPriceSnapshot: 'MarketPriceSnapshot'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -801,7 +817,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "market" | "outcome" | "tokenAllocation" | "trade" | "leaderBoard" | "news"
+      modelProps: "user" | "market" | "outcome" | "tokenAllocation" | "trade" | "leaderBoard" | "news" | "marketPriceSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1323,6 +1339,80 @@ export namespace Prisma {
           }
         }
       }
+      MarketPriceSnapshot: {
+        payload: Prisma.$MarketPriceSnapshotPayload<ExtArgs>
+        fields: Prisma.MarketPriceSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MarketPriceSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MarketPriceSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.MarketPriceSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MarketPriceSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.MarketPriceSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.MarketPriceSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.MarketPriceSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MarketPriceSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.MarketPriceSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          update: {
+            args: Prisma.MarketPriceSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.MarketPriceSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MarketPriceSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MarketPriceSnapshotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>[]
+          }
+          upsert: {
+            args: Prisma.MarketPriceSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketPriceSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.MarketPriceSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMarketPriceSnapshot>
+          }
+          groupBy: {
+            args: Prisma.MarketPriceSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MarketPriceSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MarketPriceSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<MarketPriceSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1414,6 +1504,7 @@ export namespace Prisma {
     trade?: TradeOmit
     leaderBoard?: LeaderBoardOmit
     news?: NewsOmit
+    marketPriceSnapshot?: MarketPriceSnapshotOmit
   }
 
   /* Types for Logging */
@@ -1566,11 +1657,13 @@ export namespace Prisma {
    */
 
   export type MarketCountOutputType = {
+    marketPriceSnapshot: number
     outcome: number
     trades: number
   }
 
   export type MarketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    marketPriceSnapshot?: boolean | MarketCountOutputTypeCountMarketPriceSnapshotArgs
     outcome?: boolean | MarketCountOutputTypeCountOutcomeArgs
     trades?: boolean | MarketCountOutputTypeCountTradesArgs
   }
@@ -1584,6 +1677,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the MarketCountOutputType
      */
     select?: MarketCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MarketCountOutputType without action
+   */
+  export type MarketCountOutputTypeCountMarketPriceSnapshotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketPriceSnapshotWhereInput
   }
 
   /**
@@ -2907,11 +3007,11 @@ export namespace Prisma {
     creatorId: number | null
     resolution_criteria: string | null
     outcomeWon: number | null
-    winningOutcome: string | null
     status: $Enums.EventStatus | null
     contract_address: string | null
     isResolved: boolean | null
     marketId: string | null
+    winningOutcome: string | null
   }
 
   export type MarketMaxAggregateOutputType = {
@@ -2925,11 +3025,11 @@ export namespace Prisma {
     creatorId: number | null
     resolution_criteria: string | null
     outcomeWon: number | null
-    winningOutcome: string | null
     status: $Enums.EventStatus | null
     contract_address: string | null
     isResolved: boolean | null
     marketId: string | null
+    winningOutcome: string | null
   }
 
   export type MarketCountAggregateOutputType = {
@@ -2944,11 +3044,11 @@ export namespace Prisma {
     tags: number
     resolution_criteria: number
     outcomeWon: number
-    winningOutcome: number
     status: number
     contract_address: number
     isResolved: number
     marketId: number
+    winningOutcome: number
     _all: number
   }
 
@@ -2976,11 +3076,11 @@ export namespace Prisma {
     creatorId?: true
     resolution_criteria?: true
     outcomeWon?: true
-    winningOutcome?: true
     status?: true
     contract_address?: true
     isResolved?: true
     marketId?: true
+    winningOutcome?: true
   }
 
   export type MarketMaxAggregateInputType = {
@@ -2994,11 +3094,11 @@ export namespace Prisma {
     creatorId?: true
     resolution_criteria?: true
     outcomeWon?: true
-    winningOutcome?: true
     status?: true
     contract_address?: true
     isResolved?: true
     marketId?: true
+    winningOutcome?: true
   }
 
   export type MarketCountAggregateInputType = {
@@ -3013,11 +3113,11 @@ export namespace Prisma {
     tags?: true
     resolution_criteria?: true
     outcomeWon?: true
-    winningOutcome?: true
     status?: true
     contract_address?: true
     isResolved?: true
     marketId?: true
+    winningOutcome?: true
     _all?: true
   }
 
@@ -3119,11 +3219,11 @@ export namespace Prisma {
     tags: string[]
     resolution_criteria: string
     outcomeWon: number | null
-    winningOutcome: string | null
     status: $Enums.EventStatus
     contract_address: string
     isResolved: boolean | null
     marketId: string
+    winningOutcome: string | null
     _count: MarketCountAggregateOutputType | null
     _avg: MarketAvgAggregateOutputType | null
     _sum: MarketSumAggregateOutputType | null
@@ -3157,12 +3257,13 @@ export namespace Prisma {
     tags?: boolean
     resolution_criteria?: boolean
     outcomeWon?: boolean
-    winningOutcome?: boolean
     status?: boolean
     contract_address?: boolean
     isResolved?: boolean
     marketId?: boolean
+    winningOutcome?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    marketPriceSnapshot?: boolean | Market$marketPriceSnapshotArgs<ExtArgs>
     outcome?: boolean | Market$outcomeArgs<ExtArgs>
     trades?: boolean | Market$tradesArgs<ExtArgs>
     _count?: boolean | MarketCountOutputTypeDefaultArgs<ExtArgs>
@@ -3180,11 +3281,11 @@ export namespace Prisma {
     tags?: boolean
     resolution_criteria?: boolean
     outcomeWon?: boolean
-    winningOutcome?: boolean
     status?: boolean
     contract_address?: boolean
     isResolved?: boolean
     marketId?: boolean
+    winningOutcome?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
 
@@ -3200,11 +3301,11 @@ export namespace Prisma {
     tags?: boolean
     resolution_criteria?: boolean
     outcomeWon?: boolean
-    winningOutcome?: boolean
     status?: boolean
     contract_address?: boolean
     isResolved?: boolean
     marketId?: boolean
+    winningOutcome?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["market"]>
 
@@ -3220,16 +3321,17 @@ export namespace Prisma {
     tags?: boolean
     resolution_criteria?: boolean
     outcomeWon?: boolean
-    winningOutcome?: boolean
     status?: boolean
     contract_address?: boolean
     isResolved?: boolean
     marketId?: boolean
+    winningOutcome?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "creatorId" | "tags" | "resolution_criteria" | "outcomeWon" | "winningOutcome" | "status" | "contract_address" | "isResolved" | "marketId", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "question" | "expiry_date" | "image" | "createdAt" | "updatedAt" | "creatorId" | "tags" | "resolution_criteria" | "outcomeWon" | "status" | "contract_address" | "isResolved" | "marketId" | "winningOutcome", ExtArgs["result"]["market"]>
   export type MarketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    marketPriceSnapshot?: boolean | Market$marketPriceSnapshotArgs<ExtArgs>
     outcome?: boolean | Market$outcomeArgs<ExtArgs>
     trades?: boolean | Market$tradesArgs<ExtArgs>
     _count?: boolean | MarketCountOutputTypeDefaultArgs<ExtArgs>
@@ -3245,6 +3347,7 @@ export namespace Prisma {
     name: "Market"
     objects: {
       creator: Prisma.$UserPayload<ExtArgs>
+      marketPriceSnapshot: Prisma.$MarketPriceSnapshotPayload<ExtArgs>[]
       outcome: Prisma.$OutcomePayload<ExtArgs>[]
       trades: Prisma.$TradePayload<ExtArgs>[]
     }
@@ -3260,11 +3363,11 @@ export namespace Prisma {
       tags: string[]
       resolution_criteria: string
       outcomeWon: number | null
-      winningOutcome: string | null
       status: $Enums.EventStatus
       contract_address: string
       isResolved: boolean | null
       marketId: string
+      winningOutcome: string | null
     }, ExtArgs["result"]["market"]>
     composites: {}
   }
@@ -3660,6 +3763,7 @@ export namespace Prisma {
   export interface Prisma__MarketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    marketPriceSnapshot<T extends Market$marketPriceSnapshotArgs<ExtArgs> = {}>(args?: Subset<T, Market$marketPriceSnapshotArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     outcome<T extends Market$outcomeArgs<ExtArgs> = {}>(args?: Subset<T, Market$outcomeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutcomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trades<T extends Market$tradesArgs<ExtArgs> = {}>(args?: Subset<T, Market$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3702,11 +3806,11 @@ export namespace Prisma {
     readonly tags: FieldRef<"Market", 'String[]'>
     readonly resolution_criteria: FieldRef<"Market", 'String'>
     readonly outcomeWon: FieldRef<"Market", 'Int'>
-    readonly winningOutcome: FieldRef<"Market", 'String'>
     readonly status: FieldRef<"Market", 'EventStatus'>
     readonly contract_address: FieldRef<"Market", 'String'>
     readonly isResolved: FieldRef<"Market", 'Boolean'>
     readonly marketId: FieldRef<"Market", 'String'>
+    readonly winningOutcome: FieldRef<"Market", 'String'>
   }
     
 
@@ -4100,6 +4204,30 @@ export namespace Prisma {
      * Limit how many Markets to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Market.marketPriceSnapshot
+   */
+  export type Market$marketPriceSnapshotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    where?: MarketPriceSnapshotWhereInput
+    orderBy?: MarketPriceSnapshotOrderByWithRelationInput | MarketPriceSnapshotOrderByWithRelationInput[]
+    cursor?: MarketPriceSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MarketPriceSnapshotScalarFieldEnum | MarketPriceSnapshotScalarFieldEnum[]
   }
 
   /**
@@ -9924,6 +10052,1123 @@ export namespace Prisma {
 
 
   /**
+   * Model MarketPriceSnapshot
+   */
+
+  export type AggregateMarketPriceSnapshot = {
+    _count: MarketPriceSnapshotCountAggregateOutputType | null
+    _avg: MarketPriceSnapshotAvgAggregateOutputType | null
+    _sum: MarketPriceSnapshotSumAggregateOutputType | null
+    _min: MarketPriceSnapshotMinAggregateOutputType | null
+    _max: MarketPriceSnapshotMaxAggregateOutputType | null
+  }
+
+  export type MarketPriceSnapshotAvgAggregateOutputType = {
+    noOdds: number | null
+    yesOdds: number | null
+    marketId: number | null
+    totalVolume: number | null
+  }
+
+  export type MarketPriceSnapshotSumAggregateOutputType = {
+    noOdds: bigint | null
+    yesOdds: bigint | null
+    marketId: number | null
+    totalVolume: bigint | null
+  }
+
+  export type MarketPriceSnapshotMinAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    noOdds: bigint | null
+    yesOdds: bigint | null
+    marketId: number | null
+    totalVolume: bigint | null
+  }
+
+  export type MarketPriceSnapshotMaxAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    noOdds: bigint | null
+    yesOdds: bigint | null
+    marketId: number | null
+    totalVolume: bigint | null
+  }
+
+  export type MarketPriceSnapshotCountAggregateOutputType = {
+    id: number
+    timestamp: number
+    noOdds: number
+    yesOdds: number
+    marketId: number
+    totalVolume: number
+    _all: number
+  }
+
+
+  export type MarketPriceSnapshotAvgAggregateInputType = {
+    noOdds?: true
+    yesOdds?: true
+    marketId?: true
+    totalVolume?: true
+  }
+
+  export type MarketPriceSnapshotSumAggregateInputType = {
+    noOdds?: true
+    yesOdds?: true
+    marketId?: true
+    totalVolume?: true
+  }
+
+  export type MarketPriceSnapshotMinAggregateInputType = {
+    id?: true
+    timestamp?: true
+    noOdds?: true
+    yesOdds?: true
+    marketId?: true
+    totalVolume?: true
+  }
+
+  export type MarketPriceSnapshotMaxAggregateInputType = {
+    id?: true
+    timestamp?: true
+    noOdds?: true
+    yesOdds?: true
+    marketId?: true
+    totalVolume?: true
+  }
+
+  export type MarketPriceSnapshotCountAggregateInputType = {
+    id?: true
+    timestamp?: true
+    noOdds?: true
+    yesOdds?: true
+    marketId?: true
+    totalVolume?: true
+    _all?: true
+  }
+
+  export type MarketPriceSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketPriceSnapshot to aggregate.
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketPriceSnapshots to fetch.
+     */
+    orderBy?: MarketPriceSnapshotOrderByWithRelationInput | MarketPriceSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MarketPriceSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketPriceSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketPriceSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MarketPriceSnapshots
+    **/
+    _count?: true | MarketPriceSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MarketPriceSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MarketPriceSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MarketPriceSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MarketPriceSnapshotMaxAggregateInputType
+  }
+
+  export type GetMarketPriceSnapshotAggregateType<T extends MarketPriceSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateMarketPriceSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMarketPriceSnapshot[P]>
+      : GetScalarType<T[P], AggregateMarketPriceSnapshot[P]>
+  }
+
+
+
+
+  export type MarketPriceSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketPriceSnapshotWhereInput
+    orderBy?: MarketPriceSnapshotOrderByWithAggregationInput | MarketPriceSnapshotOrderByWithAggregationInput[]
+    by: MarketPriceSnapshotScalarFieldEnum[] | MarketPriceSnapshotScalarFieldEnum
+    having?: MarketPriceSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MarketPriceSnapshotCountAggregateInputType | true
+    _avg?: MarketPriceSnapshotAvgAggregateInputType
+    _sum?: MarketPriceSnapshotSumAggregateInputType
+    _min?: MarketPriceSnapshotMinAggregateInputType
+    _max?: MarketPriceSnapshotMaxAggregateInputType
+  }
+
+  export type MarketPriceSnapshotGroupByOutputType = {
+    id: string
+    timestamp: Date
+    noOdds: bigint
+    yesOdds: bigint
+    marketId: number
+    totalVolume: bigint
+    _count: MarketPriceSnapshotCountAggregateOutputType | null
+    _avg: MarketPriceSnapshotAvgAggregateOutputType | null
+    _sum: MarketPriceSnapshotSumAggregateOutputType | null
+    _min: MarketPriceSnapshotMinAggregateOutputType | null
+    _max: MarketPriceSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetMarketPriceSnapshotGroupByPayload<T extends MarketPriceSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MarketPriceSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MarketPriceSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MarketPriceSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], MarketPriceSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MarketPriceSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timestamp?: boolean
+    noOdds?: boolean
+    yesOdds?: boolean
+    marketId?: boolean
+    totalVolume?: boolean
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketPriceSnapshot"]>
+
+  export type MarketPriceSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timestamp?: boolean
+    noOdds?: boolean
+    yesOdds?: boolean
+    marketId?: boolean
+    totalVolume?: boolean
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketPriceSnapshot"]>
+
+  export type MarketPriceSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timestamp?: boolean
+    noOdds?: boolean
+    yesOdds?: boolean
+    marketId?: boolean
+    totalVolume?: boolean
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketPriceSnapshot"]>
+
+  export type MarketPriceSnapshotSelectScalar = {
+    id?: boolean
+    timestamp?: boolean
+    noOdds?: boolean
+    yesOdds?: boolean
+    marketId?: boolean
+    totalVolume?: boolean
+  }
+
+  export type MarketPriceSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "timestamp" | "noOdds" | "yesOdds" | "marketId" | "totalVolume", ExtArgs["result"]["marketPriceSnapshot"]>
+  export type MarketPriceSnapshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }
+  export type MarketPriceSnapshotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }
+  export type MarketPriceSnapshotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    market?: boolean | MarketDefaultArgs<ExtArgs>
+  }
+
+  export type $MarketPriceSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MarketPriceSnapshot"
+    objects: {
+      market: Prisma.$MarketPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      timestamp: Date
+      noOdds: bigint
+      yesOdds: bigint
+      marketId: number
+      totalVolume: bigint
+    }, ExtArgs["result"]["marketPriceSnapshot"]>
+    composites: {}
+  }
+
+  type MarketPriceSnapshotGetPayload<S extends boolean | null | undefined | MarketPriceSnapshotDefaultArgs> = $Result.GetResult<Prisma.$MarketPriceSnapshotPayload, S>
+
+  type MarketPriceSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MarketPriceSnapshotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MarketPriceSnapshotCountAggregateInputType | true
+    }
+
+  export interface MarketPriceSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MarketPriceSnapshot'], meta: { name: 'MarketPriceSnapshot' } }
+    /**
+     * Find zero or one MarketPriceSnapshot that matches the filter.
+     * @param {MarketPriceSnapshotFindUniqueArgs} args - Arguments to find a MarketPriceSnapshot
+     * @example
+     * // Get one MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MarketPriceSnapshotFindUniqueArgs>(args: SelectSubset<T, MarketPriceSnapshotFindUniqueArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MarketPriceSnapshot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MarketPriceSnapshotFindUniqueOrThrowArgs} args - Arguments to find a MarketPriceSnapshot
+     * @example
+     * // Get one MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MarketPriceSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, MarketPriceSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MarketPriceSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotFindFirstArgs} args - Arguments to find a MarketPriceSnapshot
+     * @example
+     * // Get one MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MarketPriceSnapshotFindFirstArgs>(args?: SelectSubset<T, MarketPriceSnapshotFindFirstArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MarketPriceSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotFindFirstOrThrowArgs} args - Arguments to find a MarketPriceSnapshot
+     * @example
+     * // Get one MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MarketPriceSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, MarketPriceSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MarketPriceSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MarketPriceSnapshots
+     * const marketPriceSnapshots = await prisma.marketPriceSnapshot.findMany()
+     * 
+     * // Get first 10 MarketPriceSnapshots
+     * const marketPriceSnapshots = await prisma.marketPriceSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const marketPriceSnapshotWithIdOnly = await prisma.marketPriceSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MarketPriceSnapshotFindManyArgs>(args?: SelectSubset<T, MarketPriceSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MarketPriceSnapshot.
+     * @param {MarketPriceSnapshotCreateArgs} args - Arguments to create a MarketPriceSnapshot.
+     * @example
+     * // Create one MarketPriceSnapshot
+     * const MarketPriceSnapshot = await prisma.marketPriceSnapshot.create({
+     *   data: {
+     *     // ... data to create a MarketPriceSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends MarketPriceSnapshotCreateArgs>(args: SelectSubset<T, MarketPriceSnapshotCreateArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MarketPriceSnapshots.
+     * @param {MarketPriceSnapshotCreateManyArgs} args - Arguments to create many MarketPriceSnapshots.
+     * @example
+     * // Create many MarketPriceSnapshots
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MarketPriceSnapshotCreateManyArgs>(args?: SelectSubset<T, MarketPriceSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MarketPriceSnapshots and returns the data saved in the database.
+     * @param {MarketPriceSnapshotCreateManyAndReturnArgs} args - Arguments to create many MarketPriceSnapshots.
+     * @example
+     * // Create many MarketPriceSnapshots
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MarketPriceSnapshots and only return the `id`
+     * const marketPriceSnapshotWithIdOnly = await prisma.marketPriceSnapshot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MarketPriceSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, MarketPriceSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MarketPriceSnapshot.
+     * @param {MarketPriceSnapshotDeleteArgs} args - Arguments to delete one MarketPriceSnapshot.
+     * @example
+     * // Delete one MarketPriceSnapshot
+     * const MarketPriceSnapshot = await prisma.marketPriceSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one MarketPriceSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MarketPriceSnapshotDeleteArgs>(args: SelectSubset<T, MarketPriceSnapshotDeleteArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MarketPriceSnapshot.
+     * @param {MarketPriceSnapshotUpdateArgs} args - Arguments to update one MarketPriceSnapshot.
+     * @example
+     * // Update one MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MarketPriceSnapshotUpdateArgs>(args: SelectSubset<T, MarketPriceSnapshotUpdateArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MarketPriceSnapshots.
+     * @param {MarketPriceSnapshotDeleteManyArgs} args - Arguments to filter MarketPriceSnapshots to delete.
+     * @example
+     * // Delete a few MarketPriceSnapshots
+     * const { count } = await prisma.marketPriceSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MarketPriceSnapshotDeleteManyArgs>(args?: SelectSubset<T, MarketPriceSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MarketPriceSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MarketPriceSnapshots
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MarketPriceSnapshotUpdateManyArgs>(args: SelectSubset<T, MarketPriceSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MarketPriceSnapshots and returns the data updated in the database.
+     * @param {MarketPriceSnapshotUpdateManyAndReturnArgs} args - Arguments to update many MarketPriceSnapshots.
+     * @example
+     * // Update many MarketPriceSnapshots
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MarketPriceSnapshots and only return the `id`
+     * const marketPriceSnapshotWithIdOnly = await prisma.marketPriceSnapshot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MarketPriceSnapshotUpdateManyAndReturnArgs>(args: SelectSubset<T, MarketPriceSnapshotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MarketPriceSnapshot.
+     * @param {MarketPriceSnapshotUpsertArgs} args - Arguments to update or create a MarketPriceSnapshot.
+     * @example
+     * // Update or create a MarketPriceSnapshot
+     * const marketPriceSnapshot = await prisma.marketPriceSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a MarketPriceSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MarketPriceSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MarketPriceSnapshotUpsertArgs>(args: SelectSubset<T, MarketPriceSnapshotUpsertArgs<ExtArgs>>): Prisma__MarketPriceSnapshotClient<$Result.GetResult<Prisma.$MarketPriceSnapshotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MarketPriceSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotCountArgs} args - Arguments to filter MarketPriceSnapshots to count.
+     * @example
+     * // Count the number of MarketPriceSnapshots
+     * const count = await prisma.marketPriceSnapshot.count({
+     *   where: {
+     *     // ... the filter for the MarketPriceSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends MarketPriceSnapshotCountArgs>(
+      args?: Subset<T, MarketPriceSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MarketPriceSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MarketPriceSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MarketPriceSnapshotAggregateArgs>(args: Subset<T, MarketPriceSnapshotAggregateArgs>): Prisma.PrismaPromise<GetMarketPriceSnapshotAggregateType<T>>
+
+    /**
+     * Group by MarketPriceSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketPriceSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MarketPriceSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MarketPriceSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: MarketPriceSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MarketPriceSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMarketPriceSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MarketPriceSnapshot model
+   */
+  readonly fields: MarketPriceSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MarketPriceSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MarketPriceSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    market<T extends MarketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MarketDefaultArgs<ExtArgs>>): Prisma__MarketClient<$Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MarketPriceSnapshot model
+   */
+  interface MarketPriceSnapshotFieldRefs {
+    readonly id: FieldRef<"MarketPriceSnapshot", 'String'>
+    readonly timestamp: FieldRef<"MarketPriceSnapshot", 'DateTime'>
+    readonly noOdds: FieldRef<"MarketPriceSnapshot", 'BigInt'>
+    readonly yesOdds: FieldRef<"MarketPriceSnapshot", 'BigInt'>
+    readonly marketId: FieldRef<"MarketPriceSnapshot", 'Int'>
+    readonly totalVolume: FieldRef<"MarketPriceSnapshot", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MarketPriceSnapshot findUnique
+   */
+  export type MarketPriceSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketPriceSnapshot to fetch.
+     */
+    where: MarketPriceSnapshotWhereUniqueInput
+  }
+
+  /**
+   * MarketPriceSnapshot findUniqueOrThrow
+   */
+  export type MarketPriceSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketPriceSnapshot to fetch.
+     */
+    where: MarketPriceSnapshotWhereUniqueInput
+  }
+
+  /**
+   * MarketPriceSnapshot findFirst
+   */
+  export type MarketPriceSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketPriceSnapshot to fetch.
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketPriceSnapshots to fetch.
+     */
+    orderBy?: MarketPriceSnapshotOrderByWithRelationInput | MarketPriceSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketPriceSnapshots.
+     */
+    cursor?: MarketPriceSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketPriceSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketPriceSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketPriceSnapshots.
+     */
+    distinct?: MarketPriceSnapshotScalarFieldEnum | MarketPriceSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * MarketPriceSnapshot findFirstOrThrow
+   */
+  export type MarketPriceSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketPriceSnapshot to fetch.
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketPriceSnapshots to fetch.
+     */
+    orderBy?: MarketPriceSnapshotOrderByWithRelationInput | MarketPriceSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketPriceSnapshots.
+     */
+    cursor?: MarketPriceSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketPriceSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketPriceSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketPriceSnapshots.
+     */
+    distinct?: MarketPriceSnapshotScalarFieldEnum | MarketPriceSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * MarketPriceSnapshot findMany
+   */
+  export type MarketPriceSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketPriceSnapshots to fetch.
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketPriceSnapshots to fetch.
+     */
+    orderBy?: MarketPriceSnapshotOrderByWithRelationInput | MarketPriceSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MarketPriceSnapshots.
+     */
+    cursor?: MarketPriceSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketPriceSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketPriceSnapshots.
+     */
+    skip?: number
+    distinct?: MarketPriceSnapshotScalarFieldEnum | MarketPriceSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * MarketPriceSnapshot create
+   */
+  export type MarketPriceSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MarketPriceSnapshot.
+     */
+    data: XOR<MarketPriceSnapshotCreateInput, MarketPriceSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * MarketPriceSnapshot createMany
+   */
+  export type MarketPriceSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MarketPriceSnapshots.
+     */
+    data: MarketPriceSnapshotCreateManyInput | MarketPriceSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MarketPriceSnapshot createManyAndReturn
+   */
+  export type MarketPriceSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to create many MarketPriceSnapshots.
+     */
+    data: MarketPriceSnapshotCreateManyInput | MarketPriceSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MarketPriceSnapshot update
+   */
+  export type MarketPriceSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MarketPriceSnapshot.
+     */
+    data: XOR<MarketPriceSnapshotUpdateInput, MarketPriceSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which MarketPriceSnapshot to update.
+     */
+    where: MarketPriceSnapshotWhereUniqueInput
+  }
+
+  /**
+   * MarketPriceSnapshot updateMany
+   */
+  export type MarketPriceSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MarketPriceSnapshots.
+     */
+    data: XOR<MarketPriceSnapshotUpdateManyMutationInput, MarketPriceSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which MarketPriceSnapshots to update
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * Limit how many MarketPriceSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MarketPriceSnapshot updateManyAndReturn
+   */
+  export type MarketPriceSnapshotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to update MarketPriceSnapshots.
+     */
+    data: XOR<MarketPriceSnapshotUpdateManyMutationInput, MarketPriceSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which MarketPriceSnapshots to update
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * Limit how many MarketPriceSnapshots to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MarketPriceSnapshot upsert
+   */
+  export type MarketPriceSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MarketPriceSnapshot to update in case it exists.
+     */
+    where: MarketPriceSnapshotWhereUniqueInput
+    /**
+     * In case the MarketPriceSnapshot found by the `where` argument doesn't exist, create a new MarketPriceSnapshot with this data.
+     */
+    create: XOR<MarketPriceSnapshotCreateInput, MarketPriceSnapshotUncheckedCreateInput>
+    /**
+     * In case the MarketPriceSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MarketPriceSnapshotUpdateInput, MarketPriceSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * MarketPriceSnapshot delete
+   */
+  export type MarketPriceSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter which MarketPriceSnapshot to delete.
+     */
+    where: MarketPriceSnapshotWhereUniqueInput
+  }
+
+  /**
+   * MarketPriceSnapshot deleteMany
+   */
+  export type MarketPriceSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketPriceSnapshots to delete
+     */
+    where?: MarketPriceSnapshotWhereInput
+    /**
+     * Limit how many MarketPriceSnapshots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MarketPriceSnapshot without action
+   */
+  export type MarketPriceSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketPriceSnapshot
+     */
+    select?: MarketPriceSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MarketPriceSnapshot
+     */
+    omit?: MarketPriceSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketPriceSnapshotInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9963,11 +11208,11 @@ export namespace Prisma {
     tags: 'tags',
     resolution_criteria: 'resolution_criteria',
     outcomeWon: 'outcomeWon',
-    winningOutcome: 'winningOutcome',
     status: 'status',
     contract_address: 'contract_address',
     isResolved: 'isResolved',
-    marketId: 'marketId'
+    marketId: 'marketId',
+    winningOutcome: 'winningOutcome'
   };
 
   export type MarketScalarFieldEnum = (typeof MarketScalarFieldEnum)[keyof typeof MarketScalarFieldEnum]
@@ -10037,6 +11282,18 @@ export namespace Prisma {
   };
 
   export type NewsScalarFieldEnum = (typeof NewsScalarFieldEnum)[keyof typeof NewsScalarFieldEnum]
+
+
+  export const MarketPriceSnapshotScalarFieldEnum: {
+    id: 'id',
+    timestamp: 'timestamp',
+    noOdds: 'noOdds',
+    yesOdds: 'yesOdds',
+    marketId: 'marketId',
+    totalVolume: 'totalVolume'
+  };
+
+  export type MarketPriceSnapshotScalarFieldEnum = (typeof MarketPriceSnapshotScalarFieldEnum)[keyof typeof MarketPriceSnapshotScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10188,6 +11445,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -10300,12 +11571,13 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"Market">
     resolution_criteria?: StringFilter<"Market"> | string
     outcomeWon?: IntNullableFilter<"Market"> | number | null
-    winningOutcome?: StringNullableFilter<"Market"> | string | null
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     contract_address?: StringFilter<"Market"> | string
     isResolved?: BoolNullableFilter<"Market"> | boolean | null
     marketId?: StringFilter<"Market"> | string
+    winningOutcome?: StringNullableFilter<"Market"> | string | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    marketPriceSnapshot?: MarketPriceSnapshotListRelationFilter
     outcome?: OutcomeListRelationFilter
     trades?: TradeListRelationFilter
   }
@@ -10322,12 +11594,13 @@ export namespace Prisma {
     tags?: SortOrder
     resolution_criteria?: SortOrder
     outcomeWon?: SortOrderInput | SortOrder
-    winningOutcome?: SortOrderInput | SortOrder
     status?: SortOrder
     contract_address?: SortOrder
     isResolved?: SortOrderInput | SortOrder
     marketId?: SortOrder
+    winningOutcome?: SortOrderInput | SortOrder
     creator?: UserOrderByWithRelationInput
+    marketPriceSnapshot?: MarketPriceSnapshotOrderByRelationAggregateInput
     outcome?: OutcomeOrderByRelationAggregateInput
     trades?: TradeOrderByRelationAggregateInput
   }
@@ -10347,12 +11620,13 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"Market">
     resolution_criteria?: StringFilter<"Market"> | string
     outcomeWon?: IntNullableFilter<"Market"> | number | null
-    winningOutcome?: StringNullableFilter<"Market"> | string | null
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     contract_address?: StringFilter<"Market"> | string
     isResolved?: BoolNullableFilter<"Market"> | boolean | null
     marketId?: StringFilter<"Market"> | string
+    winningOutcome?: StringNullableFilter<"Market"> | string | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    marketPriceSnapshot?: MarketPriceSnapshotListRelationFilter
     outcome?: OutcomeListRelationFilter
     trades?: TradeListRelationFilter
   }, "id">
@@ -10369,11 +11643,11 @@ export namespace Prisma {
     tags?: SortOrder
     resolution_criteria?: SortOrder
     outcomeWon?: SortOrderInput | SortOrder
-    winningOutcome?: SortOrderInput | SortOrder
     status?: SortOrder
     contract_address?: SortOrder
     isResolved?: SortOrderInput | SortOrder
     marketId?: SortOrder
+    winningOutcome?: SortOrderInput | SortOrder
     _count?: MarketCountOrderByAggregateInput
     _avg?: MarketAvgOrderByAggregateInput
     _max?: MarketMaxOrderByAggregateInput
@@ -10396,11 +11670,11 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"Market">
     resolution_criteria?: StringWithAggregatesFilter<"Market"> | string
     outcomeWon?: IntNullableWithAggregatesFilter<"Market"> | number | null
-    winningOutcome?: StringNullableWithAggregatesFilter<"Market"> | string | null
     status?: EnumEventStatusWithAggregatesFilter<"Market"> | $Enums.EventStatus
     contract_address?: StringWithAggregatesFilter<"Market"> | string
     isResolved?: BoolNullableWithAggregatesFilter<"Market"> | boolean | null
     marketId?: StringWithAggregatesFilter<"Market"> | string
+    winningOutcome?: StringNullableWithAggregatesFilter<"Market"> | string | null
   }
 
   export type OutcomeWhereInput = {
@@ -10757,6 +12031,68 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"News"> | string
   }
 
+  export type MarketPriceSnapshotWhereInput = {
+    AND?: MarketPriceSnapshotWhereInput | MarketPriceSnapshotWhereInput[]
+    OR?: MarketPriceSnapshotWhereInput[]
+    NOT?: MarketPriceSnapshotWhereInput | MarketPriceSnapshotWhereInput[]
+    id?: StringFilter<"MarketPriceSnapshot"> | string
+    timestamp?: DateTimeFilter<"MarketPriceSnapshot"> | Date | string
+    noOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    yesOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    marketId?: IntFilter<"MarketPriceSnapshot"> | number
+    totalVolume?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    market?: XOR<MarketScalarRelationFilter, MarketWhereInput>
+  }
+
+  export type MarketPriceSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+    market?: MarketOrderByWithRelationInput
+  }
+
+  export type MarketPriceSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MarketPriceSnapshotWhereInput | MarketPriceSnapshotWhereInput[]
+    OR?: MarketPriceSnapshotWhereInput[]
+    NOT?: MarketPriceSnapshotWhereInput | MarketPriceSnapshotWhereInput[]
+    timestamp?: DateTimeFilter<"MarketPriceSnapshot"> | Date | string
+    noOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    yesOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    marketId?: IntFilter<"MarketPriceSnapshot"> | number
+    totalVolume?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    market?: XOR<MarketScalarRelationFilter, MarketWhereInput>
+  }, "id">
+
+  export type MarketPriceSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+    _count?: MarketPriceSnapshotCountOrderByAggregateInput
+    _avg?: MarketPriceSnapshotAvgOrderByAggregateInput
+    _max?: MarketPriceSnapshotMaxOrderByAggregateInput
+    _min?: MarketPriceSnapshotMinOrderByAggregateInput
+    _sum?: MarketPriceSnapshotSumOrderByAggregateInput
+  }
+
+  export type MarketPriceSnapshotScalarWhereWithAggregatesInput = {
+    AND?: MarketPriceSnapshotScalarWhereWithAggregatesInput | MarketPriceSnapshotScalarWhereWithAggregatesInput[]
+    OR?: MarketPriceSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: MarketPriceSnapshotScalarWhereWithAggregatesInput | MarketPriceSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MarketPriceSnapshot"> | string
+    timestamp?: DateTimeWithAggregatesFilter<"MarketPriceSnapshot"> | Date | string
+    noOdds?: BigIntWithAggregatesFilter<"MarketPriceSnapshot"> | bigint | number
+    yesOdds?: BigIntWithAggregatesFilter<"MarketPriceSnapshot"> | bigint | number
+    marketId?: IntWithAggregatesFilter<"MarketPriceSnapshot"> | number
+    totalVolume?: BigIntWithAggregatesFilter<"MarketPriceSnapshot"> | bigint | number
+  }
+
   export type UserCreateInput = {
     username: string
     about: string
@@ -10857,12 +12193,13 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
     creator: UserCreateNestedOneWithoutMarketsInput
+    marketPriceSnapshot?: MarketPriceSnapshotCreateNestedManyWithoutMarketInput
     outcome?: OutcomeCreateNestedManyWithoutMarketInput
     trades?: TradeCreateNestedManyWithoutMarketInput
   }
@@ -10879,11 +12216,12 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedCreateNestedManyWithoutMarketInput
     outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
     trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
   }
@@ -10898,12 +12236,13 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    marketPriceSnapshot?: MarketPriceSnapshotUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUpdateManyWithoutMarketNestedInput
     trades?: TradeUpdateManyWithoutMarketNestedInput
   }
@@ -10920,11 +12259,12 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
     trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
   }
@@ -10941,11 +12281,11 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
   }
 
   export type MarketUpdateManyMutationInput = {
@@ -10958,11 +12298,11 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MarketUncheckedUpdateManyInput = {
@@ -10977,11 +12317,11 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OutcomeCreateInput = {
@@ -11327,6 +12667,68 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
   }
 
+  export type MarketPriceSnapshotCreateInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    totalVolume: bigint | number
+    market: MarketCreateNestedOneWithoutMarketPriceSnapshotInput
+  }
+
+  export type MarketPriceSnapshotUncheckedCreateInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    marketId: number
+    totalVolume: bigint | number
+  }
+
+  export type MarketPriceSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+    market?: MarketUpdateOneRequiredWithoutMarketPriceSnapshotNestedInput
+  }
+
+  export type MarketPriceSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MarketPriceSnapshotCreateManyInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    marketId: number
+    totalVolume: bigint | number
+  }
+
+  export type MarketPriceSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MarketPriceSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11584,10 +12986,20 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type MarketPriceSnapshotListRelationFilter = {
+    every?: MarketPriceSnapshotWhereInput
+    some?: MarketPriceSnapshotWhereInput
+    none?: MarketPriceSnapshotWhereInput
+  }
+
   export type OutcomeListRelationFilter = {
     every?: OutcomeWhereInput
     some?: OutcomeWhereInput
     none?: OutcomeWhereInput
+  }
+
+  export type MarketPriceSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type OutcomeOrderByRelationAggregateInput = {
@@ -11606,11 +13018,11 @@ export namespace Prisma {
     tags?: SortOrder
     resolution_criteria?: SortOrder
     outcomeWon?: SortOrder
-    winningOutcome?: SortOrder
     status?: SortOrder
     contract_address?: SortOrder
     isResolved?: SortOrder
     marketId?: SortOrder
+    winningOutcome?: SortOrder
   }
 
   export type MarketAvgOrderByAggregateInput = {
@@ -11630,11 +13042,11 @@ export namespace Prisma {
     creatorId?: SortOrder
     resolution_criteria?: SortOrder
     outcomeWon?: SortOrder
-    winningOutcome?: SortOrder
     status?: SortOrder
     contract_address?: SortOrder
     isResolved?: SortOrder
     marketId?: SortOrder
+    winningOutcome?: SortOrder
   }
 
   export type MarketMinOrderByAggregateInput = {
@@ -11648,11 +13060,11 @@ export namespace Prisma {
     creatorId?: SortOrder
     resolution_criteria?: SortOrder
     outcomeWon?: SortOrder
-    winningOutcome?: SortOrder
     status?: SortOrder
     contract_address?: SortOrder
     isResolved?: SortOrder
     marketId?: SortOrder
+    winningOutcome?: SortOrder
   }
 
   export type MarketSumOrderByAggregateInput = {
@@ -12025,6 +13437,74 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type MarketPriceSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+  }
+
+  export type MarketPriceSnapshotAvgOrderByAggregateInput = {
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+  }
+
+  export type MarketPriceSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+  }
+
+  export type MarketPriceSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+  }
+
+  export type MarketPriceSnapshotSumOrderByAggregateInput = {
+    noOdds?: SortOrder
+    yesOdds?: SortOrder
+    marketId?: SortOrder
+    totalVolume?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
   export type LeaderBoardCreateNestedManyWithoutUserInput = {
     create?: XOR<LeaderBoardCreateWithoutUserInput, LeaderBoardUncheckedCreateWithoutUserInput> | LeaderBoardCreateWithoutUserInput[] | LeaderBoardUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LeaderBoardCreateOrConnectWithoutUserInput | LeaderBoardCreateOrConnectWithoutUserInput[]
@@ -12227,6 +13707,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type MarketPriceSnapshotCreateNestedManyWithoutMarketInput = {
+    create?: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput> | MarketPriceSnapshotCreateWithoutMarketInput[] | MarketPriceSnapshotUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: MarketPriceSnapshotCreateOrConnectWithoutMarketInput | MarketPriceSnapshotCreateOrConnectWithoutMarketInput[]
+    createMany?: MarketPriceSnapshotCreateManyMarketInputEnvelope
+    connect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+  }
+
   export type OutcomeCreateNestedManyWithoutMarketInput = {
     create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
     connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
@@ -12239,6 +13726,13 @@ export namespace Prisma {
     connectOrCreate?: TradeCreateOrConnectWithoutMarketInput | TradeCreateOrConnectWithoutMarketInput[]
     createMany?: TradeCreateManyMarketInputEnvelope
     connect?: TradeWhereUniqueInput | TradeWhereUniqueInput[]
+  }
+
+  export type MarketPriceSnapshotUncheckedCreateNestedManyWithoutMarketInput = {
+    create?: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput> | MarketPriceSnapshotCreateWithoutMarketInput[] | MarketPriceSnapshotUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: MarketPriceSnapshotCreateOrConnectWithoutMarketInput | MarketPriceSnapshotCreateOrConnectWithoutMarketInput[]
+    createMany?: MarketPriceSnapshotCreateManyMarketInputEnvelope
+    connect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
   }
 
   export type OutcomeUncheckedCreateNestedManyWithoutMarketInput = {
@@ -12284,6 +13778,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMarketsInput, UserUpdateWithoutMarketsInput>, UserUncheckedUpdateWithoutMarketsInput>
   }
 
+  export type MarketPriceSnapshotUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput> | MarketPriceSnapshotCreateWithoutMarketInput[] | MarketPriceSnapshotUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: MarketPriceSnapshotCreateOrConnectWithoutMarketInput | MarketPriceSnapshotCreateOrConnectWithoutMarketInput[]
+    upsert?: MarketPriceSnapshotUpsertWithWhereUniqueWithoutMarketInput | MarketPriceSnapshotUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: MarketPriceSnapshotCreateManyMarketInputEnvelope
+    set?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    disconnect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    delete?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    connect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    update?: MarketPriceSnapshotUpdateWithWhereUniqueWithoutMarketInput | MarketPriceSnapshotUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: MarketPriceSnapshotUpdateManyWithWhereWithoutMarketInput | MarketPriceSnapshotUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: MarketPriceSnapshotScalarWhereInput | MarketPriceSnapshotScalarWhereInput[]
+  }
+
   export type OutcomeUpdateManyWithoutMarketNestedInput = {
     create?: XOR<OutcomeCreateWithoutMarketInput, OutcomeUncheckedCreateWithoutMarketInput> | OutcomeCreateWithoutMarketInput[] | OutcomeUncheckedCreateWithoutMarketInput[]
     connectOrCreate?: OutcomeCreateOrConnectWithoutMarketInput | OutcomeCreateOrConnectWithoutMarketInput[]
@@ -12310,6 +13818,20 @@ export namespace Prisma {
     update?: TradeUpdateWithWhereUniqueWithoutMarketInput | TradeUpdateWithWhereUniqueWithoutMarketInput[]
     updateMany?: TradeUpdateManyWithWhereWithoutMarketInput | TradeUpdateManyWithWhereWithoutMarketInput[]
     deleteMany?: TradeScalarWhereInput | TradeScalarWhereInput[]
+  }
+
+  export type MarketPriceSnapshotUncheckedUpdateManyWithoutMarketNestedInput = {
+    create?: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput> | MarketPriceSnapshotCreateWithoutMarketInput[] | MarketPriceSnapshotUncheckedCreateWithoutMarketInput[]
+    connectOrCreate?: MarketPriceSnapshotCreateOrConnectWithoutMarketInput | MarketPriceSnapshotCreateOrConnectWithoutMarketInput[]
+    upsert?: MarketPriceSnapshotUpsertWithWhereUniqueWithoutMarketInput | MarketPriceSnapshotUpsertWithWhereUniqueWithoutMarketInput[]
+    createMany?: MarketPriceSnapshotCreateManyMarketInputEnvelope
+    set?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    disconnect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    delete?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    connect?: MarketPriceSnapshotWhereUniqueInput | MarketPriceSnapshotWhereUniqueInput[]
+    update?: MarketPriceSnapshotUpdateWithWhereUniqueWithoutMarketInput | MarketPriceSnapshotUpdateWithWhereUniqueWithoutMarketInput[]
+    updateMany?: MarketPriceSnapshotUpdateManyWithWhereWithoutMarketInput | MarketPriceSnapshotUpdateManyWithWhereWithoutMarketInput[]
+    deleteMany?: MarketPriceSnapshotScalarWhereInput | MarketPriceSnapshotScalarWhereInput[]
   }
 
   export type OutcomeUncheckedUpdateManyWithoutMarketNestedInput = {
@@ -12548,6 +14070,28 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type MarketCreateNestedOneWithoutMarketPriceSnapshotInput = {
+    create?: XOR<MarketCreateWithoutMarketPriceSnapshotInput, MarketUncheckedCreateWithoutMarketPriceSnapshotInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutMarketPriceSnapshotInput
+    connect?: MarketWhereUniqueInput
+  }
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type MarketUpdateOneRequiredWithoutMarketPriceSnapshotNestedInput = {
+    create?: XOR<MarketCreateWithoutMarketPriceSnapshotInput, MarketUncheckedCreateWithoutMarketPriceSnapshotInput>
+    connectOrCreate?: MarketCreateOrConnectWithoutMarketPriceSnapshotInput
+    upsert?: MarketUpsertWithoutMarketPriceSnapshotInput
+    connect?: MarketWhereUniqueInput
+    update?: XOR<XOR<MarketUpdateToOneWithWhereWithoutMarketPriceSnapshotInput, MarketUpdateWithoutMarketPriceSnapshotInput>, MarketUncheckedUpdateWithoutMarketPriceSnapshotInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -12834,6 +14378,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
   export type LeaderBoardCreateWithoutUserInput = {
     pointType: $Enums.PointType
     points?: number
@@ -12865,11 +14436,12 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
+    marketPriceSnapshot?: MarketPriceSnapshotCreateNestedManyWithoutMarketInput
     outcome?: OutcomeCreateNestedManyWithoutMarketInput
     trades?: TradeCreateNestedManyWithoutMarketInput
   }
@@ -12885,11 +14457,12 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedCreateNestedManyWithoutMarketInput
     outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
     trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
   }
@@ -13021,11 +14594,11 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"Market">
     resolution_criteria?: StringFilter<"Market"> | string
     outcomeWon?: IntNullableFilter<"Market"> | number | null
-    winningOutcome?: StringNullableFilter<"Market"> | string | null
     status?: EnumEventStatusFilter<"Market"> | $Enums.EventStatus
     contract_address?: StringFilter<"Market"> | string
     isResolved?: BoolNullableFilter<"Market"> | boolean | null
     marketId?: StringFilter<"Market"> | string
+    winningOutcome?: StringNullableFilter<"Market"> | string | null
   }
 
   export type TokenAllocationUpsertWithWhereUniqueWithoutUserInput = {
@@ -13119,6 +14692,32 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutMarketsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutMarketsInput, UserUncheckedCreateWithoutMarketsInput>
+  }
+
+  export type MarketPriceSnapshotCreateWithoutMarketInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    totalVolume: bigint | number
+  }
+
+  export type MarketPriceSnapshotUncheckedCreateWithoutMarketInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    totalVolume: bigint | number
+  }
+
+  export type MarketPriceSnapshotCreateOrConnectWithoutMarketInput = {
+    where: MarketPriceSnapshotWhereUniqueInput
+    create: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput>
+  }
+
+  export type MarketPriceSnapshotCreateManyMarketInputEnvelope = {
+    data: MarketPriceSnapshotCreateManyMarketInput | MarketPriceSnapshotCreateManyMarketInput[]
+    skipDuplicates?: boolean
   }
 
   export type OutcomeCreateWithoutMarketInput = {
@@ -13225,6 +14824,34 @@ export namespace Prisma {
     trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type MarketPriceSnapshotUpsertWithWhereUniqueWithoutMarketInput = {
+    where: MarketPriceSnapshotWhereUniqueInput
+    update: XOR<MarketPriceSnapshotUpdateWithoutMarketInput, MarketPriceSnapshotUncheckedUpdateWithoutMarketInput>
+    create: XOR<MarketPriceSnapshotCreateWithoutMarketInput, MarketPriceSnapshotUncheckedCreateWithoutMarketInput>
+  }
+
+  export type MarketPriceSnapshotUpdateWithWhereUniqueWithoutMarketInput = {
+    where: MarketPriceSnapshotWhereUniqueInput
+    data: XOR<MarketPriceSnapshotUpdateWithoutMarketInput, MarketPriceSnapshotUncheckedUpdateWithoutMarketInput>
+  }
+
+  export type MarketPriceSnapshotUpdateManyWithWhereWithoutMarketInput = {
+    where: MarketPriceSnapshotScalarWhereInput
+    data: XOR<MarketPriceSnapshotUpdateManyMutationInput, MarketPriceSnapshotUncheckedUpdateManyWithoutMarketInput>
+  }
+
+  export type MarketPriceSnapshotScalarWhereInput = {
+    AND?: MarketPriceSnapshotScalarWhereInput | MarketPriceSnapshotScalarWhereInput[]
+    OR?: MarketPriceSnapshotScalarWhereInput[]
+    NOT?: MarketPriceSnapshotScalarWhereInput | MarketPriceSnapshotScalarWhereInput[]
+    id?: StringFilter<"MarketPriceSnapshot"> | string
+    timestamp?: DateTimeFilter<"MarketPriceSnapshot"> | Date | string
+    noOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    yesOdds?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+    marketId?: IntFilter<"MarketPriceSnapshot"> | number
+    totalVolume?: BigIntFilter<"MarketPriceSnapshot"> | bigint | number
+  }
+
   export type OutcomeUpsertWithWhereUniqueWithoutMarketInput = {
     where: OutcomeWhereUniqueInput
     update: XOR<OutcomeUpdateWithoutMarketInput, OutcomeUncheckedUpdateWithoutMarketInput>
@@ -13280,12 +14907,13 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
     creator: UserCreateNestedOneWithoutMarketsInput
+    marketPriceSnapshot?: MarketPriceSnapshotCreateNestedManyWithoutMarketInput
     trades?: TradeCreateNestedManyWithoutMarketInput
   }
 
@@ -13301,11 +14929,12 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedCreateNestedManyWithoutMarketInput
     trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
   }
 
@@ -13395,12 +15024,13 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    marketPriceSnapshot?: MarketPriceSnapshotUpdateManyWithoutMarketNestedInput
     trades?: TradeUpdateManyWithoutMarketNestedInput
   }
 
@@ -13416,11 +15046,12 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedUpdateManyWithoutMarketNestedInput
     trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
   }
 
@@ -13594,12 +15225,13 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
     creator: UserCreateNestedOneWithoutMarketsInput
+    marketPriceSnapshot?: MarketPriceSnapshotCreateNestedManyWithoutMarketInput
     outcome?: OutcomeCreateNestedManyWithoutMarketInput
   }
 
@@ -13615,11 +15247,12 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedCreateNestedManyWithoutMarketInput
     outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
   }
 
@@ -13707,12 +15340,13 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    marketPriceSnapshot?: MarketPriceSnapshotUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUpdateManyWithoutMarketNestedInput
   }
 
@@ -13728,11 +15362,12 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
   }
 
@@ -13876,6 +15511,104 @@ export namespace Prisma {
     trades?: TradeUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type MarketCreateWithoutMarketPriceSnapshotInput = {
+    description?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tags?: MarketCreatetagsInput | string[]
+    resolution_criteria?: string
+    outcomeWon?: number | null
+    status?: $Enums.EventStatus
+    contract_address?: string
+    isResolved?: boolean | null
+    marketId?: string
+    winningOutcome?: string | null
+    creator: UserCreateNestedOneWithoutMarketsInput
+    outcome?: OutcomeCreateNestedManyWithoutMarketInput
+    trades?: TradeCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketUncheckedCreateWithoutMarketPriceSnapshotInput = {
+    id?: number
+    description?: string
+    question: string
+    expiry_date: Date | string
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: number
+    tags?: MarketCreatetagsInput | string[]
+    resolution_criteria?: string
+    outcomeWon?: number | null
+    status?: $Enums.EventStatus
+    contract_address?: string
+    isResolved?: boolean | null
+    marketId?: string
+    winningOutcome?: string | null
+    outcome?: OutcomeUncheckedCreateNestedManyWithoutMarketInput
+    trades?: TradeUncheckedCreateNestedManyWithoutMarketInput
+  }
+
+  export type MarketCreateOrConnectWithoutMarketPriceSnapshotInput = {
+    where: MarketWhereUniqueInput
+    create: XOR<MarketCreateWithoutMarketPriceSnapshotInput, MarketUncheckedCreateWithoutMarketPriceSnapshotInput>
+  }
+
+  export type MarketUpsertWithoutMarketPriceSnapshotInput = {
+    update: XOR<MarketUpdateWithoutMarketPriceSnapshotInput, MarketUncheckedUpdateWithoutMarketPriceSnapshotInput>
+    create: XOR<MarketCreateWithoutMarketPriceSnapshotInput, MarketUncheckedCreateWithoutMarketPriceSnapshotInput>
+    where?: MarketWhereInput
+  }
+
+  export type MarketUpdateToOneWithWhereWithoutMarketPriceSnapshotInput = {
+    where?: MarketWhereInput
+    data: XOR<MarketUpdateWithoutMarketPriceSnapshotInput, MarketUncheckedUpdateWithoutMarketPriceSnapshotInput>
+  }
+
+  export type MarketUpdateWithoutMarketPriceSnapshotInput = {
+    description?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: MarketUpdatetagsInput | string[]
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    contract_address?: StringFieldUpdateOperationsInput | string
+    isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    creator?: UserUpdateOneRequiredWithoutMarketsNestedInput
+    outcome?: OutcomeUpdateManyWithoutMarketNestedInput
+    trades?: TradeUpdateManyWithoutMarketNestedInput
+  }
+
+  export type MarketUncheckedUpdateWithoutMarketPriceSnapshotInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    expiry_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: IntFieldUpdateOperationsInput | number
+    tags?: MarketUpdatetagsInput | string[]
+    resolution_criteria?: StringFieldUpdateOperationsInput | string
+    outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    contract_address?: StringFieldUpdateOperationsInput | string
+    isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
+    trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
+  }
+
   export type LeaderBoardCreateManyUserInput = {
     id?: number
     pointType: $Enums.PointType
@@ -13893,11 +15626,11 @@ export namespace Prisma {
     tags?: MarketCreatetagsInput | string[]
     resolution_criteria?: string
     outcomeWon?: number | null
-    winningOutcome?: string | null
     status?: $Enums.EventStatus
     contract_address?: string
     isResolved?: boolean | null
     marketId?: string
+    winningOutcome?: string | null
   }
 
   export type TokenAllocationCreateManyUserInput = {
@@ -13948,11 +15681,12 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUpdateManyWithoutMarketNestedInput
     trades?: TradeUpdateManyWithoutMarketNestedInput
   }
@@ -13968,11 +15702,12 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
+    marketPriceSnapshot?: MarketPriceSnapshotUncheckedUpdateManyWithoutMarketNestedInput
     outcome?: OutcomeUncheckedUpdateManyWithoutMarketNestedInput
     trades?: TradeUncheckedUpdateManyWithoutMarketNestedInput
   }
@@ -13988,11 +15723,11 @@ export namespace Prisma {
     tags?: MarketUpdatetagsInput | string[]
     resolution_criteria?: StringFieldUpdateOperationsInput | string
     outcomeWon?: NullableIntFieldUpdateOperationsInput | number | null
-    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     contract_address?: StringFieldUpdateOperationsInput | string
     isResolved?: NullableBoolFieldUpdateOperationsInput | boolean | null
     marketId?: StringFieldUpdateOperationsInput | string
+    winningOutcome?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TokenAllocationUpdateWithoutUserInput = {
@@ -14056,6 +15791,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MarketPriceSnapshotCreateManyMarketInput = {
+    id?: string
+    timestamp?: Date | string
+    noOdds: bigint | number
+    yesOdds: bigint | number
+    totalVolume: bigint | number
+  }
+
   export type OutcomeCreateManyMarketInput = {
     id?: number
     outcome_title: string
@@ -14076,6 +15819,30 @@ export namespace Prisma {
     userID?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type MarketPriceSnapshotUpdateWithoutMarketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MarketPriceSnapshotUncheckedUpdateWithoutMarketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MarketPriceSnapshotUncheckedUpdateManyWithoutMarketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    noOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    yesOdds?: BigIntFieldUpdateOperationsInput | bigint | number
+    totalVolume?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type OutcomeUpdateWithoutMarketInput = {

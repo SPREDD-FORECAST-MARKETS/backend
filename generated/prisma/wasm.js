@@ -143,11 +143,11 @@ exports.Prisma.MarketScalarFieldEnum = {
   tags: 'tags',
   resolution_criteria: 'resolution_criteria',
   outcomeWon: 'outcomeWon',
-  winningOutcome: 'winningOutcome',
   status: 'status',
   contract_address: 'contract_address',
   isResolved: 'isResolved',
-  marketId: 'marketId'
+  marketId: 'marketId',
+  winningOutcome: 'winningOutcome'
 };
 
 exports.Prisma.OutcomeScalarFieldEnum = {
@@ -201,6 +201,15 @@ exports.Prisma.NewsScalarFieldEnum = {
   image: 'image'
 };
 
+exports.Prisma.MarketPriceSnapshotScalarFieldEnum = {
+  id: 'id',
+  timestamp: 'timestamp',
+  noOdds: 'noOdds',
+  yesOdds: 'yesOdds',
+  marketId: 'marketId',
+  totalVolume: 'totalVolume'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -244,7 +253,8 @@ exports.Prisma.ModelName = {
   TokenAllocation: 'TokenAllocation',
   Trade: 'Trade',
   LeaderBoard: 'LeaderBoard',
-  News: 'News'
+  News: 'News',
+  MarketPriceSnapshot: 'MarketPriceSnapshot'
 };
 
 /**

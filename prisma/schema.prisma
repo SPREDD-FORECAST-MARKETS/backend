@@ -25,23 +25,24 @@ model User {
 }
 
 model Market {
-  id                  Int         @id @default(autoincrement())
-  description         String      @default("")
+  id                  Int                   @id @default(autoincrement())
+  description         String                @default("")
   question            String
   expiry_date         DateTime
   image               String?
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
   creatorId           Int
   tags                String[]
-  resolution_criteria String      @default("")
+  resolution_criteria String                @default("")
   outcomeWon          Int?
+  status              EventStatus           @default(ACTIVE)
+  contract_address    String                @default("")
+  isResolved          Boolean?              @default(false)
+  marketId            String                @default("")
   winningOutcome      String?
-  status              EventStatus @default(ACTIVE)
-  contract_address    String      @default("")
-  isResolved          Boolean?    @default(false)
-  marketId            String      @default("")
-  creator             User        @relation(fields: [creatorId], references: [id])
+  creator             User                  @relation(fields: [creatorId], references: [id])
+  marketPriceSnapshot MarketPriceSnapshot[]
   outcome             Outcome[]
   trades              Trade[]
 }
@@ -108,6 +109,19 @@ model News {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   image       String
+}
+
+model MarketPriceSnapshot {
+  id          String   @id @default(uuid())
+  timestamp   DateTime @default(now())
+  noOdds    BigInt
+  yesOdds   BigInt
+  marketId    Int
+  totalVolume BigInt
+  market      Market   @relation(fields: [marketId], references: [id])
+
+  @@index([timestamp])
+  @@index([marketId, timestamp])
 }
 
 enum VoteType {
