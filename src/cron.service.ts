@@ -207,7 +207,7 @@ export class TasksService {
   }
 
 
-  @Cron('*/20 * * * * *') // Every 10 seconds
+  @Cron('*/59 * * * * *') // Every 59 seconds
   async handleFetchMarketData() {
     this.logger.log('🔁 Task 2: Fetching market data');
 
