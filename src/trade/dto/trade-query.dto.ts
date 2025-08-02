@@ -1,6 +1,7 @@
 import { IsOptional, IsString, IsInt, IsEnum, Min, Max } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { OrderType } from 'generated/prisma';
 
 export class TradeQueryDto {
   @ApiPropertyOptional({
@@ -91,17 +92,15 @@ export class TradeQueryDto {
   endDate?: Date;
 }
 
-// Response DTOs
 export class TradeResponseDto {
   id: number;
   unique_id: string;
-  order_type: 'BUY' | 'SELL';
+  order_type: OrderType;
   order_size: string;
   amount: string;
   afterPrice: string;
   createdAt: Date;
   updatedAt: Date;
-  
   market?: {
     id: number;
     question: string;
@@ -113,12 +112,10 @@ export class TradeResponseDto {
       profile_pic?: string;
     };
   };
-  
   outcome?: {
     id: number;
     outcome_title: string;
   };
-  
   user?: {
     id: number;
     username: string;
@@ -126,6 +123,8 @@ export class TradeResponseDto {
     profile_pic?: string;
   };
 }
+
+
 
 export class PaginatedTradeResponseDto {
   data: TradeResponseDto[];

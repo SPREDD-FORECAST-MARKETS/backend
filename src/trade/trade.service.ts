@@ -4,6 +4,7 @@ import { CreateTradeDto } from "./dto/create-trade.dto";
 import { CreateOrUpdateTokenAllocationDto } from "./dto/trade-allocation";
 import { Prisma } from "generated/prisma";
 import { PaginatedTradeResponseDto, TradeQueryDto, TradeResponseDto } from "./dto/trade-query.dto";
+import { GetLatestTradesDto, LatestTradeResponseDto } from "./dto/latest-trades.dto";
 
 @Injectable()
 export class TradeService {
@@ -375,4 +376,84 @@ export class TradeService {
       throw new Error(`Failed to fetch trade statistics: ${error?.message ?? 'Unknown error'}`);
     }
   }
+
+
+  async getLatestTradesByMarketId(
+    marketId: string,
+    query: GetLatestTradesDto,
+  ): Promise<LatestTradeResponseDto[]> {
+    // First, check if market exists
+    const market = await this.prismaService.market.findFirst({
+      where: {
+        OR: [
+          { id: isNaN(Number(marketId)) ? undefined : Number(marketId) },
+          { contract_address: marketId },
+          { marketId: marketId },
+        ],
+      },
+    });
+
+    if (!market) {
+      throw new NotFoundException(`Market with ID/address ${marketId} not found`);
+    }
+
+    // Fetch latest trades for the market
+    const trades = await this.prismaService.trade.findMany({
+      where: {
+        marketID: market.id,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        outcome: {
+          select: {
+            id: true,
+            outcome_title: true,
+          },
+        },
+        market: {
+          select: {
+            id: true,
+            marketId: true,
+            contract_address: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: query.sort === 'asc' ? 'asc' : 'desc',
+      },
+      take: query.limit,
+    });
+
+    return trades.map((trade): LatestTradeResponseDto => {
+      const shares = Number(trade.afterPrice) > 0
+        ? Number(trade.amount) / Number(trade.afterPrice)
+        : Number(trade.order_size);
+
+      return {
+        id: trade.unique_id,
+        marketId: trade.market?.marketId || trade.market?.contract_address || String(trade.marketID),
+        userId: String(trade.userID),
+        username: trade.user?.username || 'Anonymous',
+        outcome: trade.outcome?.outcome_title || 'Unknown',
+        type: trade.order_type,
+        amount: Number(trade.amount),
+        price: Number(trade.afterPrice),
+        timestamp: trade.createdAt.toISOString(),
+        shares: Math.round(shares),
+      };
+    });
+  }
+
+  async getLatestTradesByContractAddress(
+    contractAddress: string,
+    query: GetLatestTradesDto,
+  ): Promise<LatestTradeResponseDto[]> {
+    return this.getLatestTradesByMarketId(contractAddress, query);
+  }
+
 }
