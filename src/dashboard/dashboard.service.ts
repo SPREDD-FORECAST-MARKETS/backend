@@ -61,7 +61,7 @@ export class DashboardService {
       by: ['marketID'],
       where: {
         createdAt: { gte: oneWeekAgo },
-        marketID: { not: null },
+        marketID: { not: null }
       },
       _count: {
         marketID: true,
@@ -77,7 +77,7 @@ export class DashboardService {
     const marketIds = groupedTrades.map((t) => t.marketID).filter((id): id is number => id !== null);
 
     const markets = await this.prisma.market.findMany({
-      where: { id: { in: marketIds } },
+      where: { id: { in: marketIds }, isResolved: false },
       include: {
         creator: {
           select: {
