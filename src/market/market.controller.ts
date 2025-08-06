@@ -46,6 +46,26 @@ export class MarketController {
     );
   }
 
+  @Post('agent/create-market')
+  @ApiOperation({ summary: 'Create market via autonomous agent (no auth required)' })
+  async createMarketAgent(
+    @Body() createMarketDto: CreateMarketDto,
+  ) {
+    const AGENT_USER_ID = 1; 
+    
+    return this.marketService.createMarket(
+      createMarketDto.description,
+      createMarketDto.resolution_criteria,
+      createMarketDto.question,
+      createMarketDto.contract_address,
+      createMarketDto.expiry_date,
+      createMarketDto.image,
+      createMarketDto.marketId,
+      AGENT_USER_ID,
+      createMarketDto.tags,
+    );
+  }
+
   @Post('markets')
   async getMarkets(@Body() getMarketDto: GetMarketDto) {
     return this.marketService.getMarkets(getMarketDto);
