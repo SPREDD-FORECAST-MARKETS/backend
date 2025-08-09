@@ -11,6 +11,7 @@ import { TradeModule } from './trade/trade.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './cron.service';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { FarcasterController } from './well-known/farcaster.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     DashboardModule,
     ScheduleModule.forRoot(),
   ],
-  controllers: [AppController],
+  controllers: [AppController, FarcasterController],
   providers: [AppService, PrismaService, TasksService],
 })
-export class AppModule { }
+export class AppModule {}
