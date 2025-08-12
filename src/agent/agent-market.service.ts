@@ -89,7 +89,7 @@ export class AgentMarketService {
   constructor(private configService: ConfigService) {
     // Initialize blockchain connection
     const rpcUrl = this.configService.get<string>('RPC_URL');
-    const privateKey = this.configService.get<string>('FP_MANAGER_PRIVATE_KEY');
+    const privateKey = this.configService.get<string>('AGENT_PRIVATE_KEY');
     const factoryAddress = this.configService.get<string>('FACTORY_ADDRESS');
     const tokenAddress = this.configService.get<string>('TOKEN_ADDRESS');
 
