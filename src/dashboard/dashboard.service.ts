@@ -57,6 +57,7 @@ export class DashboardService {
   async getMostTradedMarketsIn24Hours(limit = 10) {
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
+    // Gets trade counts and volume aggregated by market
     const groupedTrades = await this.prisma.trade.groupBy({
       by: ['marketID'],
       where: {
@@ -66,12 +67,15 @@ export class DashboardService {
       _count: {
         marketID: true,
       },
+      _sum: {
+        amount: true,
+      },
       orderBy: {
         _count: {
           marketID: 'desc',
         },
       },
-      take: limit,
+      take: limit * 2, // Get more initially to ensure we have enough after filtering
     });
 
     const marketIds = groupedTrades.map((t) => t.marketID).filter((id): id is number => id !== null);
@@ -88,15 +92,31 @@ export class DashboardService {
       },
     });
 
-    return markets
+    // Calculate hot scores and add volume data
+    const marketsWithHotScore = markets
       .map((market) => {
-        const count = groupedTrades.find((t) => t.marketID === market.id)?._count.marketID || 0;
+        const tradeData = groupedTrades.find((t) => t.marketID === market.id);
+        const tradeCount = tradeData?._count.marketID || 0;
+        const totalVolume = tradeData?._sum.amount || new Decimal(0);
+        
+        // Convert volume to number for hot score calculation
+        const volumeNumber = Number(totalVolume);
+        
+        // Hot score: 60% volume weight + 40% trade count weight
+        // Normalize volume by dividing by 1M (1e6) and trade count by multiplying by 40
+        const hotScore = (volumeNumber * 0.6) + (tradeCount * 40 * 0.4);
+        
         return {
           ...market,
-          tradeCount: count,
+          tradeCount,
+          totalVolume: totalVolume.toString(),
+          hotScore,
         };
       })
-      .sort((a, b) => b.tradeCount - a.tradeCount);
+      .sort((a, b) => b.hotScore - a.hotScore)
+      .slice(0, limit); // Take only the requested limit
+
+    return marketsWithHotScore;
   }
 
 
