@@ -64,6 +64,64 @@ export class MarketService {
     return market;
   }
 
+  // Agent-specific market creation method - separate from main user flow
+  async createAgentMarket(
+    description: string,
+    resolution_criteria: string,
+    question: string,
+    marketId: string,           // bytes32 hash from blockchain
+    expiry_date: string | Date,
+    image: string | undefined,
+    contract_address: string,   // 20-byte contract address from blockchain
+    userId: number,
+    tags?: string[],
+  ) {
+    const market = await this.prismaService.market.create({
+      data: {
+        description,
+        resolution_criteria,
+        question,
+        expiry_date,
+        image: image || 'https://spredd.markets/logo.jpg',
+        contract_address,
+        tags,
+        creatorId: userId,
+        marketId,
+      },
+    });
+
+    await this.prismaService.outcome.create({
+      data: {
+        outcome_title: 'YES',
+        marketID: market.id,
+      },
+    });
+
+    await this.prismaService.outcome.create({
+      data: {
+        outcome_title: 'NO',
+        marketID: market.id,
+      },
+    });
+
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    await this.prismaService.news.create({
+      data: {
+        title: 'New Market created by Spredd Agent',
+        description: `Autonomous agent created prediction market: ${question}, description: ${description} using AI trend analysis`,
+        source: 'Spredd Agent',
+        image: image || 'https://spredd.markets/logo.jpg',
+      },
+    });
+
+    return market;
+  }
+
   async getMarkets(getMarketDto: GetMarketDto) {
     const {
       page = 1,

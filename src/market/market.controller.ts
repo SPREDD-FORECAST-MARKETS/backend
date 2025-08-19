@@ -93,14 +93,14 @@ export class MarketController {
         throw new BadRequestException(`Blockchain deployment failed: ${blockchainResult.error}`);
       }
       
-      const marketData = await this.marketService.createMarket(
+      const marketData = await this.marketService.createAgentMarket(
         createAgentMarketDto.description,
         createAgentMarketDto.resolution_criteria,
         createAgentMarketDto.question,
-        blockchainResult.contractAddress!,
+        blockchainResult.marketId!,        // marketId (bytes32)
         createAgentMarketDto.expiry_date,
         createAgentMarketDto.image,
-        blockchainResult.marketId!,
+        blockchainResult.contractAddress!, // contract_address (20-byte address)
         2, // SpreddAgent user ID
         this.normalizeTags(createAgentMarketDto.tags),
       );
