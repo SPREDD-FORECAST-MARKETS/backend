@@ -27,12 +27,12 @@ export class TasksService {
   private readonly walletClient = createWalletClient({
     account: this.account,
     chain: baseSepolia,
-    transport: http(`https://base-sepolia.infura.io/v3/${process.env.INFURA_KEY}`),
+    transport: http(process.env.RPC_URL),
   })
 
   private client = createPublicClient({
     chain: baseSepolia,
-    transport: http(`https://base-sepolia.infura.io/v3/${process.env.INFURA_KEY}`),
+    transport: http(process.env.RPC_URL),
   });
 
   private async getUserIdByAddress(wallet_address: string): Promise<number | null> {
