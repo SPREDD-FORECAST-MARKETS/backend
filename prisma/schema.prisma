@@ -162,3 +162,14 @@ enum PointType {
   CREATOR
   TRADER
 }
+
+model Creator {
+  id                Int      @id @default(autoincrement())
+  twitter_username  String   @unique
+  twitter_name      String
+  profile_image_url String
+  position          Int      @unique
+  joined_at         DateTime @default(now())
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}

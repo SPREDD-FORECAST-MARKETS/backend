@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './cron.service';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TwitterModule } from './twitter/twitter.module';
+import { CreatorsModule } from './creators/creators.module';
 import { FarcasterController } from './well-known/farcaster.controller';
 
 @Module({
@@ -24,6 +25,7 @@ import { FarcasterController } from './well-known/farcaster.controller';
     TradeModule,
     DashboardModule,
     TwitterModule,
+    CreatorsModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController, FarcasterController],
