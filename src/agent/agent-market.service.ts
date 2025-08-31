@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ethers } from 'ethers';
 import { ConfigService } from '@nestjs/config';
+import { base } from 'viem/chains';
 
 // ABIs
 const FACTORY_ABI = [
@@ -88,7 +89,7 @@ export class AgentMarketService {
 
   constructor(private configService: ConfigService) {
     // Initialize blockchain connection
-    const rpcUrl = this.configService.get<string>('RPC_URL');
+    const rpcUrl = base.rpcUrls.default.http[0];
     const privateKey = this.configService.get<string>('AGENT_PRIVATE_KEY');
     const factoryAddress = this.configService.get<string>('FACTORY_ADDRESS');
     const tokenAddress = this.configService.get<string>('TOKEN_ADDRESS');

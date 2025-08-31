@@ -28,12 +28,12 @@ export class TasksService {
   private readonly walletClient = createWalletClient({
     account: this.account,
     chain: base,
-    transport: http(process.env.RPC_URL),
+    transport: http(base.rpcUrls.default.http[0]),
   })
 
   private client = createPublicClient({
     chain: base,
-    transport: http(process.env.RPC_URL),
+    transport: http(base.rpcUrls.default.http[0]),
   });
 
   private async getUserIdByAddress(wallet_address: string): Promise<number | null> {
