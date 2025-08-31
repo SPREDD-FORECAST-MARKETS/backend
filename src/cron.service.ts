@@ -2,11 +2,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { createPublicClient, createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from "viem/accounts"
-import { baseSepolia, CONTRACT_ADDRESSES } from './utils/chain-config';
+import { CONTRACT_ADDRESSES } from './utils/chain-config';
 import { PrismaService } from './prisma/prisma.service';
 import { FP_MANAGER_ABI } from './abi/FPManager';
 import { PointType } from 'generated/prisma';
 import { MARKET_ABI } from './abi/MarketABI';
+import { base } from 'viem/chains';
 
 interface TopPerformersResult {
   topTraders: `0x${string}`[];
@@ -26,12 +27,12 @@ export class TasksService {
 
   private readonly walletClient = createWalletClient({
     account: this.account,
-    chain: baseSepolia,
+    chain: base,
     transport: http(process.env.RPC_URL),
   })
 
   private client = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(process.env.RPC_URL),
   });
 
