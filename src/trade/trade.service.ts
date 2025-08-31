@@ -35,7 +35,59 @@ export class TradeService {
       },
     });
 
+    await this.createMarketPriceSnapshot(marketID);
+
     return trade;
+  }
+
+  private async createMarketPriceSnapshot(marketID: number) {
+    try {
+      const outcomes = await this.prismaService.outcome.findMany({
+        where: { marketID },
+        include: { trades: true }
+      });
+
+      const yesOutcome = outcomes.find(o => o.outcome_title.toUpperCase() === 'YES');
+      const noOutcome = outcomes.find(o => o.outcome_title.toUpperCase() === 'NO');
+
+      const getLatestPrice = async (outcomeId: number | undefined): Promise<number> => {
+        if (!outcomeId) return 0.5;
+        
+        const latestTrade = await this.prismaService.trade.findFirst({
+          where: { outcomeId },
+          orderBy: { createdAt: 'desc' }
+        });
+        
+        return latestTrade ? Number(latestTrade.afterPrice) : 0.5;
+      };
+
+      const yesPrice = await getLatestPrice(yesOutcome?.id);
+      const noPrice = await getLatestPrice(noOutcome?.id);
+
+      const totalVolumeResult = await this.prismaService.trade.aggregate({
+        where: { marketID },
+        _sum: { amount: true }
+      });
+
+      const totalVolume = totalVolumeResult._sum.amount || 0;
+
+      const yesOddsBigInt = BigInt(Math.round(yesPrice * 1_000_000));
+      const noOddsBigInt = BigInt(Math.round(noPrice * 1_000_000));
+      const totalVolumeBigInt = BigInt(Math.round(Number(totalVolume) * 1_000_000));
+
+      await this.prismaService.marketPriceSnapshot.create({
+        data: {
+          marketId: marketID,
+          yesOdds: yesOddsBigInt,
+          noOdds: noOddsBigInt,
+          totalVolume: totalVolumeBigInt,
+          timestamp: new Date()
+        }
+      });
+
+    } catch (error) {
+      console.error('Failed to create market price snapshot:', error);
+    }
   }
 
   async createOrUpdateAllocation(
