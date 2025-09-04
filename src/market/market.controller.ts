@@ -71,6 +71,10 @@ export class MarketController {
       'entertainment': 'Entertainment',
       'health': 'Health',
       'environment': 'Environment',
+      'politics': 'Politics',
+      'political': 'Politics',
+      'election': 'Politics',
+      'government': 'Politics',
       'price': 'Crypto', // Price predictions are usually crypto
       'prediction': 'Business' // Generic prediction tag
     };
