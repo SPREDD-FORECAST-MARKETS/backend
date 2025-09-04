@@ -24,10 +24,12 @@ export class GetMarketChartDto {
 
   @ApiPropertyOptional({ description: 'Start time (ISO string)' })
   @IsOptional()
+  @Transform(({ value }) => value ? new Date(value) : undefined)
   timestampGte?: Date;
 
   @ApiPropertyOptional({ description: 'End time (ISO string)' })
   @IsOptional()
+  @Transform(({ value }) => value ? new Date(value) : undefined)
   timestampLte?: Date;
 
   @ApiPropertyOptional({

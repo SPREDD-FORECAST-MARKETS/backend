@@ -345,13 +345,7 @@ export class MarketService {
       interval,
     } = dto;
 
-    const where: any = {};
-    if (marketId) where.marketId = marketId;
-    if (timestampGte || timestampLte) {
-      where.timestamp = {};
-      if (timestampGte) where.timestamp.gte = timestampGte;
-      if (timestampLte) where.timestamp.lte = timestampLte;
-    }
+    let whereMarketId = marketId;
 
     // Resolve marketId if only contract_address is provided
     if (!marketId && contract_address) {
@@ -359,64 +353,168 @@ export class MarketService {
         where: { contract_address },
         select: { id: true },
       });
-      if (market) where.marketId = market.id;
+      if (market) whereMarketId = market.id;
     }
 
-    const intervalToPostgres = {
-      '10s': '10 seconds',
-      '1m': '1 minute',
-      '5m': '5 minutes',
-      '1h': '1 hour',
-      '1d': '1 day',
-      '1mo': '1 month',
+    // If no marketId found, return empty array
+    if (!whereMarketId) {
+      return [];
+    }
+
+    const intervalToSeconds = {
+      '10s': 10,
+      '1m': 60,
+      '5m': 300,
+      '1h': 3600,
+      '1d': 86400,
+      '1mo': 2592000, // 30 days
     };
 
     // If interval is not given, auto-distribute into 20 buckets
     if (!interval) {
-      const dataRange = await this.prismaService.marketPriceSnapshot.aggregate({
-        where,
-        _min: { timestamp: true },
-        _max: { timestamp: true },
+      // Get raw data first to determine time range
+      const rawData = await this.prismaService.marketPriceSnapshot.findMany({
+        where: {
+          marketId: whereMarketId,
+          ...(timestampGte && { timestamp: { gte: timestampGte } }),
+          ...(timestampLte && { timestamp: { lte: timestampLte } }),
+        },
+        orderBy: { timestamp: 'asc' },
+        select: {
+          timestamp: true,
+          noOdds: true,
+          yesOdds: true,
+          totalVolume: true,
+        },
       });
 
-      const { _min, _max } = dataRange;
-      const start = _min.timestamp;
-      const end = _max.timestamp;
+      if (rawData.length === 0) {
+        return [];
+      }
 
-      const diffMs = new Date(end!).getTime() - new Date(start!).getTime();
-      const bucketSizeMs = Math.ceil(diffMs / 20);
+      // Group data into 20 buckets manually
+      const buckets: Array<{
+        bucket: Date;
+        noOdds: string;
+        yesOdds: string;
+        totalVolume: string;
+      }> = [];
+      const bucketCount = Math.min(20, rawData.length);
+      const itemsPerBucket = Math.ceil(rawData.length / bucketCount);
 
-      // Convert bucket size to interval string
-      const pgInterval = `${Math.floor(bucketSizeMs / 1000)} seconds`;
+      for (let i = 0; i < bucketCount; i++) {
+        const start = i * itemsPerBucket;
+        const end = Math.min((i + 1) * itemsPerBucket, rawData.length);
+        const bucketData = rawData.slice(start, end);
 
-      return this.prismaService.$queryRawUnsafe(`
-        SELECT time_bucket('${pgInterval}', "timestamp") AS bucket,
-               avg("noOdds") as "noOdds",
-               avg("yesOdds") as "yesOdds",
-               avg("totalVolume") as "totalVolume"
-        FROM "MarketPriceSnapshot"
-        WHERE ${where.marketId ? `"marketId" = ${where.marketId}` : 'TRUE'}
-        ${timestampGte ? `AND "timestamp" >= '${timestampGte.toISOString()}'` : ''}
-        ${timestampLte ? `AND "timestamp" <= '${timestampLte.toISOString()}'` : ''}
-        GROUP BY bucket
-        ORDER BY bucket ASC
-      `);
+        if (bucketData.length > 0) {
+          const avgNoOdds = bucketData.reduce((sum, item) => sum + Number(item.noOdds), 0) / bucketData.length;
+          const avgYesOdds = bucketData.reduce((sum, item) => sum + Number(item.yesOdds), 0) / bucketData.length;
+          const avgTotalVolume = bucketData.reduce((sum, item) => sum + Number(item.totalVolume), 0) / bucketData.length;
+
+          buckets.push({
+            bucket: bucketData[Math.floor(bucketData.length / 2)].timestamp,
+            noOdds: Math.round(avgNoOdds).toString(),
+            yesOdds: Math.round(avgYesOdds).toString(),
+            totalVolume: Math.round(avgTotalVolume).toString(),
+          });
+        }
+      }
+
+      return buckets;
     }
 
-    const pgInterval = intervalToPostgres[interval];
+    // For specific intervals, use PostgreSQL date_trunc function
+    const intervalSeconds = intervalToSeconds[interval];
+    if (!intervalSeconds) {
+      throw new Error(`Invalid interval: ${interval}`);
+    }
 
-    return this.prismaService.$queryRawUnsafe(`
-      SELECT time_bucket('${pgInterval}', "timestamp") AS bucket,
+    // Use date_trunc instead of time_bucket for PostgreSQL compatibility
+    const intervalMapping = {
+      '10s': 'minute', // Fallback to minute for 10s
+      '1m': 'minute',
+      '5m': 'minute',
+      '1h': 'hour',
+      '1d': 'day',
+      '1mo': 'month',
+    };
+
+    const truncateUnit = intervalMapping[interval];
+
+    // For sub-minute intervals, we need to use a different approach
+    if (interval === '10s' || interval === '5m') {
+      // For sub-minute intervals, get raw data and group manually
+      const rawData = await this.prismaService.marketPriceSnapshot.findMany({
+        where: {
+          marketId: whereMarketId,
+          ...(timestampGte && { timestamp: { gte: timestampGte } }),
+          ...(timestampLte && { timestamp: { lte: timestampLte } }),
+        },
+        orderBy: { timestamp: 'asc' },
+      });
+
+      if (rawData.length === 0) return [];
+
+      // Group by interval
+      const groups = new Map<string, any[]>();
+      
+      rawData.forEach(item => {
+        const timestamp = new Date(item.timestamp);
+        const intervalStart = new Date(
+          Math.floor(timestamp.getTime() / (intervalSeconds * 1000)) * intervalSeconds * 1000
+        );
+        const key = intervalStart.toISOString();
+        
+        if (!groups.has(key)) {
+          groups.set(key, []);
+        }
+        groups.get(key)!.push(item);
+      });
+
+      // Calculate averages for each group
+      const result: Array<{
+        bucket: string;
+        noOdds: string;
+        yesOdds: string;
+        totalVolume: string;
+      }> = [];
+      for (const [key, items] of groups.entries()) {
+        const avgNoOdds = items.reduce((sum, item) => sum + Number(item.noOdds), 0) / items.length;
+        const avgYesOdds = items.reduce((sum, item) => sum + Number(item.yesOdds), 0) / items.length;
+        const avgTotalVolume = items.reduce((sum, item) => sum + Number(item.totalVolume), 0) / items.length;
+
+        result.push({
+          bucket: key,
+          noOdds: Math.round(avgNoOdds).toString(),
+          yesOdds: Math.round(avgYesOdds).toString(),
+          totalVolume: Math.round(avgTotalVolume).toString(),
+        });
+      }
+
+      return result.sort((a, b) => new Date(a.bucket).getTime() - new Date(b.bucket).getTime());
+    }
+
+    // For minute, hour, day, month intervals, use date_trunc with safe query building
+    let query = `
+      SELECT date_trunc('${truncateUnit}', "timestamp") AS bucket,
              avg("noOdds") as "noOdds",
              avg("yesOdds") as "yesOdds",
              avg("totalVolume") as "totalVolume"
       FROM "MarketPriceSnapshot"
-      WHERE ${where.marketId ? `"marketId" = ${where.marketId}` : 'TRUE'}
-      ${timestampGte ? `AND "timestamp" >= '${timestampGte.toISOString()}'` : ''}
-      ${timestampLte ? `AND "timestamp" <= '${timestampLte.toISOString()}'` : ''}
-      GROUP BY bucket
-      ORDER BY bucket ASC
-    `);
+      WHERE "marketId" = ${whereMarketId}
+    `;
+
+    if (timestampGte) {
+      query += ` AND "timestamp" >= '${timestampGte.toISOString()}'`;
+    }
+    if (timestampLte) {
+      query += ` AND "timestamp" <= '${timestampLte.toISOString()}'`;
+    }
+
+    query += ` GROUP BY bucket ORDER BY bucket ASC`;
+
+    return this.prismaService.$queryRawUnsafe(query);
   }
 
 }

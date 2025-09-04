@@ -93,14 +93,18 @@ export class MarketController {
         throw new BadRequestException(`Blockchain deployment failed: ${blockchainResult.error}`);
       }
       
+      if (!blockchainResult.marketId || !blockchainResult.contractAddress) {
+        throw new BadRequestException('Blockchain deployment failed: Missing marketId or contractAddress');
+      }
+
       const marketData = await this.marketService.createAgentMarket(
         createAgentMarketDto.description,
         createAgentMarketDto.resolution_criteria,
         createAgentMarketDto.question,
-        blockchainResult.marketId!,        // marketId (bytes32)
+        blockchainResult.marketId,        // marketId (bytes32)
         createAgentMarketDto.expiry_date,
         createAgentMarketDto.image,
-        blockchainResult.contractAddress!, // contract_address (20-byte address)
+        blockchainResult.contractAddress, // contract_address (20-byte address)
         2, // SpreddAgent user ID
         this.normalizeTags(createAgentMarketDto.tags),
       );
@@ -147,7 +151,13 @@ export class MarketController {
 
   @Get('chart')
   async getMarketChart(@Query() dto: GetMarketChartDto) {
-    return this.marketService.getMarketChartData(dto);
+    try {
+      const result = await this.marketService.getMarketChartData(dto);
+      return result;
+    } catch (error) {
+      this.logger.error('Failed to fetch market chart data', error);
+      throw new BadRequestException(`Failed to fetch chart data: ${error.message}`);
+    }
   }
 
   @Get(':id')
