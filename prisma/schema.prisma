@@ -114,8 +114,8 @@ model News {
 model MarketPriceSnapshot {
   id          String   @id @default(uuid())
   timestamp   DateTime @default(now())
-  noOdds    BigInt
-  yesOdds   BigInt
+  noOdds      BigInt
+  yesOdds     BigInt
   marketId    Int
   totalVolume BigInt
   market      Market   @relation(fields: [marketId], references: [id])
@@ -172,4 +172,68 @@ model Creator {
   joined_at         DateTime @default(now())
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
+}
+
+// Add these new models to your existing schema.prisma
+
+model WeeklyLeaderboard {
+  id          Int        @id @default(autoincrement())
+  weekNumber  Int        @unique
+  startTime   BigInt
+  endTime     BigInt
+  status      WeekStatus @default(ACTIVE)
+  rewardPool  String     @default("0")
+  txHash      String? // Transaction hash when submitted
+  submittedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  traders  WeeklyTrader[]
+  creators WeeklyCreator[]
+
+  @@map("weekly_leaderboards")
+}
+
+model WeeklyTrader {
+  id            Int      @id @default(autoincrement())
+  weekNumber    Int
+  walletAddress String
+  fpPoints      String // Store as string to handle large BigInt values
+  rank          Int      @default(0)
+  isTopK        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  weeklyLeaderboard WeeklyLeaderboard @relation(fields: [weekNumber], references: [weekNumber])
+
+  @@unique([weekNumber, walletAddress])
+  @@index([weekNumber, rank])
+  @@index([walletAddress])
+  @@map("weekly_traders")
+}
+
+model WeeklyCreator {
+  id            Int      @id @default(autoincrement())
+  weekNumber    Int
+  walletAddress String
+  fpPoints      String // Store as string to handle large BigInt values
+  rank          Int?
+  isTopK        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  weeklyLeaderboard WeeklyLeaderboard @relation(fields: [weekNumber], references: [weekNumber])
+
+  @@unique([weekNumber, walletAddress])
+  @@index([weekNumber, rank])
+  @@index([walletAddress])
+  @@map("weekly_creators")
+}
+
+// Add this enum
+enum WeekStatus {
+  ACTIVE
+  PENDING_FINALIZE
+  FINALIZED
 }

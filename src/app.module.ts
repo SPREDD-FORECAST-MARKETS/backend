@@ -9,11 +9,12 @@ import { MarketModule } from './market/market.module';
 import { UserModule } from './user/user.module';
 import { TradeModule } from './trade/trade.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TasksService } from './cron.service';
+// import { TasksService } from './cron.service';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TwitterModule } from './twitter/twitter.module';
 import { CreatorsModule } from './creators/creators.module';
 import { FarcasterController } from './well-known/farcaster.controller';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
 @Module({
   imports: [
@@ -27,8 +28,9 @@ import { FarcasterController } from './well-known/farcaster.controller';
     TwitterModule,
     CreatorsModule,
     ScheduleModule.forRoot(),
+    LeaderboardModule,
   ],
   controllers: [AppController, FarcasterController],
-  providers: [AppService, PrismaService, TasksService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
