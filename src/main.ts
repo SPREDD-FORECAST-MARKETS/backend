@@ -21,11 +21,16 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'https://spredd.markets',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  });
 
   // Only setup Swagger in development/non-production environments
   const nodeEnv = process.env.NODE_ENV;
-  
+
   if (nodeEnv !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('Shilltube Backend API service')
@@ -35,13 +40,13 @@ async function bootstrap() {
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup("api/docs", app, document);
-    
+    SwaggerModule.setup('api/docs', app, document);
+
     console.log('📚 Swagger documentation available at /api/docs');
   } else {
     console.log('🔒 Swagger documentation disabled in production mode');
   }
-  
+
   const port = configService.get<number>('PORT', 3000);
 
   await app.listen(process.env.PORT ?? 3000);
