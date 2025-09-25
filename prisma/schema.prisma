@@ -10,18 +10,21 @@ datasource db {
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  username        String            @unique
-  about           String
-  wallet_address  String            @unique
-  role            Role              @default(USER)
-  profile_pic     String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  leaderboard     LeaderBoard[]
-  markets         Market[]
-  token_allocated TokenAllocation[]
-  trades          Trade[]
+  id               Int               @id @default(autoincrement())
+  username         String            @unique
+  about            String
+  wallet_address   String?           @unique
+  role             Role              @default(USER)
+  profile_pic      String?
+  twitter_id       String?
+  twitter_username String?
+  twitter_name     String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  leaderboard      LeaderBoard[]
+  markets          Market[]
+  token_allocated  TokenAllocation[]
+  trades           Trade[]
 }
 
 model Market {

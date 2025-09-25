@@ -517,4 +517,158 @@ export class MarketService {
     return this.prismaService.$queryRawUnsafe(query);
   }
 
+  async generateTwitterCardHtml(marketData: any): Promise<string> {
+    // Format expiry date
+    const expiryDate = new Date(marketData.expiry_date);
+    const formattedExpiry = expiryDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    // Get market creator info
+    const creatorName = marketData.creator?.username || 'Unknown';
+    
+    // Generate description with market details
+    const description = `${marketData.description || marketData.question} • Created by ${creatorName} • Expires ${formattedExpiry} • Trade on Spredd Markets`;
+    
+    // Use market image or fallback to Spredd logo
+    const imageUrl = marketData.image || 'https://spredd.markets/logo.png';
+    
+    // Generate the redirect URL to the actual trade page
+    const tradeUrl = `https://spredd.markets/trade/${marketData.id}`;
+    
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@spreddai">
+  <meta name="twitter:title" content="${this.escapeHtml(marketData.question)}">
+  <meta name="twitter:description" content="${this.escapeHtml(description)}">
+  <meta name="twitter:image" content="${imageUrl}">
+  
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="${this.escapeHtml(marketData.question)}">
+  <meta property="og:description" content="${this.escapeHtml(description)}">
+  <meta property="og:image" content="${imageUrl}">
+  <meta property="og:url" content="${tradeUrl}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Spredd Markets">
+  
+  <!-- Additional meta tags -->
+  <title>${this.escapeHtml(marketData.question)} | Spredd Markets</title>
+  <meta name="description" content="${this.escapeHtml(description)}">
+  <link rel="canonical" href="${tradeUrl}">
+  
+  <!-- Additional Twitter Card optimizations -->
+  <meta name="twitter:creator" content="@spreddai">
+  <meta name="twitter:image:alt" content="${this.escapeHtml(marketData.question)} - Prediction Market on Spredd">
+  
+  <!-- Facebook specific -->
+  <meta property="fb:app_id" content="spredd-markets">
+  
+  <!-- Additional Open Graph -->
+  <meta property="og:locale" content="en_US">
+  <meta property="article:author" content="${this.escapeHtml(creatorName)}">
+  <meta property="article:published_time" content="${new Date(marketData.created_at || Date.now()).toISOString()}">
+  <meta property="article:modified_time" content="${new Date(marketData.updated_at || Date.now()).toISOString()}">
+  
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #000;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .card {
+      max-width: 600px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #ff8a4b, #ff6b35);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 15px;
+      line-height: 1.3;
+    }
+    p {
+      color: #999;
+      margin: 0 0 25px;
+      line-height: 1.5;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #ff8a4b, #ff6b35);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.2s;
+    }
+    .button:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+  
+  <script>
+    // Redirect after a brief delay to allow social crawlers to read meta tags
+    setTimeout(() => {
+      window.location.href = '${tradeUrl}';
+    }, 1000);
+  </script>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">S</div>
+    <h1>${this.escapeHtml(marketData.question)}</h1>
+    <p>Prediction market on Spredd Markets</p>
+    <p>Created by ${this.escapeHtml(creatorName)} • Expires ${formattedExpiry}</p>
+    <a href="${tradeUrl}" class="button">Trade Now</a>
+    <p style="margin-top: 20px; font-size: 14px; color: #666;">
+      You will be redirected automatically, or <a href="${tradeUrl}" style="color: #ff8a4b;">click here</a> to continue.
+    </p>
+  </div>
+</body>
+</html>`;
+
+    return html;
+  }
+
+  private escapeHtml(text: string): string {
+    if (!text) return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+  }
+
 }

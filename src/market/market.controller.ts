@@ -9,7 +9,10 @@ import {
   UseGuards,
   BadRequestException,
   Logger,
+  Res,
+  Header,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { PrivyAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -161,6 +164,40 @@ export class MarketController {
     } catch (error) {
       this.logger.error('Failed to fetch market chart data', error);
       throw new BadRequestException(`Failed to fetch chart data: ${error.message}`);
+    }
+  }
+
+  @Get(':id/twitter-card')
+  @Header('Content-Type', 'text/html')
+  async getMarketTwitterCard(@Param('id') id: number, @Res() res: Response) {
+    try {
+      const marketData = await this.marketService.getMarket(id);
+      if (!marketData) {
+        return res.status(404).send('<html><body>Market not found</body></html>');
+      }
+      
+      const twitterCardHtml = await this.marketService.generateTwitterCardHtml(marketData);
+      return res.send(twitterCardHtml);
+    } catch (error) {
+      this.logger.error('Failed to generate Twitter Card', error);
+      return res.status(500).send('<html><body>Error generating Twitter Card</body></html>');
+    }
+  }
+
+  @Get('share/:id')
+  @Header('Content-Type', 'text/html')
+  async getMarketShare(@Param('id') id: number, @Res() res: Response) {
+    try {
+      const marketData = await this.marketService.getMarket(id);
+      if (!marketData) {
+        return res.status(404).send('<html><body>Market not found</body></html>');
+      }
+      
+      const twitterCardHtml = await this.marketService.generateTwitterCardHtml(marketData);
+      return res.send(twitterCardHtml);
+    } catch (error) {
+      this.logger.error('Failed to generate market share page', error);
+      return res.status(500).send('<html><body>Error loading market</body></html>');
     }
   }
 

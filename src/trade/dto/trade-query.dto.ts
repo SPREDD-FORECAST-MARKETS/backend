@@ -108,7 +108,7 @@ export class TradeResponseDto {
     creator: {
       id: number;
       username: string;
-      wallet_address: string;
+      wallet_address: string | null;
       profile_pic?: string;
     };
   };
@@ -119,7 +119,7 @@ export class TradeResponseDto {
   user?: {
     id: number;
     username: string;
-    wallet_address: string;
+    wallet_address: string | null;
     profile_pic?: string;
   };
 }
