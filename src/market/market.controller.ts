@@ -13,7 +13,7 @@ import {
   Header,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiSecurity } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiSecurity, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { PrivyAuthGuard } from 'src/auth/jwt-auth.guard';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CurrentUser } from 'src/decorators';
@@ -25,6 +25,7 @@ import { ResolveMarketByIdDto } from './dto/resolve-market.dto';
 import { GetMarketChartDto } from './dto/get-market-chart.dto';
 import { AgentMarketService } from '../agent/agent-market.service';
 
+@ApiTags('Markets')
 @Controller('market')
 export class MarketController {
   private readonly logger = new Logger(MarketController.name);
@@ -39,6 +40,10 @@ export class MarketController {
   @UseGuards(PrivyAuthGuard)
   @ApiBearerAuth()
   @ApiSecurity('bearer')
+  @ApiOperation({ summary: 'Create new prediction market', description: 'Create a new prediction market with question, description, and expiry date' })
+  @ApiResponse({ status: 201, description: 'Market created successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid market data' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   async createMarket(
     @Body() createMarketDto: CreateMarketDto,
     @CurrentUser() user,

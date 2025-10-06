@@ -15,6 +15,7 @@ import { TwitterModule } from './twitter/twitter.module';
 import { CreatorsModule } from './creators/creators.module';
 import { FarcasterController } from './well-known/farcaster.controller';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
     CreatorsModule,
     ScheduleModule.forRoot(),
     LeaderboardModule,
+    ApiModule,
   ],
   controllers: [AppController, FarcasterController],
   providers: [AppService, PrismaService],
