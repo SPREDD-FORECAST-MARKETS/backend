@@ -16,6 +16,8 @@ import { CreatorsModule } from './creators/creators.module';
 import { FarcasterController } from './well-known/farcaster.controller';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { ApiModule } from './api/api.module';
+import { PolymarketModule } from './polymarket/polymarket.module';
+import { BridgeModule } from './bridge/bridge.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { ApiModule } from './api/api.module';
     ScheduleModule.forRoot(),
     LeaderboardModule,
     ApiModule,
+    PolymarketModule,
+    BridgeModule,
   ],
   controllers: [AppController, FarcasterController],
   providers: [AppService, PrismaService],
