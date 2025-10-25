@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { PolymarketService, PolymarketMarket, PolymarketEvent, GetEventsOptions } from './polymarket.service';
+import { PolymarketService, PolymarketMarket, PolymarketEvent, GetEventsOptions, Tag, TrendingTag } from './polymarket.service';
 
 @ApiTags('polymarket')
 @Controller('polymarket')
@@ -490,6 +490,21 @@ export class PolymarketController {
     userRank?: number;
   }> {
     return this.polymarketService.getLeaderboard({ metric, timeframe, limit });
+  }
+
+  @Get('tags')
+  @ApiOperation({ summary: 'Get all available tags' })
+  @ApiResponse({ status: 200, description: 'Tags retrieved successfully' })
+  async getAllTags(): Promise<Tag[]> {
+    return this.polymarketService.getAllTags();
+  }
+
+  @Get('tags/trending')
+  @ApiOperation({ summary: 'Get trending tags based on active events and volume' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of trending tags to return (default: 20)' })
+  @ApiResponse({ status: 200, description: 'Trending tags retrieved successfully' })
+  async getTrendingTags(@Query('limit') limit?: number): Promise<TrendingTag[]> {
+    return this.polymarketService.getTrendingTags(limit);
   }
 
   @Get('health')

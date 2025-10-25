@@ -35,6 +35,21 @@ export interface PolymarketEvent {
   endDate?: string;
   category?: string;
   featured?: boolean;
+  tags?: Array<{ id: string; label: string; slug: string } | string>;
+}
+
+export interface Tag {
+  id: string;
+  label: string;
+  slug: string;
+}
+
+export interface TrendingTag {
+  tag: string;
+  slug: string;
+  eventCount: number;
+  totalVolume: number;
+  score: number;
 }
 
 export interface GetMarketsOptions {
@@ -113,8 +128,16 @@ export class PolymarketService {
       }
 
       this.logger.log(`Fetching markets with params: ${params.toString()}`);
-      const response = await fetch(`${this.baseUrl}/markets?${params}`);
-      
+
+      // Add timeout to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+      const response = await fetch(`${this.baseUrl}/markets?${params}`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
         throw new Error(`Polymarket API error: ${response.status} ${response.statusText}`);
       }
@@ -140,8 +163,12 @@ export class PolymarketService {
         clobTokenIds: this.parseJsonField(market.clobTokenIds),
       }));
     } catch (error) {
+      if (error.name === 'AbortError') {
+        this.logger.error('Polymarket API request timeout');
+        return []; // Return empty array instead of throwing
+      }
       this.logger.error('Failed to fetch markets from Polymarket', error);
-      throw error;
+      return []; // Return empty array instead of throwing
     }
   }
 
@@ -945,6 +972,104 @@ export class PolymarketService {
     } catch (error) {
       this.logger.error('Failed to generate leaderboard:', error);
       throw error;
+    }
+  }
+
+  // ==================== TAGS ====================
+
+  /**
+   * Get all tags from Polymarket
+   */
+  async getAllTags(): Promise<Tag[]> {
+    try {
+      this.logger.log('Fetching all tags from Polymarket');
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+      const response = await fetch(`${this.baseUrl}/tags`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`Polymarket API error: ${response.status} ${response.statusText}`);
+      }
+
+      const tags = await response.json();
+      this.logger.log(`Successfully fetched ${tags.length} tags from Polymarket`);
+      return tags;
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        this.logger.error('Polymarket tags API request timeout');
+        return [];
+      }
+      this.logger.error('Failed to fetch tags from Polymarket', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get trending tags based on active events and market volume
+   */
+  async getTrendingTags(limit = 20): Promise<TrendingTag[]> {
+    try {
+      this.logger.log('Calculating trending tags');
+
+      // Fetch active events with their tags
+      const events = await this.getEvents({
+        limit: 200,
+        active: true,
+        closed: false,
+      });
+
+      // Count events and sum volume per tag
+      const tagStats = new Map<string, { count: number; volume: number; slug: string }>();
+
+      for (const event of events) {
+        if (!event.tags || event.tags.length === 0) continue;
+
+        // Calculate total event volume from markets
+        const eventVolume = event.markets.reduce((sum, market) => {
+          return sum + (market.volume || 0);
+        }, 0);
+
+        // Add stats for each tag (tags are objects with label and slug)
+        for (const tag of event.tags) {
+          // Handle both string tags and object tags
+          const tagLabel = typeof tag === 'string' ? tag : tag.label;
+          const tagSlug = typeof tag === 'string'
+            ? tag.toLowerCase().replace(/\s+/g, '-')
+            : tag.slug;
+
+          if (!tagLabel) continue;
+
+          const existing = tagStats.get(tagLabel) || { count: 0, volume: 0, slug: tagSlug };
+          tagStats.set(tagLabel, {
+            count: existing.count + 1,
+            volume: existing.volume + eventVolume,
+            slug: tagSlug,
+          });
+        }
+      }
+
+      // Convert to array and calculate trending score
+      const trendingTags: TrendingTag[] = Array.from(tagStats.entries())
+        .map(([tag, stats]) => ({
+          tag,
+          slug: stats.slug,
+          eventCount: stats.count,
+          totalVolume: stats.volume,
+          score: stats.count * 100 + stats.volume, // Weight: event count + volume
+        }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit);
+
+      this.logger.log(`Calculated ${trendingTags.length} trending tags`);
+      return trendingTags;
+    } catch (error) {
+      this.logger.error('Failed to calculate trending tags', error);
+      return [];
     }
   }
 
