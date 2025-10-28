@@ -167,6 +167,26 @@ export class PolymarketController {
     return this.polymarketService.getFeaturedEvents(limit);
   }
 
+  @Get('events/trending')
+  @ApiOperation({ summary: 'Get trending multi-outcome events' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of events to return (default: 20)' })
+  @ApiResponse({ status: 200, description: 'Trending multi-outcome events retrieved successfully' })
+  async getTrendingEvents(@Query('limit') limit?: number): Promise<PolymarketEvent[]> {
+    return this.polymarketService.getTrendingEvents(limit);
+  }
+
+  @Get('events/category/:category')
+  @ApiOperation({ summary: 'Get multi-outcome events by category' })
+  @ApiParam({ name: 'category', type: String, description: 'Event category' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of events to return (default: 20)' })
+  @ApiResponse({ status: 200, description: 'Category events retrieved successfully' })
+  async getMultiOutcomeEventsByCategory(
+    @Param('category') category: string,
+    @Query('limit') limit?: number,
+  ): Promise<PolymarketEvent[]> {
+    return this.polymarketService.getMultiOutcomeEventsByCategory(category, limit);
+  }
+
   @Get('events/:id')
   @ApiOperation({ summary: 'Get a specific Polymarket event' })
   @ApiParam({ name: 'id', type: String, description: 'Event ID or slug' })

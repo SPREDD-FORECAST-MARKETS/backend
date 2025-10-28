@@ -12,6 +12,7 @@ export interface PolymarketMarket {
   outcomePrices: string[];
   clobTokenIds: string[];
   volume?: number;
+  volume24hr?: number;
   liquidity?: number;
   endDate?: string;
   active?: boolean;
@@ -22,6 +23,11 @@ export interface PolymarketMarket {
   slug?: string;
   createdAt?: string;
   updatedAt?: string;
+  // Multi-outcome market fields
+  negRisk?: boolean;
+  negRiskMarketID?: string;
+  groupItemTitle?: string;
+  groupItemThreshold?: string;
 }
 
 export interface PolymarketEvent {
@@ -36,6 +42,14 @@ export interface PolymarketEvent {
   category?: string;
   featured?: boolean;
   tags?: Array<{ id: string; label: string; slug: string } | string>;
+  // Multi-outcome event fields
+  enableNegRisk?: boolean;
+  negRisk?: boolean;
+  negRiskMarketID?: string;
+  volume?: number;
+  volume24hr?: number;
+  liquidity?: number;
+  sortBy?: string;
 }
 
 export interface Tag {
@@ -73,7 +87,7 @@ export interface GetEventsOptions {
   active?: boolean;
   closed?: boolean;
   archived?: boolean;
-  order?: 'id' | 'volume' | 'liquidity' | 'created_at' | 'updated_at';
+  order?: 'id' | 'volume' | 'volume24hr' | 'liquidity' | 'created_at' | 'updated_at';
   ascending?: boolean;
   category?: string;
   featured?: boolean;
@@ -89,6 +103,41 @@ export class PolymarketService {
   constructor(private configService: ConfigService) {
     // Initialize CLOB client for trading operations
     this.clobClient = new ClobClient('https://clob.polymarket.com', 137); // Polygon mainnet
+  }
+
+  /**
+   * Fetch ALL markets using pagination (Polymarket limits to 500 per request)
+   */
+  async getAllMarkets(options: Omit<GetMarketsOptions, 'limit' | 'offset'> = {}): Promise<PolymarketMarket[]> {
+    const allMarkets: PolymarketMarket[] = [];
+    let offset = 0;
+    const batchSize = 500; // Polymarket's max limit
+    let hasMore = true;
+
+    this.logger.log('Fetching ALL markets with pagination...');
+
+    while (hasMore) {
+      const batch = await this.getMarkets({ ...options, limit: batchSize, offset });
+      allMarkets.push(...batch);
+
+      this.logger.log(`Fetched batch: offset=${offset}, received=${batch.length}, total=${allMarkets.length}`);
+
+      // If we got less than the batch size, we've reached the end
+      if (batch.length < batchSize) {
+        hasMore = false;
+      } else {
+        offset += batchSize;
+      }
+
+      // Safety limit to prevent infinite loops (max 10,000 markets)
+      if (allMarkets.length >= 10000) {
+        this.logger.warn('Reached safety limit of 10,000 markets');
+        hasMore = false;
+      }
+    }
+
+    this.logger.log(`Fetched total of ${allMarkets.length} markets`);
+    return allMarkets;
   }
 
   async getMarkets(options: GetMarketsOptions = {}): Promise<PolymarketMarket[]> {
@@ -363,6 +412,85 @@ export class PolymarketService {
     });
   }
 
+  /**
+   * Get trending events (all types - single and multi-market)
+   */
+  async getTrendingEvents(limit = 20): Promise<PolymarketEvent[]> {
+    try {
+      const events = await this.getEvents({
+        limit: limit,
+        active: true,
+        closed: false,
+        archived: false,
+        order: 'volume24hr', // Use volume24hr for trending
+        ascending: false,
+      });
+
+      // Return ALL events (don't filter by market count)
+      // Single-market events are valid and should be displayed
+      return events;
+    } catch (error) {
+      this.logger.error('Failed to fetch trending events', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get events by category (all types - single and multi-market)
+   */
+  async getMultiOutcomeEventsByCategory(category: string, limit = 20): Promise<PolymarketEvent[]> {
+    try {
+      // If "All" is selected, return trending events
+      if (category === 'All') {
+        return this.getTrendingEvents(limit);
+      }
+
+      // Map categories to keywords (same as markets)
+      const categoryKeywords: Record<string, string[]> = {
+        'Politics': ['election', 'president', 'senate', 'congress', 'vote', 'political', 'poll'],
+        'Sports': ['sports', 'nfl', 'nba', 'mlb', 'nhl', 'soccer', 'football', 'basketball', 'f1'],
+        'Crypto': ['bitcoin', 'ethereum', 'btc', 'eth', 'crypto', 'blockchain', 'coin'],
+        'AI': ['ai', 'artificial intelligence', 'chatgpt', 'gpt', 'llm', 'model'],
+        'Business': ['stock', 'market cap', 'ipo', 'revenue', 'earnings', 'company', 'ceo'],
+        'Entertainment': ['movie', 'film', 'music', 'album', 'artist', 'actor', 'grammy', 'oscar'],
+      };
+
+      const keywords = categoryKeywords[category] || [category.toLowerCase()];
+      this.logger.log(`Searching events for category "${category}" with keywords: ${keywords.join(', ')}`);
+
+      // Fetch all events
+      const events = await this.getEvents({
+        limit: 200,
+        active: true,
+        closed: false,
+        archived: false,
+        order: 'volume24hr',
+        ascending: false,
+      });
+
+      // Don't filter by market count - include ALL events
+      // Filter by category keywords only
+      const filteredEvents = events.filter(event => {
+        const searchText = `${event.title || ''} ${event.description || ''} ${event.category || ''}`.toLowerCase();
+        return keywords.some(keyword => searchText.includes(keyword));
+      });
+
+      this.logger.log(`Found ${filteredEvents.length} events for category: ${category}`);
+
+      // If we got results, return them
+      if (filteredEvents && filteredEvents.length > 0) {
+        return filteredEvents.slice(0, limit);
+      }
+
+      // Fallback to trending if no results
+      this.logger.warn(`No events found for category: ${category}, returning trending`);
+      return this.getTrendingEvents(limit);
+    } catch (error) {
+      this.logger.error(`Failed to fetch events for category ${category}`, error);
+      return this.getTrendingEvents(limit);
+    }
+  }
+
   async getFeaturedMarkets(limit = 20): Promise<PolymarketMarket[]> {
     return this.getMarkets({
       limit,
@@ -383,23 +511,77 @@ export class PolymarketService {
   }
 
   async getMarketsByCategory(category: string, limit = 50): Promise<PolymarketMarket[]> {
-    return this.getMarkets({
-      limit,
-      category,
-      active: true,
-      order: 'volume',
-      ascending: false,
-    });
+    // If "All" is selected, return trending markets
+    if (category === 'All') {
+      return this.getTrendingMarkets(limit);
+    }
+
+    // Map categories to better search keywords
+    const categoryKeywords: Record<string, string[]> = {
+      'Politics': ['election', 'president', 'senate', 'congress', 'vote', 'political', 'poll'],
+      'Sports': ['sports', 'nfl', 'nba', 'mlb', 'nhl', 'soccer', 'football', 'basketball', 'f1'],
+      'Crypto': ['bitcoin', 'ethereum', 'btc', 'eth', 'crypto', 'blockchain', 'coin'],
+      'AI': ['ai', 'artificial intelligence', 'chatgpt', 'gpt', 'llm', 'model'],
+      'Business': ['stock', 'market cap', 'ipo', 'revenue', 'earnings', 'company', 'ceo'],
+      'Entertainment': ['movie', 'film', 'music', 'album', 'artist', 'actor', 'grammy', 'oscar'],
+    };
+
+    const keywords = categoryKeywords[category] || [category.toLowerCase()];
+    this.logger.log(`Searching markets for category "${category}" with keywords: ${keywords.join(', ')}`);
+
+    try {
+      // Fetch a large pool of markets (will get max 500 from Polymarket)
+      const markets = await this.getMarkets({ limit: 1000, active: true, order: 'volume24hr', ascending: false });
+
+      // Filter markets that match any of the keywords
+      const filteredMarkets = markets.filter(market => {
+        const searchText = `${market.question} ${market.description || ''} ${market.category || ''}`.toLowerCase();
+        return keywords.some(keyword => searchText.includes(keyword));
+      });
+
+      this.logger.log(`Found ${filteredMarkets.length} markets for category: ${category}`);
+
+      // If we got results, return them
+      if (filteredMarkets && filteredMarkets.length > 0) {
+        return filteredMarkets.slice(0, limit);
+      }
+
+      // Fallback to trending if no results
+      this.logger.warn(`No search results for category: ${category}, returning trending`);
+      return this.getTrendingMarkets(limit);
+    } catch (error) {
+      this.logger.error(`Error searching for category ${category}:`, error);
+      return this.getTrendingMarkets(limit);
+    }
   }
 
   async getMarketsByTag(tag: string, limit = 50): Promise<PolymarketMarket[]> {
-    return this.getMarkets({
-      limit,
-      tags: [tag],
-      active: true,
-      order: 'volume',
-      ascending: false,
-    });
+    this.logger.log(`Searching markets for tag: "${tag}"`);
+
+    try {
+      // Fetch a large pool of markets to filter from (will get max 500 from Polymarket)
+      const markets = await this.getMarkets({ limit: 1000, active: true, order: 'volume24hr', ascending: false });
+
+      // Filter markets that match the tag in question, description, or category
+      const filteredMarkets = markets.filter(market => {
+        const searchText = `${market.question} ${market.description || ''} ${market.category || ''}`.toLowerCase();
+        return searchText.includes(tag.toLowerCase());
+      });
+
+      this.logger.log(`Found ${filteredMarkets.length} markets for tag: ${tag}`);
+
+      // If we got results, return them
+      if (filteredMarkets && filteredMarkets.length > 0) {
+        return filteredMarkets.slice(0, limit);
+      }
+
+      // Fallback to trending if no results
+      this.logger.warn(`No search results for tag: ${tag}, returning trending`);
+      return this.getTrendingMarkets(limit);
+    } catch (error) {
+      this.logger.error(`Error searching for tag ${tag}:`, error);
+      return this.getTrendingMarkets(limit);
+    }
   }
 
   async getMarketsByTags(tags: string[], limit = 50): Promise<PolymarketMarket[]> {
@@ -427,17 +609,23 @@ export class PolymarketService {
 
   async searchMarkets(query: string, limit = 50): Promise<PolymarketMarket[]> {
     // Note: This would require a search endpoint if available
-    // For now, we'll get all markets and filter client-side (not ideal for production)
-    const markets = await this.getMarkets({ limit: limit * 2 });
-    
+    // For now, we'll get markets and filter client-side (not ideal for production)
+    // Fetch 1000 markets (will get max 500 from API) to have more data to filter from
+    const markets = await this.getMarkets({ limit: 1000, active: true, order: 'volume24hr', ascending: false });
+
+    this.logger.log(`Searching ${markets.length} markets for query: "${query}"`);
+
     const searchTerms = query.toLowerCase().split(' ');
-    return markets.filter(market => 
-      searchTerms.some(term => 
+    const filteredMarkets = markets.filter(market =>
+      searchTerms.some(term =>
         market.question.toLowerCase().includes(term) ||
         market.description?.toLowerCase().includes(term) ||
         market.category?.toLowerCase().includes(term)
       )
-    ).slice(0, limit);
+    );
+
+    this.logger.log(`Found ${filteredMarkets.length} markets matching "${query}"`);
+    return filteredMarkets.slice(0, limit);
   }
 
   private parseJsonField(field: any): any {
